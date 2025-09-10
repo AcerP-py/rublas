@@ -1,0 +1,9 @@
+[package]
+authors = ["Asa Rentschler <asa.rentschler@proton.me>"]
+description = "BLAS implementation in pure Rust"
+name = "rublas"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+cfg-if = "1.0.3"
