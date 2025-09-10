@@ -1,5 +1,5 @@
 # RuBLAS
-BLAS implementation in pure Rust.
+BLAS in pure Rust.
 
 ## Status
 Still in heavy development. Working on BLAS level 1.

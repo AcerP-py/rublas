@@ -51,7 +51,7 @@ pub unsafe fn mk_sdot_seq_8el_avx2(n: usize, x: &[f32], y: &[f32]) -> f32 {
     }
 
     let mut result_array: [f32; 8] = [0.0; 8];
-    unsafe { _mm256_store_ps(result_array.as_mut_ptr(), result_m256); }
+    unsafe { _mm256_storeu_ps(result_array.as_mut_ptr(), result_m256); }
     
     result_array[0] + result_array[1] + result_array[2] + result_array[3]
         + result_array[4] + result_array[5] + result_array[6] + result_array[7]

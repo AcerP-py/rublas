@@ -33,7 +33,7 @@ pub fn ak_sdot(n: usize, x: &[f32], inc_x: usize, y: &[f32], inc_y: usize) -> f3
     }
 
     for i in c..n {
-        result += x[i] * y[i];
+        result += x[i * inc_x] * y[i * inc_y];
     }
 
     result
