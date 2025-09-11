@@ -1,18 +1,21 @@
 use cfg_if;
 
-
 /*
  * modules for specific architectures
  */
 
+// generic
+// generic module should always be available to fill in gaps
+// so we allow unused code in the generic module
+#[allow(dead_code)]
+mod generic;
+
+// x86_64
 cfg_if::cfg_if! {
     if #[cfg(target_arch = "x86_64")] {
         mod x86_64;
-    } else {
-        mod generic;
     }
 }
-
 
 /*
  * kernel definitions
