@@ -2,7 +2,7 @@
 authors = ["Asa Rentschler <asa.rentschler@proton.me>"]
 description = "BLAS in pure Rust"
 name = "rublas"
-version = "0.1.0"
+version = "0.0.0"
 edition = "2024"
 
 [dependencies]

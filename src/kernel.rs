@@ -1,31 +1,79 @@
-use cfg_if;
+use cfg_if::cfg_if;
 
-/*
- * modules for specific architectures
- */
+// ===========================================================================
+// ===========================================================================
+// architecture modules
+// ===========================================================================
+// ===========================================================================
 
-// generic
-// generic module should always be available to fill in gaps
-// so we allow unused code in the generic module
+// allow dead code in generic so it can act as a backup for architectures
+// without an implementation
 #[allow(dead_code)]
 mod generic;
 
-// x86_64
-cfg_if::cfg_if! {
+// other architectures
+cfg_if! {
     if #[cfg(target_arch = "x86_64")] {
         mod x86_64;
     }
 }
 
-/*
- * kernel definitions
- */
+// ===========================================================================
+// ===========================================================================
+// dynamic BLAS kernels
+// ===========================================================================
+// ===========================================================================
 
-// sdot
-cfg_if::cfg_if! {
-    if #[cfg(target_arch = "x86_64")] {
-        pub fn k_sdot(n: usize, x: &[f32], inc_x: usize, y: &[f32], inc_y: usize) -> f32 { x86_64::ak_sdot(n, x, inc_x, y, inc_y) }
-    } else {
-        pub fn k_sdot(n: usize, x: &[f32], inc_x: usize, y: &[f32], inc_y: usize) -> f32 { generic::ak_sdot(n, x, inc_x, y, inc_y) }
+// ===========================================================================
+// dot
+// ===========================================================================
+
+/// k (kernel) _
+/// sdot (f32 dot product)
+///
+/// # Arguments
+///
+/// * `n` - Length of vectors `x` and `y`.
+///
+/// * `x` - A vector.
+///
+/// * `inc_x` - Increment between elements of `x`.
+///
+/// * `y` - A vector.
+///
+/// * `inc_y` - Increment between elements of `y`.
+///
+/// # Returns
+///
+/// The dot product of `x` and `y`.
+pub fn k_sdot(n: usize, x: &[f32], inc_x: usize, y: &[f32], inc_y: usize) -> f32 {
+    cfg_if! {
+        if #[cfg(target_arch = "x86_64")] {
+            x86_64::ak_sdot(n, x, inc_x, y, inc_y)
+        } else {
+            generic::ak_sdot(n, x, inc_x, y, inc_y)
+        }
     }
+}
+
+/// k (kernel) _
+/// ddot (f64 dot product)
+///
+/// # Arguments
+///
+/// * `n` - Length of vectors `x` and `y`.
+///
+/// * `x` - A vector.
+///
+/// * `inc_x` - Increment between elements of `x`.
+///
+/// * `y` - A vector.
+///
+/// * `inc_y` - Increment between elements of `y`.
+///
+/// # Returns
+///
+/// The dot product of `x` and `y`.
+pub fn k_ddot(n: usize, x: &[f64], inc_x: usize, y: &[f64], inc_y: usize) -> f64 {
+    generic::ak_ddot(n, x, inc_x, y, inc_y)
 }

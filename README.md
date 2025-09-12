@@ -1,8 +1,9 @@
 # RuBLAS
-BLAS in pure Rust.
+A pure Rust implementation of BLAS!
 
 ## Status
-Still in heavy development. Working on BLAS level 1.
+!!! THIS PROJECT USES RUST NIGHTLY !!!
+Currently working on BLAS level 1.
 
 ## Usage
 ``` rust

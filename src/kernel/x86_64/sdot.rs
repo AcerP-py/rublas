@@ -1,23 +1,26 @@
 use std::arch::x86_64::*;
 
-pub fn mk_sdot_seq_8el(n: usize, x: &[f32], y: &[f32]) -> f32 {
-    let mut result: f32 = 0.0;
-
-    for i in (0..n).step_by(8) {
-        result += x[i] * y[i]
-            + x[i + 1] * y[i + 1]
-            + x[i + 2] * y[i + 2]
-            + x[i + 3] * y[i + 3]
-            + x[i + 4] * y[i + 4]
-            + x[i + 5] * y[i + 5]
-            + x[i + 6] * y[i + 6]
-            + x[i + 7] * y[i + 7];
-    }
-
-    result
-}
-
-pub fn mk_sdot_2el(n: usize, x: &[f32], inc_x: usize, y: &[f32], inc_y: usize) -> f32 {
+/// mk (micro-kernel) _
+/// sdot (f32 dot product) _
+/// ns2el (non-sequential 2 element)
+///
+/// # Arguments
+///
+/// * `n` - Length of vectors `x` and `y`
+/// (must be divisible by 2 and within bounds).
+///
+/// * `x` - A vector.
+///
+/// * `inc_x` - Increment between elements of `x`.
+///
+/// * `y` - A vector.
+///
+/// * `inc_y` - Increment between elements of `y`.
+///
+/// # Returns
+///
+/// The dot product of `x` and `y`.
+pub fn mk_sdot_ns2el(n: usize, x: &[f32], inc_x: usize, y: &[f32], inc_y: usize) -> f32 {
     let mut result: f32 = 0.0;
 
     let mut x1: usize = 0;
@@ -36,8 +39,58 @@ pub fn mk_sdot_2el(n: usize, x: &[f32], inc_x: usize, y: &[f32], inc_y: usize) -
     result
 }
 
-#[target_feature(enable = "avx2")]
-pub unsafe fn mk_sdot_seq_8el_avx2(n: usize, x: &[f32], y: &[f32]) -> f32 {
+/// mk (micro-kernel) _
+/// sdot (f32 dot product) _
+/// s8el (sequential 8 element)
+///
+/// # Arguments
+///
+/// * `n` - Length of vectors `x` and `y`
+/// (must be divisible by 8 and within bounds).
+///
+/// * `x` - A vector.
+///
+/// * `y` - A vector.
+///
+/// # Returns
+///
+/// The dot product of `x` and `y`.
+pub fn mk_sdot_s8el(n: usize, x: &[f32], y: &[f32]) -> f32 {
+    let mut result: f32 = 0.0;
+
+    for i in (0..n).step_by(8) {
+        result += x[i] * y[i]
+            + x[i + 1] * y[i + 1]
+            + x[i + 2] * y[i + 2]
+            + x[i + 3] * y[i + 3]
+            + x[i + 4] * y[i + 4]
+            + x[i + 5] * y[i + 5]
+            + x[i + 6] * y[i + 6]
+            + x[i + 7] * y[i + 7];
+    }
+
+    result
+}
+
+/// mk (micro-kernel) _
+/// sdot (f32 dot product) _
+/// s8el (sequential 8 element) _
+/// avx (avx enabled)
+///
+/// # Arguments
+///
+/// * `n` - Length of vectors `x` and `y`
+/// (must be divisible by 8 and within bounds).
+///
+/// * `x` - A vector.
+///
+/// * `y` - A vector.
+///
+/// # Returns
+///
+/// The dot product of `x` and `y`.
+#[target_feature(enable = "avx")]
+pub unsafe fn mk_sdot_s8el_avx(n: usize, x: &[f32], y: &[f32]) -> f32 {
     let mut result_m256: __m256 = _mm256_setzero_ps();
 
     for i in (0..n).step_by(8) {

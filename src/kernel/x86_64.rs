@@ -1,16 +1,45 @@
-/*
- * declare mods for each operation
- */
+// ===========================================================================
+// ===========================================================================
+// operation modules
+// ===========================================================================
+// ===========================================================================
+
+// ===========================================================================
+// dot
+// ===========================================================================
 
 mod sdot;
 
-/*
- * architecture kernels for each operation
- */
+/// ===========================================================================
+// ===========================================================================
+// architecture kernels
+// ===========================================================================
+// ===========================================================================
 
+// ===========================================================================
+// dot
+// ===========================================================================
+
+/// ak (architecture-kernel) _
+/// sdot (f32 dot product)
+///
+/// # Arguments
+///
+/// * `n` - Length of vectors `x` and `y`.
+///
+/// * `x` - A vector.
+///
+/// * `inc_x` - Increment between elements of `x`.
+///
+/// * `y` - A vector.
+///
+/// * `inc_y` - Increment between elements of `y`.
+///
+/// # Returns
+///
+/// The dot product of `x` and `y`.
 pub fn ak_sdot(n: usize, x: &[f32], inc_x: usize, y: &[f32], inc_y: usize) -> f32 {
     let mut result: f32 = 0.0;
-
     let c: usize;
 
     if n < 1 {
@@ -19,14 +48,14 @@ pub fn ak_sdot(n: usize, x: &[f32], inc_x: usize, y: &[f32], inc_y: usize) -> f3
 
     if inc_x == 1 && inc_y == 1 {
         c = n & !7;
-        if is_x86_feature_detected!("avx2") {
-            result += unsafe { sdot::mk_sdot_seq_8el_avx2(c, x, y) }
+        if is_x86_feature_detected!("avx") {
+            result += unsafe { sdot::mk_sdot_s8el_avx(c, x, y) };
         } else {
-            result += sdot::mk_sdot_seq_8el(c, x, y)
+            result += sdot::mk_sdot_s8el(c, x, y);
         }
     } else {
         c = n & !1;
-        result += sdot::mk_sdot_2el(c, x, inc_x, y, inc_y)
+        result += sdot::mk_sdot_ns2el(c, x, inc_x, y, inc_y);
     }
 
     for i in c..n {
