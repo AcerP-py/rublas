@@ -7,7 +7,7 @@ use rublas::ddot;
 const N: usize = 1_000_000;
 
 #[bench]
-fn sdot_seq(b: &mut test::Bencher) {
+fn ddot_seq(b: &mut test::Bencher) {
     let x: Vec<f64> = vec![2.5; N];
     let y: Vec<f64> = vec![3.7; N];
     b.iter(|| {
@@ -16,7 +16,7 @@ fn sdot_seq(b: &mut test::Bencher) {
 }
 
 #[bench]
-fn sdot_non_seq(b: &mut test::Bencher) {
+fn ddot_non_seq(b: &mut test::Bencher) {
     let x: Vec<f64> = vec![2.5; N * 3];
     let y: Vec<f64> = vec![3.7; N * 2];
     b.iter(|| {
