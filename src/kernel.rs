@@ -48,6 +48,26 @@ pub fn k_saxpy(n: usize, alpha: f32, x: &[f32], inc_x: usize, y: &mut [f32], inc
     generic::ak_saxpy(n, alpha, x, inc_x, y, inc_y);
 }
 
+/// k (kernel) _
+/// daxpy (f64 y = y + ax)
+///
+/// # Arguments
+///
+/// * `n` - Length of vectors `x` and `y`.
+///
+/// * `alpha` - scaling factor for `x`.
+///
+/// * `x` - A vector.
+///
+/// * `inc_x` - Increment between elements of `x`.
+///
+/// * `y` - A vector.
+///
+/// * `inc_y` - Increment between elements of `y`.
+pub fn k_daxpy(n: usize, alpha: f64, x: &[f64], inc_x: usize, y: &mut [f64], inc_y: usize) -> () {
+    generic::ak_daxpy(n, alpha, x, inc_x, y, inc_y);
+}
+
 // ===========================================================================
 // dot
 // ===========================================================================
