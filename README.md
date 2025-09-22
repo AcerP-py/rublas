@@ -12,10 +12,10 @@ use rublas::*;
 const N: usize = 1000;
 
 fn main() {
-    let x: Vec<f32> = vec![1.5; N];
-    let y: Vec<f32> = vec![2.7; N];
+    let x: Vec<SFLOAT> = vec![1.5; N];
+    let y: Vec<SFLOAT> = vec![2.7; N];
 
-    let result: f32 = sdot(N, &x, 1, &y, 1);
+    let result: SFLOAT = sdot(N, &x, 1, &y, 1);
 
     println!("Result: {}", result);
 }

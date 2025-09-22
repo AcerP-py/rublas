@@ -1,3 +1,5 @@
+use crate::utils::types::{DFLOAT, SFLOAT};
+
 // ===========================================================================
 // ===========================================================================
 // operation modules
@@ -29,7 +31,7 @@ mod ddot;
 // ===========================================================================
 
 /// ak (architecture-kernel) _
-/// saxpy (f32 y = y + ax)
+/// saxpy (SFLOAT y = y + ax)
 ///
 /// # Arguments
 ///
@@ -44,7 +46,14 @@ mod ddot;
 /// * `y` - A vector.
 ///
 /// * `inc_y` - Increment between elements of `y`.
-pub fn ak_saxpy(n: usize, alpha: f32, x: &[f32], inc_x: usize, y: &mut [f32], inc_y: usize) -> () {
+pub fn ak_saxpy(
+    n: usize,
+    alpha: SFLOAT,
+    x: &[SFLOAT],
+    inc_x: usize,
+    y: &mut [SFLOAT],
+    inc_y: usize,
+) -> () {
     let c: usize;
 
     if n < 1 {
@@ -65,7 +74,7 @@ pub fn ak_saxpy(n: usize, alpha: f32, x: &[f32], inc_x: usize, y: &mut [f32], in
 }
 
 /// ak (architecture-kernel) _
-/// saxpy (f64 y = y + ax)
+/// saxpy (DFLOAT y = y + ax)
 ///
 /// # Arguments
 ///
@@ -80,7 +89,14 @@ pub fn ak_saxpy(n: usize, alpha: f32, x: &[f32], inc_x: usize, y: &mut [f32], in
 /// * `y` - A vector.
 ///
 /// * `inc_y` - Increment between elements of `y`.
-pub fn ak_daxpy(n: usize, alpha: f64, x: &[f64], inc_x: usize, y: &mut [f64], inc_y: usize) -> () {
+pub fn ak_daxpy(
+    n: usize,
+    alpha: DFLOAT,
+    x: &[DFLOAT],
+    inc_x: usize,
+    y: &mut [DFLOAT],
+    inc_y: usize,
+) -> () {
     let c: usize;
 
     if n < 1 {
@@ -105,7 +121,7 @@ pub fn ak_daxpy(n: usize, alpha: f64, x: &[f64], inc_x: usize, y: &mut [f64], in
 // ===========================================================================
 
 /// ak (architecture-kernel) _
-/// sdot (f32 dot product)
+/// sdot (SFLOAT dot product)
 ///
 /// # Arguments
 ///
@@ -122,8 +138,8 @@ pub fn ak_daxpy(n: usize, alpha: f64, x: &[f64], inc_x: usize, y: &mut [f64], in
 /// # Returns
 ///
 /// The dot product of `x` and `y`.
-pub fn ak_sdot(n: usize, x: &[f32], inc_x: usize, y: &[f32], inc_y: usize) -> f32 {
-    let mut result: f32 = 0.0;
+pub fn ak_sdot(n: usize, x: &[SFLOAT], inc_x: usize, y: &[SFLOAT], inc_y: usize) -> SFLOAT {
+    let mut result: SFLOAT = 0.0;
     let c: usize;
 
     if n < 1 {
@@ -146,7 +162,7 @@ pub fn ak_sdot(n: usize, x: &[f32], inc_x: usize, y: &[f32], inc_y: usize) -> f3
 }
 
 /// ak (architecture-kernel) _
-/// ddot (f64 dot product)
+/// ddot (DFLOAT dot product)
 ///
 /// # Arguments
 ///
@@ -163,8 +179,8 @@ pub fn ak_sdot(n: usize, x: &[f32], inc_x: usize, y: &[f32], inc_y: usize) -> f3
 /// # Returns
 ///
 /// The dot product of `x` and `y`.
-pub fn ak_ddot(n: usize, x: &[f64], inc_x: usize, y: &[f64], inc_y: usize) -> f64 {
-    let mut result: f64 = 0.0;
+pub fn ak_ddot(n: usize, x: &[DFLOAT], inc_x: usize, y: &[DFLOAT], inc_y: usize) -> DFLOAT {
+    let mut result: DFLOAT = 0.0;
     let c: usize;
 
     if n < 1 {

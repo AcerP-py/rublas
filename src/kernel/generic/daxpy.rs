@@ -1,5 +1,7 @@
+use crate::utils::types::DFLOAT;
+
 /// mk (micro-kernel) _
-/// daxpy (f64 y = y + ax) _
+/// daxpy (DFLOAT y = y + ax) _
 /// ns2el (non-sequential 2 element)
 ///
 /// # Arguments
@@ -18,10 +20,10 @@
 /// * `inc_y` - Increment between elements of `y`.
 pub fn mk_daxpy_ns2el(
     n: usize,
-    alpha: f64,
-    x: &[f64],
+    alpha: DFLOAT,
+    x: &[DFLOAT],
     inc_x: usize,
-    y: &mut [f64],
+    y: &mut [DFLOAT],
     inc_y: usize,
 ) -> () {
     let mut x1: usize = 0;
@@ -40,7 +42,7 @@ pub fn mk_daxpy_ns2el(
 }
 
 /// mk (micro-kernel) _
-/// saxpy (f64 y = y + ax) _
+/// saxpy (DFLOAT y = y + ax) _
 /// s8el (sequential 8 element)
 ///
 /// # Arguments
@@ -53,7 +55,7 @@ pub fn mk_daxpy_ns2el(
 /// * `x` - A vector.
 ///
 /// * `y` - A vector.
-pub fn mk_daxpy_s8el(n: usize, alpha: f64, x: &[f64], y: &mut [f64]) -> () {
+pub fn mk_daxpy_s8el(n: usize, alpha: DFLOAT, x: &[DFLOAT], y: &mut [DFLOAT]) -> () {
     for i in (0..n).step_by(8) {
         y[i] += alpha * x[i];
         y[i + 1] += alpha * x[i + 1];

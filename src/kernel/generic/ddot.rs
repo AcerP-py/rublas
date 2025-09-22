@@ -1,5 +1,7 @@
+use crate::utils::types::DFLOAT;
+
 /// mk (micro-kernel) _
-/// ddot (f64 dot product) _
+/// ddot (DFLOAT dot product) _
 /// ns2el (non-sequential 2 element)
 ///
 /// # Arguments
@@ -18,8 +20,8 @@
 /// # Returns
 ///
 /// The dot product of `x` and `y`.
-pub fn mk_ddot_ns2el(n: usize, x: &[f64], inc_x: usize, y: &[f64], inc_y: usize) -> f64 {
-    let mut result: f64 = 0.0;
+pub fn mk_ddot_ns2el(n: usize, x: &[DFLOAT], inc_x: usize, y: &[DFLOAT], inc_y: usize) -> DFLOAT {
+    let mut result: DFLOAT = 0.0;
     let mut x1: usize = 0;
     let mut y1: usize = 0;
     let mut x2: usize = n / 2 * inc_x;
@@ -37,7 +39,7 @@ pub fn mk_ddot_ns2el(n: usize, x: &[f64], inc_x: usize, y: &[f64], inc_y: usize)
 }
 
 /// mk (micro-kernel) _
-/// ddot (f64 dot product) _
+/// ddot (DFLOAT dot product) _
 /// s8el (sequential 8 element)
 ///
 /// # Arguments
@@ -52,8 +54,8 @@ pub fn mk_ddot_ns2el(n: usize, x: &[f64], inc_x: usize, y: &[f64], inc_y: usize)
 /// # Returns
 ///
 /// The dot product of `x` and `y`.
-pub fn mk_ddot_s8el(n: usize, x: &[f64], y: &[f64]) -> f64 {
-    let mut result: f64 = 0.0;
+pub fn mk_ddot_s8el(n: usize, x: &[DFLOAT], y: &[DFLOAT]) -> DFLOAT {
+    let mut result: DFLOAT = 0.0;
 
     for i in (0..n).step_by(8) {
         result += x[i] * y[i]

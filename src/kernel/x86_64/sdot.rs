@@ -1,7 +1,9 @@
 use std::arch::x86_64::*;
 
+use crate::utils::types::SFLOAT;
+
 /// mk (micro-kernel) _
-/// sdot (f32 dot product) _
+/// sdot (SFLOAT dot product) _
 /// ns2el (non-sequential 2 element)
 ///
 /// # Arguments
@@ -20,8 +22,8 @@ use std::arch::x86_64::*;
 /// # Returns
 ///
 /// The dot product of `x` and `y`.
-pub fn mk_sdot_ns2el(n: usize, x: &[f32], inc_x: usize, y: &[f32], inc_y: usize) -> f32 {
-    let mut result: f32 = 0.0;
+pub fn mk_sdot_ns2el(n: usize, x: &[SFLOAT], inc_x: usize, y: &[SFLOAT], inc_y: usize) -> SFLOAT {
+    let mut result: SFLOAT = 0.0;
 
     let mut x1: usize = 0;
     let mut y1: usize = 0;
@@ -40,7 +42,7 @@ pub fn mk_sdot_ns2el(n: usize, x: &[f32], inc_x: usize, y: &[f32], inc_y: usize)
 }
 
 /// mk (micro-kernel) _
-/// sdot (f32 dot product) _
+/// sdot (SFLOAT dot product) _
 /// s8el (sequential 8 element)
 ///
 /// # Arguments
@@ -55,8 +57,8 @@ pub fn mk_sdot_ns2el(n: usize, x: &[f32], inc_x: usize, y: &[f32], inc_y: usize)
 /// # Returns
 ///
 /// The dot product of `x` and `y`.
-pub fn mk_sdot_s8el(n: usize, x: &[f32], y: &[f32]) -> f32 {
-    let mut result: f32 = 0.0;
+pub fn mk_sdot_s8el(n: usize, x: &[SFLOAT], y: &[SFLOAT]) -> SFLOAT {
+    let mut result: SFLOAT = 0.0;
 
     for i in (0..n).step_by(8) {
         result += x[i] * y[i]
@@ -73,7 +75,7 @@ pub fn mk_sdot_s8el(n: usize, x: &[f32], y: &[f32]) -> f32 {
 }
 
 /// mk (micro-kernel) _
-/// sdot (f32 dot product) _
+/// sdot (SFLOAT dot product) _
 /// s8el (sequential 8 element) _
 /// avx (avx enabled)
 ///
@@ -90,7 +92,7 @@ pub fn mk_sdot_s8el(n: usize, x: &[f32], y: &[f32]) -> f32 {
 ///
 /// The dot product of `x` and `y`.
 #[target_feature(enable = "avx")]
-pub unsafe fn mk_sdot_s8el_avx(n: usize, x: &[f32], y: &[f32]) -> f32 {
+pub unsafe fn mk_sdot_s8el_avx(n: usize, x: &[SFLOAT], y: &[SFLOAT]) -> SFLOAT {
     let mut result_m256: __m256 = _mm256_setzero_ps();
 
     for i in (0..n).step_by(8) {
@@ -102,7 +104,7 @@ pub unsafe fn mk_sdot_s8el_avx(n: usize, x: &[f32], y: &[f32]) -> f32 {
         }
     }
 
-    let mut result_array: [f32; 8] = [0.0; 8];
+    let mut result_array: [SFLOAT; 8] = [0.0; 8];
     unsafe {
         _mm256_storeu_ps(result_array.as_mut_ptr(), result_m256);
     }

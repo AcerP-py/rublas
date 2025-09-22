@@ -1,5 +1,7 @@
 use cfg_if::cfg_if;
 
+use crate::utils::types::{DFLOAT, SFLOAT};
+
 // ===========================================================================
 // ===========================================================================
 // architecture modules
@@ -29,7 +31,7 @@ cfg_if! {
 // ===========================================================================
 
 /// k (kernel) _
-/// saxpy (f32 y = y + ax)
+/// saxpy (SFLOAT y = y + ax)
 ///
 /// # Arguments
 ///
@@ -44,12 +46,19 @@ cfg_if! {
 /// * `y` - A vector.
 ///
 /// * `inc_y` - Increment between elements of `y`.
-pub fn k_saxpy(n: usize, alpha: f32, x: &[f32], inc_x: usize, y: &mut [f32], inc_y: usize) -> () {
+pub fn k_saxpy(
+    n: usize,
+    alpha: SFLOAT,
+    x: &[SFLOAT],
+    inc_x: usize,
+    y: &mut [SFLOAT],
+    inc_y: usize,
+) -> () {
     generic::ak_saxpy(n, alpha, x, inc_x, y, inc_y);
 }
 
 /// k (kernel) _
-/// daxpy (f64 y = y + ax)
+/// daxpy (DFLOAT y = y + ax)
 ///
 /// # Arguments
 ///
@@ -64,7 +73,14 @@ pub fn k_saxpy(n: usize, alpha: f32, x: &[f32], inc_x: usize, y: &mut [f32], inc
 /// * `y` - A vector.
 ///
 /// * `inc_y` - Increment between elements of `y`.
-pub fn k_daxpy(n: usize, alpha: f64, x: &[f64], inc_x: usize, y: &mut [f64], inc_y: usize) -> () {
+pub fn k_daxpy(
+    n: usize,
+    alpha: DFLOAT,
+    x: &[DFLOAT],
+    inc_x: usize,
+    y: &mut [DFLOAT],
+    inc_y: usize,
+) -> () {
     generic::ak_daxpy(n, alpha, x, inc_x, y, inc_y);
 }
 
@@ -73,7 +89,7 @@ pub fn k_daxpy(n: usize, alpha: f64, x: &[f64], inc_x: usize, y: &mut [f64], inc
 // ===========================================================================
 
 /// k (kernel) _
-/// sdot (f32 dot product)
+/// sdot (SFLOAT dot product)
 ///
 /// # Arguments
 ///
@@ -90,7 +106,7 @@ pub fn k_daxpy(n: usize, alpha: f64, x: &[f64], inc_x: usize, y: &mut [f64], inc
 /// # Returns
 ///
 /// The dot product of `x` and `y`.
-pub fn k_sdot(n: usize, x: &[f32], inc_x: usize, y: &[f32], inc_y: usize) -> f32 {
+pub fn k_sdot(n: usize, x: &[SFLOAT], inc_x: usize, y: &[SFLOAT], inc_y: usize) -> SFLOAT {
     cfg_if! {
         if #[cfg(target_arch = "x86_64")] {
             x86_64::ak_sdot(n, x, inc_x, y, inc_y)
@@ -101,7 +117,7 @@ pub fn k_sdot(n: usize, x: &[f32], inc_x: usize, y: &[f32], inc_y: usize) -> f32
 }
 
 /// k (kernel) _
-/// ddot (f64 dot product)
+/// ddot (DFLOAT dot product)
 ///
 /// # Arguments
 ///
@@ -118,6 +134,6 @@ pub fn k_sdot(n: usize, x: &[f32], inc_x: usize, y: &[f32], inc_y: usize) -> f32
 /// # Returns
 ///
 /// The dot product of `x` and `y`.
-pub fn k_ddot(n: usize, x: &[f64], inc_x: usize, y: &[f64], inc_y: usize) -> f64 {
+pub fn k_ddot(n: usize, x: &[DFLOAT], inc_x: usize, y: &[DFLOAT], inc_y: usize) -> DFLOAT {
     generic::ak_ddot(n, x, inc_x, y, inc_y)
 }

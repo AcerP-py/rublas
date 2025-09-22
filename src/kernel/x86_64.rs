@@ -1,3 +1,5 @@
+use crate::utils::types::SFLOAT;
+
 // ===========================================================================
 // ===========================================================================
 // operation modules
@@ -21,7 +23,7 @@ mod sdot;
 // ===========================================================================
 
 /// ak (architecture-kernel) _
-/// sdot (f32 dot product)
+/// sdot (SFLOAT dot product)
 ///
 /// # Arguments
 ///
@@ -38,8 +40,8 @@ mod sdot;
 /// # Returns
 ///
 /// The dot product of `x` and `y`.
-pub fn ak_sdot(n: usize, x: &[f32], inc_x: usize, y: &[f32], inc_y: usize) -> f32 {
-    let mut result: f32 = 0.0;
+pub fn ak_sdot(n: usize, x: &[SFLOAT], inc_x: usize, y: &[SFLOAT], inc_y: usize) -> SFLOAT {
+    let mut result: SFLOAT = 0.0;
     let c: usize;
 
     if n < 1 {

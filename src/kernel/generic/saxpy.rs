@@ -1,5 +1,7 @@
+use crate::utils::types::SFLOAT;
+
 /// mk (micro-kernel) _
-/// saxpy (f32 y = y + ax) _
+/// saxpy (SFLOAT y = y + ax) _
 /// ns2el (non-sequential 2 element)
 ///
 /// # Arguments
@@ -18,10 +20,10 @@
 /// * `inc_y` - Increment between elements of `y`.
 pub fn mk_saxpy_ns2el(
     n: usize,
-    alpha: f32,
-    x: &[f32],
+    alpha: SFLOAT,
+    x: &[SFLOAT],
     inc_x: usize,
-    y: &mut [f32],
+    y: &mut [SFLOAT],
     inc_y: usize,
 ) -> () {
     let mut x1: usize = 0;
@@ -40,7 +42,7 @@ pub fn mk_saxpy_ns2el(
 }
 
 /// mk (micro-kernel) _
-/// saxpy (f32 y = y + ax) _
+/// saxpy (SFLOAT y = y + ax) _
 /// s8el (sequential 8 element)
 ///
 /// # Arguments
@@ -53,7 +55,7 @@ pub fn mk_saxpy_ns2el(
 /// * `x` - A vector.
 ///
 /// * `y` - A vector.
-pub fn mk_saxpy_s8el(n: usize, alpha: f32, x: &[f32], y: &mut [f32]) -> () {
+pub fn mk_saxpy_s8el(n: usize, alpha: SFLOAT, x: &[SFLOAT], y: &mut [SFLOAT]) -> () {
     for i in (0..n).step_by(8) {
         y[i] += alpha * x[i];
         y[i + 1] += alpha * x[i + 1];

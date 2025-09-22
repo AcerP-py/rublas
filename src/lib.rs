@@ -12,16 +12,19 @@
 //! const N: usize = 1000;
 //!
 //! fn main() {
-//!     let x: Vec<f32> = vec![1.5; N];
-//!     let y: Vec<f32> = vec![2.7; N];
+//!     let x: Vec<SFLOAT> = vec![1.5; N];
+//!     let y: Vec<SFLOAT> = vec![2.7; N];
 //!
-//!     let result: f32 = sdot(N, &x, 1, &y, 1);
+//!     let result: SFLOAT = sdot(N, &x, 1, &y, 1);
 //!
 //!     println!("Result: {}", result);
 //! }
 //! ```
 
+mod utils;
 mod kernel;
+
+pub use utils::types::{DFLOAT, SFLOAT};
 
 // ===========================================================================
 // ===========================================================================
@@ -48,7 +51,14 @@ mod kernel;
 /// * `y` - A vector.
 ///
 /// * `inc_y` - Increment between elements of `y`.
-pub fn saxpy(n: usize, alpha: f32, x: &[f32], inc_x: usize, y: &mut [f32], inc_y: usize) -> () {
+pub fn saxpy(
+    n: usize,
+    alpha: SFLOAT,
+    x: &[SFLOAT],
+    inc_x: usize,
+    y: &mut [SFLOAT],
+    inc_y: usize,
+) -> () {
     kernel::k_saxpy(n, alpha, x, inc_x, y, inc_y);
 }
 
@@ -67,7 +77,14 @@ pub fn saxpy(n: usize, alpha: f32, x: &[f32], inc_x: usize, y: &mut [f32], inc_y
 /// * `y` - A vector.
 ///
 /// * `inc_y` - Increment between elements of `y`.
-pub fn daxpy(n: usize, alpha: f64, x: &[f64], inc_x: usize, y: &mut [f64], inc_y: usize) -> () {
+pub fn daxpy(
+    n: usize,
+    alpha: DFLOAT,
+    x: &[DFLOAT],
+    inc_x: usize,
+    y: &mut [DFLOAT],
+    inc_y: usize,
+) -> () {
     kernel::k_daxpy(n, alpha, x, inc_x, y, inc_y);
 }
 
@@ -92,7 +109,7 @@ pub fn daxpy(n: usize, alpha: f64, x: &[f64], inc_x: usize, y: &mut [f64], inc_y
 /// # Returns
 ///
 /// The dot product of `x` and `y`.
-pub fn sdot(n: usize, x: &[f32], inc_x: usize, y: &[f32], inc_y: usize) -> f32 {
+pub fn sdot(n: usize, x: &[SFLOAT], inc_x: usize, y: &[SFLOAT], inc_y: usize) -> SFLOAT {
     kernel::k_sdot(n, x, inc_x, y, inc_y)
 }
 
@@ -113,6 +130,6 @@ pub fn sdot(n: usize, x: &[f32], inc_x: usize, y: &[f32], inc_y: usize) -> f32 {
 /// # Returns
 ///
 /// The dot product of `x` and `y`.
-pub fn ddot(n: usize, x: &[f64], inc_x: usize, y: &[f64], inc_y: usize) -> f64 {
+pub fn ddot(n: usize, x: &[DFLOAT], inc_x: usize, y: &[DFLOAT], inc_y: usize) -> DFLOAT {
     kernel::k_ddot(n, x, inc_x, y, inc_y)
 }

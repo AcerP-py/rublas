@@ -1,5 +1,7 @@
+use crate::utils::types::SFLOAT;
+
 /// mk (micro-kernel) _
-/// sdot (f32 dot product) _
+/// sdot (SFLOAT dot product) _
 /// ns2el (non-sequential 2 element)
 ///
 /// # Arguments
@@ -18,8 +20,8 @@
 /// # Returns
 ///
 /// The dot product of `x` and `y`.
-pub fn mk_sdot_ns2el(n: usize, x: &[f32], inc_x: usize, y: &[f32], inc_y: usize) -> f32 {
-    let mut result: f32 = 0.0;
+pub fn mk_sdot_ns2el(n: usize, x: &[SFLOAT], inc_x: usize, y: &[SFLOAT], inc_y: usize) -> SFLOAT {
+    let mut result: SFLOAT = 0.0;
 
     let mut x1: usize = 0;
     let mut y1: usize = 0;
@@ -38,7 +40,7 @@ pub fn mk_sdot_ns2el(n: usize, x: &[f32], inc_x: usize, y: &[f32], inc_y: usize)
 }
 
 /// mk (micro-kernel) _
-/// sdot (f32 dot product) _
+/// sdot (SFLOAT dot product) _
 /// s8el (sequential 8 element)
 ///
 /// # Arguments
@@ -53,8 +55,8 @@ pub fn mk_sdot_ns2el(n: usize, x: &[f32], inc_x: usize, y: &[f32], inc_y: usize)
 /// # Returns
 ///
 /// The dot product of `x` and `y`.
-pub fn mk_sdot_s8el(n: usize, x: &[f32], y: &[f32]) -> f32 {
-    let mut result: f32 = 0.0;
+pub fn mk_sdot_s8el(n: usize, x: &[SFLOAT], y: &[SFLOAT]) -> SFLOAT {
+    let mut result: SFLOAT = 0.0;
 
     for i in (0..n).step_by(8) {
         result += x[i] * y[i]
