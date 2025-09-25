@@ -1,6 +1,6 @@
 use cfg_if::cfg_if;
 
-use crate::utils::types::{DFLOAT, SFLOAT};
+use crate::utils::types::{CFLOAT, DFLOAT, SFLOAT};
 
 // ===========================================================================
 // ===========================================================================
@@ -82,6 +82,33 @@ pub fn k_daxpy(
     inc_y: usize,
 ) -> () {
     generic::ak_daxpy(n, alpha, x, inc_x, y, inc_y);
+}
+
+/// k (kernel) _
+/// caxpy (CFLOAT y = y + ax)
+///
+/// # Arguments
+///
+/// * `n` - Length of vectors `x` and `y`.
+///
+/// * `alpha` - scaling factor for `x`.
+///
+/// * `x` - A vector.
+///
+/// * `inc_x` - Increment between elements of `x`.
+///
+/// * `y` - A vector.
+///
+/// * `inc_y` - Increment between elements of `y`.
+pub fn k_caxpy(
+    n: usize,
+    alpha: CFLOAT,
+    x: &[CFLOAT],
+    inc_x: usize,
+    y: &mut [CFLOAT],
+    inc_y: usize,
+) -> () {
+    generic::ak_caxpy(n, alpha, x, inc_x, y, inc_y);
 }
 
 // ===========================================================================

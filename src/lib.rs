@@ -24,7 +24,7 @@
 mod utils;
 mod kernel;
 
-pub use utils::types::{DFLOAT, SFLOAT};
+pub use utils::types::{CFLOAT, DFLOAT, SFLOAT};
 
 // ===========================================================================
 // ===========================================================================
@@ -86,6 +86,32 @@ pub fn daxpy(
     inc_y: usize,
 ) -> () {
     kernel::k_daxpy(n, alpha, x, inc_x, y, inc_y);
+}
+
+/// Performs `y = y + ax` on two single-precision complex vectors.
+///
+/// # Arguments
+///
+/// * `n` - Length of vectors `x` and `y`.
+///
+/// * `alpha` - scaling factor for `x`.
+///
+/// * `x` - A vector.
+///
+/// * `inc_x` - Increment between elements of `x`.
+///
+/// * `y` - A vector.
+///
+/// * `inc_y` - Increment between elements of `y`.
+pub fn caxpy(
+    n: usize,
+    alpha: CFLOAT,
+    x: &[CFLOAT],
+    inc_x: usize,
+    y: &mut [CFLOAT],
+    inc_y: usize,
+) -> () {
+    kernel::k_caxpy(n, alpha, x, inc_x, y, inc_y);
 }
 
 // ===========================================================================
