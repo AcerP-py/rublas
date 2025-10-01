@@ -24,7 +24,7 @@
 mod utils;
 mod kernel;
 
-pub use utils::types::{CFLOAT, DFLOAT, SFLOAT};
+pub use utils::types::{CFLOAT, DFLOAT, SFLOAT, ZFLOAT};
 
 // ===========================================================================
 // ===========================================================================
@@ -112,6 +112,32 @@ pub fn caxpy(
     inc_y: usize,
 ) -> () {
     kernel::k_caxpy(n, alpha, x, inc_x, y, inc_y);
+}
+
+/// Performs `y = y + ax` on two double-precision complex vectors.
+///
+/// # Arguments
+///
+/// * `n` - Length of vectors `x` and `y`.
+///
+/// * `alpha` - scaling factor for `x`.
+///
+/// * `x` - A vector.
+///
+/// * `inc_x` - Increment between elements of `x`.
+///
+/// * `y` - A vector.
+///
+/// * `inc_y` - Increment between elements of `y`.
+pub fn zaxpy(
+    n: usize,
+    alpha: ZFLOAT,
+    x: &[ZFLOAT],
+    inc_x: usize,
+    y: &mut [ZFLOAT],
+    inc_y: usize,
+) -> () {
+    kernel::k_zaxpy(n, alpha, x, inc_x, y, inc_y);
 }
 
 // ===========================================================================

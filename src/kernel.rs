@@ -1,6 +1,6 @@
 use cfg_if::cfg_if;
 
-use crate::utils::types::{CFLOAT, DFLOAT, SFLOAT};
+use crate::utils::types::{CFLOAT, DFLOAT, SFLOAT, ZFLOAT};
 
 // ===========================================================================
 // ===========================================================================
@@ -109,6 +109,33 @@ pub fn k_caxpy(
     inc_y: usize,
 ) -> () {
     generic::ak_caxpy(n, alpha, x, inc_x, y, inc_y);
+}
+
+/// k (kernel) _
+/// zaxpy (ZFLOAT y = y + ax)
+///
+/// # Arguments
+///
+/// * `n` - Length of vectors `x` and `y`.
+///
+/// * `alpha` - scaling factor for `x`.
+///
+/// * `x` - A vector.
+///
+/// * `inc_x` - Increment between elements of `x`.
+///
+/// * `y` - A vector.
+///
+/// * `inc_y` - Increment between elements of `y`.
+pub fn k_zaxpy(
+    n: usize,
+    alpha: ZFLOAT,
+    x: &[ZFLOAT],
+    inc_x: usize,
+    y: &mut [ZFLOAT],
+    inc_y: usize,
+) -> () {
+    generic::ak_zaxpy(n, alpha, x, inc_x, y, inc_y);
 }
 
 // ===========================================================================

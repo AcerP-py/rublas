@@ -26,7 +26,7 @@ impl Zeroable for DFLOAT {
 // ===========================================================================
 // CFLOAT
 // ===========================================================================
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct CFLOAT {
     real: SFLOAT,
     imag: SFLOAT,
@@ -42,7 +42,11 @@ impl CFLOAT {
 
 impl Display for CFLOAT {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{} + {}i", self.real, self.imag)
+        if self.imag < 0.0 {
+            write!(f, "{} - {}i", self.real, self.imag.abs())
+        } else {
+            write!(f, "{} + {}i", self.real, self.imag)
+        }
     }
 }
 
@@ -100,7 +104,7 @@ impl Div<Self> for CFLOAT {
 
 impl Zeroable for CFLOAT {
     fn zero() -> Self {
-        CFLOAT {
+        Self {
             real: 0.0,
             imag: 0.0,
         }
@@ -149,19 +153,146 @@ macro_rules! cfloat_vec {
     };
 
     // complex; repeat
-    [ $expr:expr; $num_repeats:literal ] => {
-        (::defile::defile! {
-            vec![cfloat!(@$expr); $num_repeats]
-        })
-    };
-    [ $expr:expr; $num_repeats:ident ] => {
-        (::defile::defile! {
-            vec![cfloat!(@$expr); $num_repeats]
-        })
-    };
     [ $expr:expr; $num_repeats:expr ] => {
         (::defile::defile! {
             vec![cfloat!(@$expr); $num_repeats]
+        })
+    };
+}
+
+// ===========================================================================
+// ZFLOAT
+// ===========================================================================
+#[derive(Clone, Copy, Debug)]
+pub struct ZFLOAT {
+    real: DFLOAT,
+    imag: DFLOAT,
+}
+
+impl ZFLOAT {
+    pub fn new(real: DFLOAT, imag: DFLOAT) -> Self { Self { real, imag } }
+
+    pub fn real(&self) -> DFLOAT { self.real }
+
+    pub fn imag(&self) -> DFLOAT { self.imag }
+}
+
+impl Display for ZFLOAT {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        if self.imag < 0.0 {
+            write!(f, "{} - {}i", self.real, self.imag.abs())
+        } else {
+            write!(f, "{} + {}i", self.real, self.imag)
+        }
+    }
+}
+
+impl Add<Self> for ZFLOAT {
+    type Output = Self;
+
+    fn add(self, rhs: Self) -> Self::Output {
+        Self {
+            real: self.real + rhs.real,
+            imag: self.imag + rhs.imag,
+        }
+    }
+}
+
+impl AddAssign<Self> for ZFLOAT {
+    fn add_assign(&mut self, rhs: Self) {
+        self.real = self.real + rhs.real;
+        self.imag = self.imag + rhs.imag;
+    }
+}
+
+impl Sub<Self> for ZFLOAT {
+    type Output = Self;
+
+    fn sub(self, rhs: Self) -> Self::Output {
+        Self {
+            real: self.real - rhs.real,
+            imag: self.imag - rhs.imag,
+        }
+    }
+}
+
+impl Mul<Self> for ZFLOAT {
+    type Output = Self;
+
+    fn mul(self, rhs: Self) -> Self::Output {
+        Self {
+            real: self.real * rhs.real - self.imag * rhs.imag,
+            imag: self.real * rhs.imag + self.imag * rhs.real,
+        }
+    }
+}
+
+impl Div<Self> for ZFLOAT {
+    type Output = Self;
+
+    fn div(self, rhs: Self) -> Self::Output {
+        let denom: DFLOAT = rhs.real * rhs.real + rhs.imag * rhs.imag;
+        Self {
+            real: (self.real * rhs.real + self.imag * rhs.imag) / denom,
+            imag: (self.imag * rhs.real - self.real * rhs.imag) / denom,
+        }
+    }
+}
+
+impl Zeroable for ZFLOAT {
+    fn zero() -> Self {
+        Self {
+            real: 0.0,
+            imag: 0.0,
+        }
+    }
+}
+
+#[macro_export]
+macro_rules! zfloat {
+    // real + imag * I
+    ($real:literal + $imag:literal * I) => {
+        ZFLOAT::new($real, $imag)
+    };
+
+    // real - imag * I
+    ($real:literal - $imag:literal * I) => {
+        ZFLOAT::new($real, -$imag)
+    };
+
+    // real
+    ($real:literal) => {
+        ZFLOAT::new($real, 0.0)
+    };
+
+    // imag * I
+    ($imag:literal * I) => {
+        ZFLOAT::new(0.0, $imag)
+    };
+}
+
+#[macro_export]
+macro_rules! zfloat_vec {
+    // empty vector
+    [] => {
+        Vec::<ZFLOAT>::new()
+    };
+
+    // explicit vector
+    [ $( $expr:expr ),* $(,)? ] => {
+        (::defile::defile! {
+            vec![
+                $(
+                    zfloat!(@$expr)
+                ),*
+            ]
+        })
+    };
+
+    // complex; repeat
+    [ $expr:expr; $num_repeats:expr ] => {
+        (::defile::defile! {
+            vec![zfloat!(@$expr); $num_repeats]
         })
     };
 }
@@ -253,6 +384,81 @@ mod test {
 
         // Div
         let z: CFLOAT = x / y;
+        assert_eq!(z.real(), 2.0);
+        assert_eq!(z.imag(), 8.0);
+    }
+
+    #[test]
+    fn zfloat_basic() {
+        let mut x: ZFLOAT = zfloat!(2.3 + 8.2 * I);
+        assert_eq!(x.real(), 2.3);
+        assert_eq!(x.imag(), 8.2);
+
+        x = zfloat!(2.3 - 8.2 * I);
+        assert_eq!(x.real(), 2.3);
+        assert_eq!(x.imag(), -8.2);
+
+        x = zfloat!(2.3);
+        assert_eq!(x.real(), 2.3);
+        assert_eq!(x.imag(), 0.0);
+
+        x = zfloat!(8.2 * I);
+        assert_eq!(x.real(), 0.0);
+        assert_eq!(x.imag(), 8.2);
+
+        x = zfloat!(-8.2 * I);
+        assert_eq!(x.real(), 0.0);
+        assert_eq!(x.imag(), -8.2);
+    }
+
+    #[test]
+    fn zfloat_vector() {
+        let x: Vec<ZFLOAT> = zfloat_vec![1.0 + 2.0 * I, 3.0 - 4.0 * I, 5.0, 6.0 * I, -7.0 * I];
+
+        assert_eq!(x[0].real(), 1.0);
+        assert_eq!(x[0].imag(), 2.0);
+
+        assert_eq!(x[1].real(), 3.0);
+        assert_eq!(x[1].imag(), -4.0);
+
+        assert_eq!(x[2].real(), 5.0);
+        assert_eq!(x[2].imag(), 0.0);
+
+        assert_eq!(x[3].real(), 0.0);
+        assert_eq!(x[3].imag(), 6.0);
+
+        assert_eq!(x[4].real(), 0.0);
+        assert_eq!(x[4].imag(), -7.0);
+    }
+
+    #[test]
+    fn zfloat_math() {
+        let x: ZFLOAT = zfloat!(346.0 - 78.0 * I);
+        let y: ZFLOAT = zfloat!(1.0 - 43.0 * I);
+
+        // Add
+        let z: ZFLOAT = x + y;
+        assert_eq!(z.real(), 347.0);
+        assert_eq!(z.imag(), -121.0);
+
+        // AddAssign
+        let mut z: ZFLOAT = zfloat!(346.0 - 78.0 * I);
+        z += y;
+        assert_eq!(z.real(), 347.0);
+        assert_eq!(z.imag(), -121.0);
+
+        // Sub
+        let z: ZFLOAT = x - y;
+        assert_eq!(z.real(), 345.0);
+        assert_eq!(z.imag(), -35.0);
+
+        // Mul
+        let z: ZFLOAT = x * y;
+        assert_eq!(z.real(), -3008.0);
+        assert_eq!(z.imag(), -14956.0);
+
+        // Div
+        let z: ZFLOAT = x / y;
         assert_eq!(z.real(), 2.0);
         assert_eq!(z.imag(), 8.0);
     }

@@ -1,4 +1,4 @@
-use crate::utils::types::{CFLOAT, DFLOAT, SFLOAT};
+use crate::utils::types::{CFLOAT, DFLOAT, SFLOAT, ZFLOAT};
 
 // ===========================================================================
 // ===========================================================================
@@ -127,6 +127,49 @@ pub fn ak_caxpy(
     x: &[CFLOAT],
     inc_x: usize,
     y: &mut [CFLOAT],
+    inc_y: usize,
+) -> () {
+    let c: usize;
+
+    if n < 1 {
+        return ();
+    }
+
+    if inc_x == 1 && inc_y == 1 {
+        c = n & !7;
+        mk_templates::mk_axpy_s8el(c, alpha, x, y);
+    } else {
+        c = n & !1;
+        mk_templates::mk_axpy_ns2el(c, alpha, x, inc_x, y, inc_y);
+    }
+
+    for i in c..n {
+        y[i * inc_y] += alpha * x[i * inc_x];
+    }
+}
+
+/// ak (architecture-kernel) _
+/// zaxpy (ZFLOAT y = y + ax)
+///
+/// # Arguments
+///
+/// * `n` - Length of vectors `x` and `y`.
+///
+/// * `alpha` - scaling factor for `x`.
+///
+/// * `x` - A vector.
+///
+/// * `inc_x` - Increment between elements of `x`.
+///
+/// * `y` - A vector.
+///
+/// * `inc_y` - Increment between elements of `y`.
+pub fn ak_zaxpy(
+    n: usize,
+    alpha: ZFLOAT,
+    x: &[ZFLOAT],
+    inc_x: usize,
+    y: &mut [ZFLOAT],
     inc_y: usize,
 ) -> () {
     let c: usize;
