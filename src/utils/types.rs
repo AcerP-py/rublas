@@ -142,21 +142,17 @@ macro_rules! cfloat_vec {
     };
 
     // explicit vector
-    [ $( $expr:expr ),* $(,)? ] => {
-        (::defile::defile! {
-            vec![
-                $(
-                    cfloat!(@$expr)
-                ),*
-            ]
-        })
+    [ $( $real:literal $sign:tt $imag:literal * I ),* $(,)? ] => {
+        vec![
+            $(
+                CFLOAT::new($real, 0.0 $sign $imag)
+            ),*
+        ]
     };
 
     // complex; repeat
-    [ $expr:expr; $num_repeats:expr ] => {
-        (::defile::defile! {
-            vec![cfloat!(@$expr); $num_repeats]
-        })
+    [ $real:literal $sign:tt $imag:literal * I; $num_repeats:expr ] => {
+        vec![CFLOAT::new($real, 0.0 $sign $imag); $num_repeats]
     };
 }
 
@@ -279,21 +275,17 @@ macro_rules! zfloat_vec {
     };
 
     // explicit vector
-    [ $( $expr:expr ),* $(,)? ] => {
-        (::defile::defile! {
-            vec![
-                $(
-                    zfloat!(@$expr)
-                ),*
-            ]
-        })
+    [ $( $real:literal $sign:tt $imag:literal * I ),* $(,)? ] => {
+        vec![
+            $(
+                ZFLOAT::new($real, 0.0 $sign $imag)
+            ),*
+        ]
     };
 
     // complex; repeat
-    [ $expr:expr; $num_repeats:expr ] => {
-        (::defile::defile! {
-            vec![zfloat!(@$expr); $num_repeats]
-        })
+    [ $real:literal $sign:tt $imag:literal * I; $num_repeats:expr ] => {
+        vec![ZFLOAT::new($real, 0.0 $sign $imag); $num_repeats]
     };
 }
 
@@ -338,7 +330,13 @@ mod test {
 
     #[test]
     fn cfloat_vector() {
-        let x: Vec<CFLOAT> = cfloat_vec![1.0 + 2.0 * I, 3.0 - 4.0 * I, 5.0, 6.0 * I, -7.0 * I];
+        let x: Vec<CFLOAT> = cfloat_vec![
+            1.0 + 2.0 * I,
+            3.0 - 4.0 * I,
+            5.0 + 0.0 * I, // we must put these numbers in full form until
+            0.0 + 6.0 * I, // we can discover a better macro
+            0.0 - 7.0 * I, // to handle different type inputs in a vector
+        ];
 
         assert_eq!(x[0].real(), 1.0);
         assert_eq!(x[0].imag(), 2.0);
@@ -413,7 +411,13 @@ mod test {
 
     #[test]
     fn zfloat_vector() {
-        let x: Vec<ZFLOAT> = zfloat_vec![1.0 + 2.0 * I, 3.0 - 4.0 * I, 5.0, 6.0 * I, -7.0 * I];
+        let x: Vec<ZFLOAT> = zfloat_vec![
+            1.0 + 2.0 * I,
+            3.0 - 4.0 * I,
+            5.0 + 0.0 * I, // we must put these numbers in full form until
+            0.0 + 6.0 * I, // we can discover a better macro
+            0.0 - 7.0 * I, // to handle different type inputs in a vector
+        ];
 
         assert_eq!(x[0].real(), 1.0);
         assert_eq!(x[0].imag(), 2.0);

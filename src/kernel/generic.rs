@@ -7,7 +7,7 @@ use crate::utils::types::{CFLOAT, DFLOAT, SFLOAT, ZFLOAT};
 // ===========================================================================
 
 // for all operations
-pub mod mk_templates;
+pub mod templates;
 
 // ===========================================================================
 // ===========================================================================
@@ -51,10 +51,10 @@ pub fn ak_saxpy(
 
     if inc_x == 1 && inc_y == 1 {
         c = n & !7;
-        mk_templates::mk_axpy_s8el(c, alpha, x, y);
+        templates::mk_axpy_s8el(c, alpha, x, y);
     } else {
         c = n & !1;
-        mk_templates::mk_axpy_ns2el(c, alpha, x, inc_x, y, inc_y);
+        templates::mk_axpy_ns2el(c, alpha, x, inc_x, y, inc_y);
     }
 
     for i in c..n {
@@ -94,10 +94,10 @@ pub fn ak_daxpy(
 
     if inc_x == 1 && inc_y == 1 {
         c = n & !7;
-        mk_templates::mk_axpy_s8el(c, alpha, x, y);
+        templates::mk_axpy_s8el(c, alpha, x, y);
     } else {
         c = n & !1;
-        mk_templates::mk_axpy_ns2el(c, alpha, x, inc_x, y, inc_y);
+        templates::mk_axpy_ns2el(c, alpha, x, inc_x, y, inc_y);
     }
 
     for i in c..n {
@@ -137,10 +137,10 @@ pub fn ak_caxpy(
 
     if inc_x == 1 && inc_y == 1 {
         c = n & !7;
-        mk_templates::mk_axpy_s8el(c, alpha, x, y);
+        templates::mk_axpy_s8el(c, alpha, x, y);
     } else {
         c = n & !1;
-        mk_templates::mk_axpy_ns2el(c, alpha, x, inc_x, y, inc_y);
+        templates::mk_axpy_ns2el(c, alpha, x, inc_x, y, inc_y);
     }
 
     for i in c..n {
@@ -180,14 +180,50 @@ pub fn ak_zaxpy(
 
     if inc_x == 1 && inc_y == 1 {
         c = n & !7;
-        mk_templates::mk_axpy_s8el(c, alpha, x, y);
+        templates::mk_axpy_s8el(c, alpha, x, y);
     } else {
         c = n & !1;
-        mk_templates::mk_axpy_ns2el(c, alpha, x, inc_x, y, inc_y);
+        templates::mk_axpy_ns2el(c, alpha, x, inc_x, y, inc_y);
     }
 
     for i in c..n {
         y[i * inc_y] += alpha * x[i * inc_x];
+    }
+}
+
+// ===========================================================================
+// scal
+// ===========================================================================
+
+/// ak (architecture-kernel) _
+/// saxpy (SFLOAT y = ay)
+///
+/// # Arguments
+///
+/// * `n` - Length of vector `y`.
+///
+/// * `alpha` - scaling factor for `y`.
+///
+/// * `y` - A vector.
+///
+/// * `inc_y` - Increment between elements of `y`.
+pub fn ak_sscal(n: usize, alpha: SFLOAT, y: &mut [SFLOAT], inc_y: usize) -> () {
+    let c: usize;
+
+    if n < 1 {
+        return ();
+    }
+
+    if inc_y == 1 {
+        c = n & !7;
+        templates::mk_scal_s8el(c, alpha, y);
+    } else {
+        c = n & !1;
+        templates::mk_scal_ns2el(c, alpha, y, inc_y);
+    }
+
+    for i in c..n {
+        y[i * inc_y] = alpha * y[i * inc_y];
     }
 }
 
@@ -223,10 +259,10 @@ pub fn ak_sdot(n: usize, x: &[SFLOAT], inc_x: usize, y: &[SFLOAT], inc_y: usize)
 
     if inc_x == 1 && inc_y == 1 {
         c = n & !7;
-        result += mk_templates::mk_dot_s8el(c, x, y);
+        result += templates::mk_dot_s8el(c, x, y);
     } else {
         c = n & !1;
-        result += mk_templates::mk_dot_ns2el(c, x, inc_x, y, inc_y);
+        result += templates::mk_dot_ns2el(c, x, inc_x, y, inc_y);
     }
 
     for i in c..n {
@@ -264,10 +300,10 @@ pub fn ak_ddot(n: usize, x: &[DFLOAT], inc_x: usize, y: &[DFLOAT], inc_y: usize)
 
     if inc_x == 1 && inc_y == 1 {
         c = n & !7;
-        result += mk_templates::mk_dot_s8el(c, x, y);
+        result += templates::mk_dot_s8el(c, x, y);
     } else {
         c = n & !1;
-        result += mk_templates::mk_dot_ns2el(c, x, inc_x, y, inc_y);
+        result += templates::mk_dot_ns2el(c, x, inc_x, y, inc_y);
     }
 
     for i in c..n {

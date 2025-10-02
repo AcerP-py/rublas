@@ -141,6 +141,25 @@ pub fn zaxpy(
 }
 
 // ===========================================================================
+// scal
+// ===========================================================================
+
+/// Performs `y = ay` on a single-precision vector.
+///
+/// # Arguments
+///
+/// * `n` - Length of vector `y`.
+///
+/// * `alpha` - scaling factor for `y`.
+///
+/// * `y` - A vector.
+///
+/// * `inc_y` - Increment between elements of `y`.
+pub fn sscal(n: usize, alpha: SFLOAT, y: &mut [SFLOAT], inc_y: usize) -> () {
+    kernel::k_sscal(n, alpha, y, inc_y);
+}
+
+// ===========================================================================
 // dot
 // ===========================================================================
 

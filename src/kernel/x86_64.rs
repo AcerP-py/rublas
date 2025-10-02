@@ -1,4 +1,4 @@
-use crate::kernel::generic::mk_templates;
+use crate::kernel::generic::templates;
 use crate::utils::types::SFLOAT;
 
 // ===========================================================================
@@ -54,11 +54,11 @@ pub fn ak_sdot(n: usize, x: &[SFLOAT], inc_x: usize, y: &[SFLOAT], inc_y: usize)
         if is_x86_feature_detected!("avx") {
             result += unsafe { sdot::mk_sdot_s8el_avx(c, x, y) };
         } else {
-            result += mk_templates::mk_dot_s8el(c, x, y);
+            result += templates::mk_dot_s8el(c, x, y);
         }
     } else {
         c = n & !1;
-        result += mk_templates::mk_dot_ns2el(c, x, inc_x, y, inc_y);
+        result += templates::mk_dot_ns2el(c, x, inc_x, y, inc_y);
     }
 
     for i in c..n {
