@@ -1,0 +1,56 @@
+CC := gcc
+CFLAGS := -I../include
+LDFLAGS := -L../target/release -lrublas
+
+SRCS := $(wildcard *.c)
+OBJS := $(patsubst %.c, %.o, $(SRCS))
+BINS := $(patsubst %.c, %, $(SRCS))
+
+.PHONY: all test clean
+
+all: test clean
+
+# Disable default rule
+% : %.c
+
+# Build object files
+%.o: %.c
+	@$(CC) -c $< -o $@ $(CFLAGS)
+
+# Build test binaries
+%: %.o
+	@$(CC) -o $@ $< $(LDFLAGS)
+
+# Run CBLAS API tests
+test: $(BINS)
+	@bash -c '\
+	printf "     \033[1m\033[32mRunning\033[0m CBLAS API tests\n\n"; \
+	tests=($(BINS)); \
+	passed=0; \
+	failed=0; \
+	if [ "$${#tests[@]}" -eq "1" ]; then \
+		printf "running %s test\n" $${#tests[@]}; \
+	else \
+		printf "running %s tests\n" $${#tests[@]}; \
+	fi; \
+	for test in "$${tests[@]}"; do \
+		printf "test $${test} ..."; \
+		result=$$(LD_LIBRARY_PATH=../target/release ./$${test}); \
+		if [ "$$?" -eq "0" ]; then \
+			((passed += 1)); \
+			printf " \033[32mok\033[0m\n"; \
+		else \
+			((failed += 1)); \
+			printf " \033[31mFAILED\033[0m\n"; \
+			printf "%s\n" "$${result}"; \
+			break; \
+		fi; \
+	done; \
+	if [ "$${failed}" -eq "0" ]; then \
+		printf "\ntest result: \033[32mok\033[0m. %s passed; %s failed\n\n" $${passed} $${failed}; \
+	else \
+		printf "\ntest result: \033[31mfailed\033[0m. %s passed; %s failed\n\n" $${passed} $${failed}; \
+	fi;'
+
+clean:
+	@rm -f $(BINS) $(OBJS)

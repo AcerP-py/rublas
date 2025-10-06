@@ -50,6 +50,19 @@ impl Display for CFLOAT {
     }
 }
 
+impl From<*const SFLOAT> for CFLOAT {
+    fn from(value: *const SFLOAT) -> Self {
+        assert!(!value.is_null(), "Null pointer passed to CFLOAT::from");
+
+        unsafe {
+            Self {
+                real: *value,
+                imag: *value.add(1),
+            }
+        }
+    }
+}
+
 impl Add<Self> for CFLOAT {
     type Output = Self;
 
@@ -179,6 +192,19 @@ impl Display for ZFLOAT {
             write!(f, "{} - {}i", self.real, self.imag.abs())
         } else {
             write!(f, "{} + {}i", self.real, self.imag)
+        }
+    }
+}
+
+impl From<*const DFLOAT> for ZFLOAT {
+    fn from(value: *const DFLOAT) -> Self {
+        assert!(!value.is_null(), "Null pointer passed to ZFLOAT::from");
+
+        unsafe {
+            Self {
+                real: *value,
+                imag: *value.add(1),
+            }
         }
     }
 }

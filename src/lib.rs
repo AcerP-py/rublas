@@ -25,6 +25,7 @@ mod utils;
 mod kernel;
 
 pub use utils::types::{CFLOAT, DFLOAT, SFLOAT, ZFLOAT};
+use utils::types::Zeroable;
 
 // ===========================================================================
 // ===========================================================================
@@ -59,7 +60,32 @@ pub fn saxpy(
     y: &mut [SFLOAT],
     inc_y: usize,
 ) -> () {
+    if n <= 0 {
+        return ();
+    }
+
     kernel::k_saxpy(n, alpha, x, inc_x, y, inc_y);
+}
+
+#[unsafe(no_mangle)]
+pub extern "C" fn rublas_saxpy(
+    n: i32,
+    alpha: f32,
+    x: *const f32,
+    inc_x: i32,
+    y: *mut f32,
+    inc_y: i32,
+) -> () {
+    let n: usize = n as usize;
+    let alpha: SFLOAT = alpha as SFLOAT;
+    let inc_x: usize = inc_x as usize;
+    let inc_y: usize = inc_y as usize;
+
+    unsafe {
+        let x_slice: &[SFLOAT] = std::slice::from_raw_parts(x, n * inc_x);
+        let y_slice: &mut [SFLOAT] = std::slice::from_raw_parts_mut(y, n * inc_y);
+        saxpy(n, alpha, x_slice, inc_x, y_slice, inc_y);
+    }
 }
 
 /// Performs `y = y + ax` on two double-precision vectors.
@@ -85,7 +111,32 @@ pub fn daxpy(
     y: &mut [DFLOAT],
     inc_y: usize,
 ) -> () {
+    if n <= 0 {
+        return ();
+    }
+
     kernel::k_daxpy(n, alpha, x, inc_x, y, inc_y);
+}
+
+#[unsafe(no_mangle)]
+pub extern "C" fn rublas_daxpy(
+    n: i32,
+    alpha: f64,
+    x: *const f64,
+    inc_x: i32,
+    y: *mut f64,
+    inc_y: i32,
+) -> () {
+    let n: usize = n as usize;
+    let alpha: DFLOAT = alpha as DFLOAT;
+    let inc_x: usize = inc_x as usize;
+    let inc_y: usize = inc_y as usize;
+
+    unsafe {
+        let x_slice: &[DFLOAT] = std::slice::from_raw_parts(x, n * inc_x);
+        let y_slice: &mut [DFLOAT] = std::slice::from_raw_parts_mut(y, n * inc_y);
+        daxpy(n, alpha, x_slice, inc_x, y_slice, inc_y);
+    }
 }
 
 /// Performs `y = y + ax` on two single-precision complex vectors.
@@ -111,7 +162,34 @@ pub fn caxpy(
     y: &mut [CFLOAT],
     inc_y: usize,
 ) -> () {
+    if n <= 0 {
+        return ();
+    }
+
     kernel::k_caxpy(n, alpha, x, inc_x, y, inc_y);
+}
+
+#[unsafe(no_mangle)]
+pub extern "C" fn rublas_caxpy(
+    n: i32,
+    alpha: *const f32,
+    x: *const f32,
+    inc_x: i32,
+    y: *mut f32,
+    inc_y: i32,
+) -> () {
+    let n = n as usize;
+    let alpha: CFLOAT = CFLOAT::from(alpha);
+    let inc_x = inc_x as usize;
+    let inc_y = inc_y as usize;
+    let x: *const CFLOAT = x as *const CFLOAT;
+    let y: *mut CFLOAT = y as *mut CFLOAT;
+
+    unsafe {
+        let x_slice: &[CFLOAT] = std::slice::from_raw_parts(x, n * inc_x);
+        let y_slice: &mut [CFLOAT] = std::slice::from_raw_parts_mut(y, n * inc_y);
+        caxpy(n, alpha, x_slice, inc_x, y_slice, inc_y);
+    }
 }
 
 /// Performs `y = y + ax` on two double-precision complex vectors.
@@ -137,7 +215,34 @@ pub fn zaxpy(
     y: &mut [ZFLOAT],
     inc_y: usize,
 ) -> () {
+    if n <= 0 {
+        return ();
+    }
+
     kernel::k_zaxpy(n, alpha, x, inc_x, y, inc_y);
+}
+
+#[unsafe(no_mangle)]
+pub extern "C" fn rublas_zaxpy(
+    n: i32,
+    alpha: *const f64,
+    x: *const f64,
+    inc_x: i32,
+    y: *mut f64,
+    inc_y: i32,
+) -> () {
+    let n = n as usize;
+    let alpha: ZFLOAT = ZFLOAT::from(alpha);
+    let inc_x = inc_x as usize;
+    let inc_y = inc_y as usize;
+    let x: *const ZFLOAT = x as *const ZFLOAT;
+    let y: *mut ZFLOAT = y as *mut ZFLOAT;
+
+    unsafe {
+        let x_slice: &[ZFLOAT] = std::slice::from_raw_parts(x, n * inc_x);
+        let y_slice: &mut [ZFLOAT] = std::slice::from_raw_parts_mut(y, n * inc_y);
+        zaxpy(n, alpha, x_slice, inc_x, y_slice, inc_y);
+    }
 }
 
 // ===========================================================================
@@ -156,7 +261,28 @@ pub fn zaxpy(
 ///
 /// * `inc_y` - Increment between elements of `y`.
 pub fn sscal(n: usize, alpha: SFLOAT, y: &mut [SFLOAT], inc_y: usize) -> () {
+    if n <= 0 {
+        return ();
+    }
+
     kernel::k_sscal(n, alpha, y, inc_y);
+}
+
+#[unsafe(no_mangle)]
+pub extern "C" fn rublas_sscal(
+    n: i32,
+    alpha: f32,
+    y: *mut f32,
+    inc_y: i32,
+) -> () {
+    let n: usize = n as usize;
+    let alpha: SFLOAT = alpha as SFLOAT;
+    let inc_y: usize = inc_y as usize;
+
+    unsafe {
+        let y_slice: &mut [SFLOAT] = std::slice::from_raw_parts_mut(y, n * inc_y);
+        sscal(n, alpha, y_slice, inc_y);
+    }
 }
 
 // ===========================================================================
@@ -181,7 +307,30 @@ pub fn sscal(n: usize, alpha: SFLOAT, y: &mut [SFLOAT], inc_y: usize) -> () {
 ///
 /// The dot product of `x` and `y`.
 pub fn sdot(n: usize, x: &[SFLOAT], inc_x: usize, y: &[SFLOAT], inc_y: usize) -> SFLOAT {
+    if n <= 0 {
+        return SFLOAT::zero();
+    }
+
     kernel::k_sdot(n, x, inc_x, y, inc_y)
+}
+
+#[unsafe(no_mangle)]
+pub extern "C" fn rublas_sdot(
+    n: i32,
+    x: *const f32,
+    inc_x: i32,
+    y: *const f32,
+    inc_y: i32,
+) -> () {
+    let n: usize = n as usize;
+    let inc_x: usize = inc_x as usize;
+    let inc_y: usize = inc_y as usize;
+
+    unsafe {
+        let x_slice: &[SFLOAT] = std::slice::from_raw_parts(x, n * inc_x);
+        let y_slice: &[SFLOAT] = std::slice::from_raw_parts(y, n * inc_y);
+        sdot(n, x_slice, inc_x, y_slice, inc_y);
+    }
 }
 
 /// The dot product of two double-precision vectors.
@@ -202,5 +351,28 @@ pub fn sdot(n: usize, x: &[SFLOAT], inc_x: usize, y: &[SFLOAT], inc_y: usize) ->
 ///
 /// The dot product of `x` and `y`.
 pub fn ddot(n: usize, x: &[DFLOAT], inc_x: usize, y: &[DFLOAT], inc_y: usize) -> DFLOAT {
+    if n <= 0 {
+        return DFLOAT::zero();
+    }
+
     kernel::k_ddot(n, x, inc_x, y, inc_y)
+}
+
+#[unsafe(no_mangle)]
+pub extern "C" fn rublas_ddot(
+    n: i32,
+    x: *const f64,
+    inc_x: i32,
+    y: *const f64,
+    inc_y: i32,
+) -> () {
+    let n: usize = n as usize;
+    let inc_x: usize = inc_x as usize;
+    let inc_y: usize = inc_y as usize;
+
+    unsafe {
+        let x_slice: &[DFLOAT] = std::slice::from_raw_parts(x, n * inc_x);
+        let y_slice: &[DFLOAT] = std::slice::from_raw_parts(y, n * inc_y);
+        ddot(n, x_slice, inc_x, y_slice, inc_y);
+    }
 }
