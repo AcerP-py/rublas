@@ -28,6 +28,7 @@ fn main() {
 #include <stdio.h>
 #include <stdlib.h>
 #include "rublas.h"
+// cblas.h is also available
 
 #define N 1000
 
@@ -45,7 +46,7 @@ int main() {
         y[i] = 2.7f;
     }
 
-    float result = rublas_sdot(N, x, 1, y, 1); // or cblas_sdot(N, x, 1, y, 1)
+    float result = sdot(N, x, 1, y, 1);
 
     printf("Result: %f\n", result);
 
@@ -73,10 +74,25 @@ program fortran_main
     inc_x = 1
     inc_y = 1
 
-    result = rublas_sdot(N, x, inc_x, y, inc_y) !! or sdot(N, x, inc_x, y, inc_y)
+    result = sdot(N, x, inc_x, y, inc_y)
 
     print *, "Result:", result
 end program fortran_main
+```
+
+### Python
+``` python
+from array import array
+from rublas import sdot
+
+N = 1000
+
+x = array('f', [1.5] * N)
+y = array('f', [2.7] * N)
+
+result = sdot(N, x, 1, y, 1)
+
+print("Result: {}".format(result))
 ```
 
 ## Contribution

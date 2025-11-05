@@ -2,12 +2,16 @@
 authors = ["Asa Rentschler <asa.rentschler@proton.me>"]
 description = "BLAS in pure Rust"
 name = "rublas"
-version = "0.0.0"
+version = "0.1.0-alpha.1"
 edition = "2024"
 
 [lib]
 name = "rublas"
 crate-type = ["rlib", "cdylib", "staticlib"]
+
+[[bin]]
+name = "rublas_info"
+path = "src/info.rs"
 
 [dependencies]
 cfg-if = "1.0.3"

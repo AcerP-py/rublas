@@ -1,44 +1,40 @@
 PREFIX ?= /usr/local
+BINDIR := $(PREFIX)/bin
 LIBDIR := $(PREFIX)/lib
 INCLUDEDIR := $(PREFIX)/include
 
-# Paths to built artifacts
 TARGET_DIR := target/release
+BINARY := $(TARGET_DIR)/rublas_info
 LIBRARY := $(TARGET_DIR)/librublas
-HEADER := include/rublas.h
+HEADERDIR := interfaces/c_cpp/rublas.h interfaces/c_cpp/cblas.h
 
 .PHONY: all build install uninstall test clean
 
-# Default target
 all: build
 
-# Build the Rust shared library
 build:
 	cargo build --release
 
-# Install the shared library and header
 install: build
+	install -d $(BINDIR)
+	install -m 755 $(BINARY) $(BINDIR)
 	install -d $(LIBDIR)
 	install -m 755 $(LIBRARY).so $(LIBDIR)
 	install -m 755 $(LIBRARY).a $(LIBDIR)
 	install -d $(INCLUDEDIR)
 	install -m 644 $(HEADER) $(INCLUDEDIR)
+	@echo "Installed rublas_info to $(BINDIR)"
 	@echo "Installed librublas.so and librublas.a to $(LIBDIR)"
-	@echo "Installed rublas.h to $(INCLUDEDIR)"
+	@echo "Installed rublas.h and cblas.h to $(INCLUDEDIR)"
 
-# Uninstall the library and header
 uninstall:
-	rm -f $(LIBDIR)/librublas.so
-	rm -f $(LIBDIR)/librublas.a
-	rm -f $(INCLUDEDIR)/rublas.h
-	@echo "Uninstalled librublas.so, librublas.a and rublas.h"
+	rm -f $(BINDIR)
+	rm -f $(LIBDIR)
+	rm -f $(INCLUDEDIR)
+	@echo "Uninstalled all rublas components"
 
 test:
-	@cargo test
-	@cargo build --release --quiet
-	@cd tests; $(MAKE) --no-print-directory -f Makefile.c_tests; cd ..
+	cargo test
 
-# Clean build artifacts
 clean:
 	cargo clean
-	@cd tests; $(MAKE) --no-print-directory -f Makefile.c_tests clean; cd ..

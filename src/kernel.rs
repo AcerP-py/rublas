@@ -155,7 +155,23 @@ pub fn k_zaxpy(
 ///
 /// * `inc_y` - Increment between elements of `y`.
 pub fn k_sscal(n: usize, alpha: SFLOAT, y: &mut [SFLOAT], inc_y: usize) -> () {
-    generic::ak_sscal(n, alpha, y, inc_y);
+    generic::ak_scal(n, alpha, y, inc_y);
+}
+
+/// k (kernel) _
+/// scal (DFLOAT y = ay)
+///
+/// # Arguments
+///
+/// * `n` - Length of vector `y`.
+///
+/// * `alpha` - scaling factor for `y`.
+///
+/// * `y` - A vector.
+///
+/// * `inc_y` - Increment between elements of `y`.
+pub fn k_dscal(n: usize, alpha: DFLOAT, y: &mut [DFLOAT], inc_y: usize) -> () {
+    generic::ak_scal(n, alpha, y, inc_y);
 }
 
 // ===========================================================================

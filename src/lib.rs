@@ -24,14 +24,15 @@
 mod utils;
 mod kernel;
 
-pub use utils::types::{CFLOAT, DFLOAT, SFLOAT, ZFLOAT};
 use utils::types::Zeroable;
 
-// ===========================================================================
-// ===========================================================================
+pub use utils::types::{CFLOAT, DFLOAT, SFLOAT, ZFLOAT};
+
+// ***************************************************************************
+// ***************************************************************************
 // Level 1 BLAS
-// ===========================================================================
-// ===========================================================================
+// ***************************************************************************
+// ***************************************************************************
 
 // ===========================================================================
 // axpy
@@ -68,7 +69,7 @@ pub fn saxpy(
 }
 
 #[unsafe(no_mangle)]
-pub extern "C" fn rublas_saxpy(
+pub extern "C" fn _extern_c_saxpy(
     n: i32,
     alpha: f32,
     x: *const f32,
@@ -119,7 +120,7 @@ pub fn daxpy(
 }
 
 #[unsafe(no_mangle)]
-pub extern "C" fn rublas_daxpy(
+pub extern "C" fn _extern_c_daxpy(
     n: i32,
     alpha: f64,
     x: *const f64,
@@ -170,7 +171,7 @@ pub fn caxpy(
 }
 
 #[unsafe(no_mangle)]
-pub extern "C" fn rublas_caxpy(
+pub extern "C" fn _extern_c_caxpy(
     n: i32,
     alpha: *const f32,
     x: *const f32,
@@ -223,7 +224,7 @@ pub fn zaxpy(
 }
 
 #[unsafe(no_mangle)]
-pub extern "C" fn rublas_zaxpy(
+pub extern "C" fn _extern_c_zaxpy(
     n: i32,
     alpha: *const f64,
     x: *const f64,
@@ -269,12 +270,7 @@ pub fn sscal(n: usize, alpha: SFLOAT, y: &mut [SFLOAT], inc_y: usize) -> () {
 }
 
 #[unsafe(no_mangle)]
-pub extern "C" fn rublas_sscal(
-    n: i32,
-    alpha: f32,
-    y: *mut f32,
-    inc_y: i32,
-) -> () {
+pub extern "C" fn _extern_c_sscal(n: i32, alpha: f32, y: *mut f32, inc_y: i32) -> () {
     let n: usize = n as usize;
     let alpha: SFLOAT = alpha as SFLOAT;
     let inc_y: usize = inc_y as usize;
@@ -282,6 +278,37 @@ pub extern "C" fn rublas_sscal(
     unsafe {
         let y_slice: &mut [SFLOAT] = std::slice::from_raw_parts_mut(y, n * inc_y);
         sscal(n, alpha, y_slice, inc_y);
+    }
+}
+
+/// Performs `y = ay` on a double-precision vector.
+///
+/// # Arguments
+///
+/// * `n` - Length of vector `y`.
+///
+/// * `alpha` - scaling factor for `y`.
+///
+/// * `y` - A vector.
+///
+/// * `inc_y` - Increment between elements of `y`.
+pub fn dscal(n: usize, alpha: DFLOAT, y: &mut [DFLOAT], inc_y: usize) -> () {
+    if n <= 0 {
+        return ();
+    }
+
+    kernel::k_dscal(n, alpha, y, inc_y);
+}
+
+#[unsafe(no_mangle)]
+pub extern "C" fn _extern_c_dscal(n: i32, alpha: f64, y: *mut f64, inc_y: i32) -> () {
+    let n: usize = n as usize;
+    let alpha: DFLOAT = alpha as DFLOAT;
+    let inc_y: usize = inc_y as usize;
+
+    unsafe {
+        let y_slice: &mut [DFLOAT] = std::slice::from_raw_parts_mut(y, n * inc_y);
+        dscal(n, alpha, y_slice, inc_y);
     }
 }
 
@@ -315,7 +342,7 @@ pub fn sdot(n: usize, x: &[SFLOAT], inc_x: usize, y: &[SFLOAT], inc_y: usize) ->
 }
 
 #[unsafe(no_mangle)]
-pub extern "C" fn rublas_sdot(
+pub extern "C" fn _extern_c_sdot(
     n: i32,
     x: *const f32,
     inc_x: i32,
@@ -359,7 +386,7 @@ pub fn ddot(n: usize, x: &[DFLOAT], inc_x: usize, y: &[DFLOAT], inc_y: usize) ->
 }
 
 #[unsafe(no_mangle)]
-pub extern "C" fn rublas_ddot(
+pub extern "C" fn _extern_c_ddot(
     n: i32,
     x: *const f64,
     inc_x: i32,
