@@ -1,47 +1,46 @@
 #ifndef RUBLAS_H
 #define RUBLAS_H
+#include <complex.h>
+#include <stdlib.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 /*
+ * types
+ */
+
+#define RUBLAS_UINT size_t
+
+typedef float Float32_t;
+
+typedef double Float64_t;
+
+typedef float complex CFloat32_t;
+
+typedef double complex CFloat64_t;
+
+/*
  * Level 1 BLAS
  */
 
 // axpy
-void _extern_c_saxpy(const int n, const float alpha, const float *x,
-                     const int inc_x, float *y, const int inc_y);
-#define saxpy _extern_c_saxpy
+void axpy_float32(const RUBLAS_UINT n, const Float32_t alpha,
+                  const Float32_t *x, const RUBLAS_UINT inc_x, Float32_t *y,
+                  const RUBLAS_UINT inc_y);
 
-void _extern_c_daxpy(const int n, const double alpha, const double *x,
-                     const int inc_x, double *y, const int inc_y);
-#define daxpy _extern_c_daxpy
+void axpy_float64(const RUBLAS_UINT n, const Float64_t alpha,
+                  const Float64_t *x, const RUBLAS_UINT inc_x, Float64_t *y,
+                  const RUBLAS_UINT inc_y);
 
-void _extern_c_caxpy(const int n, const void *alpha, const void *x,
-                     const int inc_x, void *y, const int inc_y);
-#define caxpy _extern_c_caxpy
+void axpy_cfloat32(const RUBLAS_UINT n, const CFloat32_t *alpha,
+                   const CFloat32_t *x, const RUBLAS_UINT inc_x, CFloat32_t *y,
+                   const RUBLAS_UINT inc_y);
 
-void _extern_c_zaxpy(const int n, const void *alpha, const void *x,
-                     const int inc_x, void *y, const int inc_y);
-#define zaxpy _extern_c_zaxpy
-
-// scal
-void _extern_c_sscal(const int n, const float alpha, float *x, const int inc_x);
-#define sscal _extern_c_sscal
-
-void _extern_c_dscal(const int n, const double alpha, double *x,
-                     const int inc_x);
-#define dscal _extern_c_dscal
-
-// dot
-float _extern_c_sdot(const int n, const float *x, const int inc_x,
-                     const float *y, const int inc_y);
-#define sdot _extern_c_sdot
-
-double _extern_c_ddot(const int n, const double *x, const int inc_x,
-                      const double *y, const int inc_y);
-#define ddot _extern_c_ddot
+void axpy_cfloat64(const RUBLAS_UINT n, const CFloat64_t *alpha,
+                   const CFloat64_t *x, const RUBLAS_UINT inc_x, CFloat64_t *y,
+                   const RUBLAS_UINT inc_y);
 
 #ifdef __cplusplus
 }

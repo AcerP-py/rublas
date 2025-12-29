@@ -1,34 +1,26 @@
-use crate::kernel::generic::templates;
-use crate::utils::types::SFLOAT;
+use std::ops::{AddAssign, Mul};
 
-// ===========================================================================
-// ===========================================================================
-// operation modules
-// ===========================================================================
-// ===========================================================================
+pub mod utils;
+pub mod axpy;
 
-// ===========================================================================
-// dot
-// ===========================================================================
-
-mod sdot;
-
-// ===========================================================================
-// ===========================================================================
+// ***************************************************************************
+// ***************************************************************************
 // architecture kernels
-// ===========================================================================
-// ===========================================================================
+// ***************************************************************************
+// ***************************************************************************
 
 // ===========================================================================
-// dot
+// axpy
 // ===========================================================================
 
 /// ak (architecture-kernel) _
-/// sdot (SFLOAT dot product)
+/// axpy (y = y + ax)
 ///
 /// # Arguments
 ///
 /// * `n` - Length of vectors `x` and `y`.
+///
+/// * `alpha` - scaling factor for `x`.
 ///
 /// * `x` - A vector.
 ///
@@ -37,33 +29,51 @@ mod sdot;
 /// * `y` - A vector.
 ///
 /// * `inc_y` - Increment between elements of `y`.
-///
-/// # Returns
-///
-/// The dot product of `x` and `y`.
-pub fn ak_sdot(n: usize, x: &[SFLOAT], inc_x: usize, y: &[SFLOAT], inc_y: usize) -> SFLOAT {
-    let mut result: SFLOAT = 0.0;
+pub fn ak_axpy<T>(n: usize, alpha: T, x: &[T], inc_x: usize, y: &mut [T], inc_y: usize) -> ()
+where
+    T: AddAssign + Copy + Mul<Output = T> + axpy::AXPY,
+{
     let c: usize;
 
-    if n < 1 {
-        return result;
-    }
-
     if inc_x == 1 && inc_y == 1 {
-        c = n & !7;
-        if is_x86_feature_detected!("avx") {
-            result += unsafe { sdot::mk_sdot_s8el_avx(c, x, y) };
+        if is_x86_feature_detected!("avx") && n >= T::AVX_BLOCK_SIZE {
+            c = n & !(T::AVX_BLOCK_SIZE - 1);
+            let b: usize = c / T::AVX_BLOCK_SIZE;
+            unsafe { T::mk_axpy_bssel_avx(b, alpha, x, y) };
         } else {
-            result += templates::mk_dot_s8el(c, x, y);
+            c = n & !7;
+            T::mk_axpy_8sel(c, alpha, x, y);
         }
     } else {
         c = n & !1;
-        result += templates::mk_dot_ns2el(c, x, inc_x, y, inc_y);
+        T::mk_axpy_2nsel(c, alpha, x, inc_x, y, inc_y);
     }
 
     for i in c..n {
-        result += x[i * inc_x] * y[i * inc_y];
+        y[i * inc_y] += alpha * x[i * inc_x];
     }
+}
 
-    result
+// ***************************************************************************
+// ***************************************************************************
+// tests
+// ***************************************************************************
+// ***************************************************************************
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn ak_axpy_basic() {
+        let x: Vec<usize> = vec![1; 10];
+        let mut y: Vec<usize> = vec![1; 10];
+
+        ak_axpy(10, 2, &x, 1, &mut y, 1);
+        assert_eq!(y, vec![3; 10]);
+
+        y = vec![1; 10];
+        ak_axpy(5, 2, &x, 2, &mut y, 2);
+        assert_eq!(y, Vec::from([3, 1, 3, 1, 3, 1, 3, 1, 3, 1]))
+    }
 }
