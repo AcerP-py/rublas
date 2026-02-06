@@ -20,7 +20,7 @@
 #define END_TEST()                                                             \
   { fprintf(stdout, "\033[0;32mok\033[0m\n"); }
 
-static inline void print_rublas_uint(RUBLAS_UINT val) {
+static inline void print_rublas_uint(rublas_uint_t val) {
   fprintf(stderr, "%zu", val);
 }
 
@@ -40,7 +40,7 @@ static inline void print_unknown(void) { fprintf(stderr, "<unknown type>"); }
 
 #define PRINT_VALUE(val)                                                       \
   _Generic((val),                                                              \
-      RUBLAS_UINT: print_rublas_uint,                                          \
+      rublas_uint_t: print_rublas_uint,                                          \
       Float32_t: print_float32,                                                \
       Float64_t: print_float64,                                                \
       CFloat32_t: print_cfloat32,                                              \

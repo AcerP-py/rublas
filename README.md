@@ -3,7 +3,8 @@ A pure Rust implementation of BLAS!
 
 ## Status
 !!! THIS PROJECT USES RUST NIGHTLY !!!
-Currently working on BLAS level 1.
+This project still needs a LOT of development.
+I am currently working on BLAS level 1.
 
 ## Usage
 
@@ -14,10 +15,10 @@ use rublas::*;
 const N: usize = 1000;
 
 fn main() {
-    let x: Vec<SFLOAT> = vec![1.5; N];
-    let y: Vec<SFLOAT> = vec![2.7; N];
+    let x: Vec<Float32> = vec![1.5; N];
+    let y: Vec<Float32> = vec![2.7; N];
 
-    let result: SFLOAT = sdot(N, &x, 1, &y, 1);
+    let result: Float32 = dot(N, &x, 1, &y, 1);
 
     println!("Result: {}", result);
 }
@@ -33,8 +34,8 @@ fn main() {
 #define N 1000
 
 int main() {
-    float *x = malloc(N * sizeof(float));
-    float *y = malloc(N * sizeof(float));
+    Float32_t *x = malloc(N * sizeof(Float32_t));
+    Float32_t *y = malloc(N * sizeof(Float32_t));
 
     if (!x || !y) {
         fprintf(stderr, "Memory allocation failed\n");
@@ -46,7 +47,7 @@ int main() {
         y[i] = 2.7f;
     }
 
-    float result = sdot(N, x, 1, y, 1);
+    Float32_t result = dot_float32(N, x, 1, y, 1);
 
     printf("Result: %f\n", result);
 
@@ -55,44 +56,6 @@ int main() {
 
     return 0;
 }
-```
-
-### Fortran
-``` fortran
-program fortran_main
-    use iso_c_binding
-    use rublas
-    implicit none
-
-    integer(c_int), parameter :: N = 1000
-    real(c_float), dimension(N) :: x, y
-    real(c_float) :: result
-    integer(c_int) :: inc_x, inc_y
-
-    x = 1.5_c_float
-    y = 2.7_c_float
-    inc_x = 1
-    inc_y = 1
-
-    result = sdot(N, x, inc_x, y, inc_y)
-
-    print *, "Result:", result
-end program fortran_main
-```
-
-### Python
-``` python
-from array import array
-from rublas import sdot
-
-N = 1000
-
-x = array('f', [1.5] * N)
-y = array('f', [2.7] * N)
-
-result = sdot(N, x, 1, y, 1)
-
-print("Result: {}".format(result))
 ```
 
 ## Contribution

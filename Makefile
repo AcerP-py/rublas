@@ -8,6 +8,9 @@ BINARY := $(TARGET_DIR)/rublas_info
 LIBRARY := $(TARGET_DIR)/librublas
 HEADERS := interfaces/c_cpp/rublas.h interfaces/c_cpp/cblas.h
 
+INSTALL := install
+LN := ln
+
 .PHONY: all build install uninstall test clean
 
 all: build
@@ -16,12 +19,13 @@ build:
 	cargo build --release
 
 install: build
-	install -d $(BINDIR)
-	install -m 755 $(BINARY) $(BINDIR)/
-	install -d $(LIBDIR)
-	install -m 755 $(LIBRARY).so $(LIBRARY).a $(LIBDIR)/
-	install -d $(INCLUDEDIR)
-	install -m 644 $(HEADERS) $(INCLUDEDIR)/
+	$(INSTALL) -d $(BINDIR)
+	$(INSTALL) -m 755 $(BINARY) $(BINDIR)/
+	$(INSTALL) -d $(LIBDIR)
+	$(INSTALL) -m 755 $(LIBRARY).a $(LIBDIR)/
+	$(INSTALL) -m 755 $(LIBRARY).so $(LIBDIR)/
+	$(INSTALL) -d $(INCLUDEDIR)
+	$(INSTALL) -m 644 $(HEADERS) $(INCLUDEDIR)/
 	@echo "Installed rublas_info to $(BINDIR)"
 	@echo "Installed librublas.so and librublas.a to $(LIBDIR)"
 	@echo "Installed rublas.h and cblas.h to $(INCLUDEDIR)"
