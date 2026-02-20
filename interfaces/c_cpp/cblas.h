@@ -19,6 +19,12 @@ void cblas_caxpy(const int N, const void *alpha, const void *X, const int incX,
 void cblas_zaxpy(const int N, const void *alpha, const void *X, const int incX,
                  void *Y, const int incY);
 
+// scal
+void cblas_sscal(const int N, const float alpha, float *X, const int incX);
+void cblas_dscal(const int N, const double alpha, double *X, const int incX);
+void cblas_cscal(const int N, const void *alpha, void *X, const int incX);
+void cblas_zscal(const int N, const void *alpha, void *X, const int incX);
+
 #ifdef __cplusplus
 }
 #endif

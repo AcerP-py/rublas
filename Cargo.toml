@@ -13,5 +13,10 @@ crate-type = ["rlib", "cdylib", "staticlib"]
 name = "rublas_info"
 path = "src/info.rs"
 
+[features]
+default = ["c_cpp", "cblas"]
+c_cpp = []
+cblas = []
+
 [dependencies]
 cfg-if = "1.0.3"
