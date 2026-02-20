@@ -58,3 +58,26 @@ where
         }
     }
 }
+
+// ===========================================================================
+// scal
+// ===========================================================================
+
+/// k (kernel) _
+/// scal (x = ax)
+///
+/// # Arguments
+///
+/// * `n` - Length of vector `x`.
+///
+/// * `alpha` - scaling factor for `x`.
+///
+/// * `x` - A vector.
+///
+/// * `inc_x` - Increment between elements of `x`.
+pub fn k_scal<T>(n: usize, alpha: T, x: &mut [T], inc_x: usize) -> ()
+where
+    T: Copy + Mul<Output = T>,
+{
+    generic::ak_scal(n, alpha, x, inc_x);
+}

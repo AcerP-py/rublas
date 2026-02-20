@@ -113,10 +113,10 @@ int main() {
   float cblas_y32[10];
   float cblas_exp32[10];
 
-  INIT_ARRAY(cblas_x32, 10, 1.0f + 1.0f * I);
+  INIT_ARRAY(cblas_x32, 10, 1.0f);
 
   // Test sequential elements
-  INIT_ARRAY(cblas_y32, 10, 1.0f + 1.0f * I);
+  INIT_ARRAY(cblas_y32, 10, 1.0f);
   INIT_ARRAY(cblas_exp32, 10, 3.0f);
   cblas_saxpy(10, 2.0f, cblas_x32, 1, cblas_y32, 1);
   ASSERT_EQ_ARRAY(cblas_y32, cblas_exp32, 10);
