@@ -20,19 +20,17 @@
 #define END_TEST()                                                             \
   { fprintf(stdout, "\033[0;32mok\033[0m\n"); }
 
-static inline void print_rublas_uint(rublas_uint_t val) {
-  fprintf(stderr, "%zu", val);
-}
+static inline void print_usize(usize_t val) { fprintf(stderr, "%zu", val); }
 
-static inline void print_float32(Float32_t val) { fprintf(stderr, "%f", val); }
+static inline void print_f32(f32_t val) { fprintf(stderr, "%f", val); }
 
-static inline void print_float64(Float64_t val) { fprintf(stderr, "%f", val); }
+static inline void print_f64(f64_t val) { fprintf(stderr, "%f", val); }
 
-static inline void print_cfloat32(CFloat32_t val) {
+static inline void print_cf32(cf32_t val) {
   fprintf(stderr, "%f + %fi", crealf(val), cimagf(val));
 }
 
-static inline void print_cfloat64(CFloat64_t val) {
+static inline void print_cf64(cf64_t val) {
   fprintf(stderr, "%f + %fi", crealf(val), cimagf(val));
 }
 
@@ -40,11 +38,11 @@ static inline void print_unknown(void) { fprintf(stderr, "<unknown type>"); }
 
 #define PRINT_VALUE(val)                                                       \
   _Generic((val),                                                              \
-      rublas_uint_t: print_rublas_uint,                                          \
-      Float32_t: print_float32,                                                \
-      Float64_t: print_float64,                                                \
-      CFloat32_t: print_cfloat32,                                              \
-      CFloat64_t: print_cfloat64,                                              \
+      usize_t: print_usize,                                                    \
+      f32_t: print_f32,                                                        \
+      f64_t: print_f64,                                                        \
+      cf32_t: print_cf32,                                                      \
+      cf64_t: print_cf64,                                                      \
       default: print_unknown)(val)
 
 #define ASSERT_EQ(a, b)                                                        \

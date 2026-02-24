@@ -8,4 +8,4 @@ mod utils;
 mod kernel;
 
 pub use api::*;
-pub use utils::types::{CFloat32, CFloat64, Float32, Float64, I32, I64, Zeroable};
+pub use utils::types::{I32, I64, Zeroable, cf32, cf64};

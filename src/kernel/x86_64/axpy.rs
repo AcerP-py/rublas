@@ -3,10 +3,7 @@ use std::{
     ops::{AddAssign, Mul},
 };
 
-use crate::{
-    kernel::generic,
-    utils::{mem::is_aligned, types::Float32},
-};
+use crate::{kernel::generic, utils::mem::is_aligned};
 
 use super::utils::BlockSizes;
 
@@ -55,7 +52,7 @@ where
 // ***************************************************************************
 // ***************************************************************************
 
-impl AXPY for Float32 {
+impl AXPY for f32 {
     #[target_feature(enable = "avx")]
     unsafe fn mk_axpy_bssel_avx(b: usize, alpha: Self, x: &[Self], y: &mut [Self]) -> () {
         let x_ptr: *const Self = x.as_ptr();
@@ -108,12 +105,12 @@ mod test {
     }
 
     #[test]
-    fn mk_axpy_bssel_avx_float32() {
+    fn mk_axpy_bssel_avx_f32() {
         let b: usize = 2;
-        let x: Vec<Float32> = vec![1.0; b * 32 / size_of::<Float32>()];
-        let mut y: Vec<Float32> = vec![1.0; b * 32 / size_of::<Float32>()];
-        unsafe { Float32::mk_axpy_bssel_avx(b, 2.0, &x, &mut y) };
-        assert_eq!(y, vec![3.0; b * 32 / size_of::<Float32>()]);
+        let x: Vec<f32> = vec![1.0; b * 32 / size_of::<f32>()];
+        let mut y: Vec<f32> = vec![1.0; b * 32 / size_of::<f32>()];
+        unsafe { f32::mk_axpy_bssel_avx(b, 2.0, &x, &mut y) };
+        assert_eq!(y, vec![3.0; b * 32 / size_of::<f32>()]);
     }
 
     #[test]

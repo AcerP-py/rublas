@@ -6,6 +6,14 @@ A pure Rust implementation of BLAS!
 This project still needs a LOT of development.
 I am currently working on BLAS level 1.
 
+## Install
+You will need a working install of rust with cargo.
+``` bash
+git clone https://github.com/AcerP-py/rublas.git
+cd rublas
+make install PREFIX=<install_path>
+```
+
 ## Usage
 
 ### Rust
@@ -15,10 +23,10 @@ use rublas::*;
 const N: usize = 1000;
 
 fn main() {
-    let x: Vec<Float32> = vec![1.5; N];
-    let y: Vec<Float32> = vec![2.7; N];
+    let x: Vec<f32> = vec![1.5; N];
+    let y: Vec<f32> = vec![2.7; N];
 
-    let result: Float32 = dot(N, &x, 1, &y, 1);
+    let result: f32 = dot(N, &x, 1, &y, 1);
 
     println!("Result: {}", result);
 }
@@ -34,8 +42,8 @@ fn main() {
 #define N 1000
 
 int main() {
-    Float32_t *x = malloc(N * sizeof(Float32_t));
-    Float32_t *y = malloc(N * sizeof(Float32_t));
+    f32_t *x = malloc(N * sizeof(f32_t));
+    f32_t *y = malloc(N * sizeof(f32_t));
 
     if (!x || !y) {
         fprintf(stderr, "Memory allocation failed\n");
@@ -47,7 +55,7 @@ int main() {
         y[i] = 2.7f;
     }
 
-    Float32_t result = dot_float32(N, x, 1, y, 1);
+    f32_t result = dot_f32(N, x, 1, y, 1);
 
     printf("Result: %f\n", result);
 

@@ -12,34 +12,6 @@ pub trait Zeroable {
 }
 
 // ===========================================================================
-// usize
-// ===========================================================================
-
-impl Zeroable for usize {
-    fn zero() -> Self { 0 }
-}
-
-// ===========================================================================
-// Float32
-// ===========================================================================
-
-pub type Float32 = f32;
-
-impl Zeroable for Float32 {
-    fn zero() -> Self { 0.0 }
-}
-
-// ===========================================================================
-// Float64
-// ===========================================================================
-
-pub type Float64 = f64;
-
-impl Zeroable for Float64 {
-    fn zero() -> Self { 0.0 }
-}
-
-// ===========================================================================
 // Complex
 // ===========================================================================
 #[derive(Clone, Copy, Debug)]
@@ -217,87 +189,113 @@ where
 }
 
 // ===========================================================================
-// CFloat32
+// usize
 // ===========================================================================
-pub type CFloat32 = Complex<Float32>;
 
-impl Add<CFloat32> for Float32 {
-    type Output = CFloat32;
+impl Zeroable for usize {
+    fn zero() -> Self { 0 }
+}
 
-    fn add(self, rhs: CFloat32) -> Self::Output {
-        CFloat32 {
+// ===========================================================================
+// f32
+// ===========================================================================
+
+impl Zeroable for f32 {
+    fn zero() -> Self { 0.0 }
+}
+
+// ===========================================================================
+// f64
+// ===========================================================================
+
+impl Zeroable for f64 {
+    fn zero() -> Self { 0.0 }
+}
+
+// ===========================================================================
+// cf32
+// ===========================================================================
+#[allow(non_camel_case_types)]
+pub type cf32 = Complex<f32>;
+
+impl Add<cf32> for f32 {
+    type Output = cf32;
+
+    fn add(self, rhs: cf32) -> Self::Output {
+        cf32 {
             real: self + rhs.real,
             imag: rhs.imag,
         }
     }
 }
 
-impl Mul<CFloat32> for Float32 {
-    type Output = CFloat32;
+impl Mul<cf32> for f32 {
+    type Output = cf32;
 
-    fn mul(self, rhs: CFloat32) -> Self::Output {
-        CFloat32 {
+    fn mul(self, rhs: cf32) -> Self::Output {
+        cf32 {
             real: self * rhs.real,
             imag: self * rhs.imag,
         }
     }
 }
 
-impl Sub<CFloat32> for Float32 {
-    type Output = CFloat32;
+impl Sub<cf32> for f32 {
+    type Output = cf32;
 
-    fn sub(self, rhs: CFloat32) -> Self::Output {
-        CFloat32 {
+    fn sub(self, rhs: cf32) -> Self::Output {
+        cf32 {
             real: self - rhs.real,
             imag: -rhs.imag,
         }
     }
 }
 
-pub static I32: CFloat32 = CFloat32 {
+pub static I32: cf32 = cf32 {
     real: 0.0,
     imag: 1.0,
 };
 
 // ===========================================================================
-// CFloat64
+// cf64
 // ===========================================================================
-pub type CFloat64 = Complex<Float64>;
+#[allow(non_camel_case_types)]
+pub type cf64 = Complex<f64>;
 
-impl Add<CFloat64> for Float64 {
-    type Output = CFloat64;
+impl Add<cf64> for f64 {
+    type Output = cf64;
 
-    fn add(self, rhs: CFloat64) -> Self::Output {
-        CFloat64 {
+    fn add(self, rhs: cf64) -> Self::Output {
+        cf64 {
             real: self + rhs.real,
             imag: rhs.imag,
         }
     }
 }
 
-impl Mul<CFloat64> for Float64 {
-    type Output = CFloat64;
+impl Mul<cf64> for f64 {
+    type Output = cf64;
 
-    fn mul(self, rhs: CFloat64) -> Self::Output {
-        CFloat64 {
+    fn mul(self, rhs: cf64) -> Self::Output {
+        cf64 {
             real: self * rhs.real,
             imag: self * rhs.imag,
         }
     }
 }
 
-impl Sub<CFloat64> for Float64 {
-    type Output = CFloat64;
+impl Sub<cf64> for f64 {
+    type Output = cf64;
 
-    fn sub(self, rhs: CFloat64) -> Self::Output {
-        CFloat64 {
+    fn sub(self, rhs: cf64) -> Self::Output {
+        cf64 {
             real: self - rhs.real,
             imag: -rhs.imag,
         }
     }
 }
 
-pub static I64: CFloat64 = CFloat64 {
+pub static I64: cf64 = cf64 {
     real: 0.0,
     imag: 1.0,
 };
@@ -307,20 +305,20 @@ mod test {
     use super::*;
 
     #[test]
-    fn float32_basic() {
-        let x: Float32 = 3.45;
+    fn f32_basic() {
+        let x: f32 = 3.45;
         assert_eq!(x, 3.45);
     }
 
     #[test]
-    fn float64_basic() {
-        let x: Float64 = 3.45;
+    fn f64_basic() {
+        let x: f64 = 3.45;
         assert_eq!(x, 3.45);
     }
 
     #[test]
-    fn cfloat32_basic() {
-        let mut x: CFloat32 = 2.3 + 8.2 * I32;
+    fn cf32_basic() {
+        let mut x: cf32 = 2.3 + 8.2 * I32;
         assert_eq!(x.real(), 2.3);
         assert_eq!(x.imag(), 8.2);
 
@@ -342,8 +340,8 @@ mod test {
     }
 
     #[test]
-    fn cfloat32_vector() {
-        let x: Vec<CFloat32> = vec![
+    fn cf32_vector() {
+        let x: Vec<cf32> = vec![
             1.0 + 2.0 * I32,
             3.0 - 4.0 * I32,
             5.0 + 0.0 * I32, // we have to add the '+ 0.0 * I' for now
@@ -368,12 +366,12 @@ mod test {
     }
 
     #[test]
-    fn cfloat32_math() {
-        let x: CFloat32 = 346.0 - 78.0 * I32;
-        let y: CFloat32 = 1.0 - 43.0 * I32;
+    fn cf32_math() {
+        let x: cf32 = 346.0 - 78.0 * I32;
+        let y: cf32 = 1.0 - 43.0 * I32;
 
         // Add
-        let mut z: CFloat32 = x + y;
+        let mut z: cf32 = x + y;
         assert_eq!(z.real(), 347.0);
         assert_eq!(z.imag(), -121.0);
 
@@ -400,8 +398,8 @@ mod test {
     }
 
     #[test]
-    fn cfloat64_basic() {
-        let mut x: CFloat64 = 2.3 + 8.2 * I64;
+    fn cf64_basic() {
+        let mut x: cf64 = 2.3 + 8.2 * I64;
         //x = 8.2 * I;
         assert_eq!(x.real(), 2.3);
         assert_eq!(x.imag(), 8.2);
@@ -424,8 +422,8 @@ mod test {
     }
 
     #[test]
-    fn cfloat64_vector() {
-        let x: Vec<CFloat64> = vec![
+    fn cf64_vector() {
+        let x: Vec<cf64> = vec![
             1.0 + 2.0 * I64,
             3.0 - 4.0 * I64,
             5.0 + 0.0 * I64, // we have to add the '+ 0.0 * I' for now
@@ -450,12 +448,12 @@ mod test {
     }
 
     #[test]
-    fn cfloat64_math() {
-        let x: CFloat64 = 346.0 - 78.0 * I64;
-        let y: CFloat64 = 1.0 - 43.0 * I64;
+    fn cf64_math() {
+        let x: cf64 = 346.0 - 78.0 * I64;
+        let y: cf64 = 1.0 - 43.0 * I64;
 
         // Add
-        let mut z: CFloat64 = x + y;
+        let mut z: cf64 = x + y;
         assert_eq!(z.real(), 347.0);
         assert_eq!(z.imag(), -121.0);
 

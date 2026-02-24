@@ -14,9 +14,9 @@ fn axpy_basic() {
 }
 
 #[test]
-fn axpy_float32() {
-    let x: [Float32; 10] = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0];
-    let mut y: [Float32; 10] = [21.0, 22.0, 23.0, 24.0, 25.0, 26.0, 27.0, 28.0, 29.0, 30.0];
+fn axpy_f32() {
+    let x: [f32; 10] = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0];
+    let mut y: [f32; 10] = [21.0, 22.0, 23.0, 24.0, 25.0, 26.0, 27.0, 28.0, 29.0, 30.0];
 
     axpy(10, 2.0, &x, 1, &mut y, 1);
     assert_eq!(y[2], 29.0);
@@ -36,9 +36,9 @@ fn axpy_float32() {
 }
 
 #[test]
-fn axpy_float64() {
-    let x: [Float64; 10] = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0];
-    let mut y: [Float64; 10] = [21.0, 22.0, 23.0, 24.0, 25.0, 26.0, 27.0, 28.0, 29.0, 30.0];
+fn axpy_f64() {
+    let x: [f64; 10] = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0];
+    let mut y: [f64; 10] = [21.0, 22.0, 23.0, 24.0, 25.0, 26.0, 27.0, 28.0, 29.0, 30.0];
 
     axpy(10, 2.0, &x, 1, &mut y, 1);
     assert_eq!(y[2], 29.0);
@@ -58,8 +58,8 @@ fn axpy_float64() {
 }
 
 #[test]
-fn axpy_cfloat32() {
-    let x: Vec<CFloat32> = vec![
+fn axpy_cf32() {
+    let x: Vec<cf32> = vec![
         1.0 + 1.0 * I32,
         2.0 + 1.0 * I32,
         3.0 + 1.0 * I32,
@@ -71,7 +71,7 @@ fn axpy_cfloat32() {
         9.0 + 1.0 * I32,
         10.0 + 1.0 * I32,
     ];
-    let mut y: Vec<CFloat32> = vec![
+    let mut y: Vec<cf32> = vec![
         21.0 + 1.0 * I32,
         22.0 + 1.0 * I32,
         23.0 + 1.0 * I32,
@@ -83,7 +83,7 @@ fn axpy_cfloat32() {
         29.0 + 1.0 * I32,
         30.0 + 1.0 * I32,
     ];
-    let alpha: CFloat32 = 2.0 + 1.0 * I32;
+    let alpha: cf32 = 2.0 + 1.0 * I32;
 
     axpy(10, alpha, &x, 1, &mut y, 1);
     assert_eq!(y[2].real(), 28.0);
@@ -139,8 +139,8 @@ fn axpy_cfloat32() {
 }
 
 #[test]
-fn axpy_cfloat64() {
-    let x: Vec<CFloat64> = vec![
+fn axpy_cf64() {
+    let x: Vec<cf64> = vec![
         1.0 + 1.0 * I64,
         2.0 + 1.0 * I64,
         3.0 + 1.0 * I64,
@@ -152,7 +152,7 @@ fn axpy_cfloat64() {
         9.0 + 1.0 * I64,
         10.0 + 1.0 * I64,
     ];
-    let mut y: Vec<CFloat64> = vec![
+    let mut y: Vec<cf64> = vec![
         21.0 + 1.0 * I64,
         22.0 + 1.0 * I64,
         23.0 + 1.0 * I64,
@@ -164,7 +164,7 @@ fn axpy_cfloat64() {
         29.0 + 1.0 * I64,
         30.0 + 1.0 * I64,
     ];
-    let alpha: CFloat64 = 2.0 + 1.0 * I64;
+    let alpha: cf64 = 2.0 + 1.0 * I64;
 
     axpy(10, alpha, &x, 1, &mut y, 1);
     assert_eq!(y[2].real(), 28.0);
