@@ -5,25 +5,43 @@
 extern "C" {
 #endif
 
+#define CBLAS_INT int64_t
+
+#define CBLAS_INDEX size_t
+
 /*
  * Level 1 BLAS
  */
 
 // axpy
-void cblas_saxpy(const int N, const float alpha, const float *X, const int incX,
-                 float *Y, const int incY);
-void cblas_daxpy(const int N, const double alpha, const double *X,
-                 const int incX, double *Y, const int incY);
-void cblas_caxpy(const int N, const void *alpha, const void *X, const int incX,
-                 void *Y, const int incY);
-void cblas_zaxpy(const int N, const void *alpha, const void *X, const int incX,
-                 void *Y, const int incY);
+void cblas_saxpy(const CBLAS_INT N, const float alpha, const float *X,
+                 const CBLAS_INT incX, float *Y, const CBLAS_INT incY);
+void cblas_daxpy(const CBLAS_INT N, const double alpha, const double *X,
+                 const CBLAS_INT incX, double *Y, const CBLAS_INT incY);
+void cblas_caxpy(const CBLAS_INT N, const void *alpha, const void *X,
+                 const CBLAS_INT incX, void *Y, const CBLAS_INT incY);
+void cblas_zaxpy(const CBLAS_INT N, const void *alpha, const void *X,
+                 const CBLAS_INT incX, void *Y, const CBLAS_INT incY);
 
 // scal
-void cblas_sscal(const int N, const float alpha, float *X, const int incX);
-void cblas_dscal(const int N, const double alpha, double *X, const int incX);
-void cblas_cscal(const int N, const void *alpha, void *X, const int incX);
-void cblas_zscal(const int N, const void *alpha, void *X, const int incX);
+void cblas_sscal(const CBLAS_INT N, const float alpha, float *X,
+                 const CBLAS_INT incX);
+void cblas_dscal(const CBLAS_INT N, const double alpha, double *X,
+                 const CBLAS_INT incX);
+void cblas_cscal(const CBLAS_INT N, const void *alpha, void *X,
+                 const CBLAS_INT incX);
+void cblas_zscal(const CBLAS_INT N, const void *alpha, void *X,
+                 const CBLAS_INT incX);
+
+// iamax
+CBLAS_INDEX cblas_isamax(const CBLAS_INT N, const float *X,
+                         const CBLAS_INT incX);
+CBLAS_INDEX cblas_idamax(const CBLAS_INT N, const double *X,
+                         const CBLAS_INT incX);
+CBLAS_INDEX cblas_icamax(const CBLAS_INT N, const void *X,
+                         const CBLAS_INT incX);
+CBLAS_INDEX cblas_izamax(const CBLAS_INT N, const void *X,
+                         const CBLAS_INT incX);
 
 #ifdef __cplusplus
 }

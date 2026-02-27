@@ -1,5 +1,6 @@
 # RuBLAS
 A pure Rust implementation of BLAS!
+(With C/C++ interfaces).
 
 ## Status
 !!! THIS PROJECT USES RUST NIGHTLY !!!

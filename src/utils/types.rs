@@ -11,6 +11,11 @@ pub trait Zeroable {
     fn zero() -> Self;
 }
 
+pub trait BLASAbsoluteValue {
+    type Output: PartialOrd;
+    fn blas_abs(self) -> Self::Output;
+}
+
 // ===========================================================================
 // Complex
 // ===========================================================================
@@ -196,12 +201,22 @@ impl Zeroable for usize {
     fn zero() -> Self { 0 }
 }
 
+impl BLASAbsoluteValue for usize {
+    type Output = usize;
+    fn blas_abs(self) -> Self { self }
+}
+
 // ===========================================================================
 // f32
 // ===========================================================================
 
 impl Zeroable for f32 {
     fn zero() -> Self { 0.0 }
+}
+
+impl BLASAbsoluteValue for f32 {
+    type Output = f32;
+    fn blas_abs(self) -> Self::Output { self.abs() }
 }
 
 // ===========================================================================
@@ -212,11 +227,21 @@ impl Zeroable for f64 {
     fn zero() -> Self { 0.0 }
 }
 
+impl BLASAbsoluteValue for f64 {
+    type Output = f64;
+    fn blas_abs(self) -> Self::Output { self.abs() }
+}
+
 // ===========================================================================
 // cf32
 // ===========================================================================
 #[allow(non_camel_case_types)]
 pub type cf32 = Complex<f32>;
+
+impl BLASAbsoluteValue for cf32 {
+    type Output = f32;
+    fn blas_abs(self) -> Self::Output { self.real.abs() + self.imag.abs() }
+}
 
 impl Add<cf32> for f32 {
     type Output = cf32;
@@ -261,6 +286,11 @@ pub static I32: cf32 = cf32 {
 // ===========================================================================
 #[allow(non_camel_case_types)]
 pub type cf64 = Complex<f64>;
+
+impl BLASAbsoluteValue for cf64 {
+    type Output = f64;
+    fn blas_abs(self) -> Self::Output { self.real.abs() + self.imag.abs() }
+}
 
 impl Add<cf64> for f64 {
     type Output = cf64;

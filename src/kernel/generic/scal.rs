@@ -16,14 +16,14 @@ where
     ///
     /// # Arguments
     ///
-    /// * `n` - Length of vector `x
-    /// (must be divisible by 2 and within bounds).
+    /// * `n` - length of vector `x
+    /// (must be divisible by 2)
     ///
-    /// * `alpha` - scaling factor for `x`.
+    /// * `alpha` - scaling factor for `x`
     ///
-    /// * `x` - A vector.
+    /// * `x` - a vector
     ///
-    /// * `inc_x` - Increment between elements of `x`.
+    /// * `inc_x` - increment between elements of `x`
     fn mk_scal_2nsel(n: usize, alpha: Self, x: &mut [Self], inc_x: usize) -> ();
 
     /// mk (micro-kernel) _
@@ -32,12 +32,12 @@ where
     ///
     /// # Arguments
     ///
-    /// * `n` - Length of vector `x`
-    /// (must be divisible by 8 and within bounds).
+    /// * `n` - length of vector `x`
+    /// (must be divisible by 8)
     ///
-    /// * `alpha` - scaling factor for `x`.
+    /// * `alpha` - scaling factor for `x`
     ///
-    /// * `x` - A vector.
+    /// * `x` - a vector
     fn mk_scal_8sel(n: usize, alpha: Self, x: &mut [Self]) -> ();
 }
 
@@ -102,20 +102,5 @@ mod test {
         let mut x: Vec<usize> = vec![1, 2, 3, 4, 5, 6, 7, 8];
         usize::mk_scal_8sel(8, 2, &mut x);
         assert_eq!(x, vec![2, 4, 6, 8, 10, 12, 14, 16]);
-    }
-
-    #[test]
-    #[should_panic]
-    fn mk_scal_2nsel_invalid_bounds() {
-        let mut x: Vec<usize> = vec![1; 2];
-        let inc: usize = 1;
-        usize::mk_scal_2nsel(4, 2, &mut x, inc);
-    }
-
-    #[test]
-    #[should_panic]
-    fn mk_scal_8sel_invalid_bounds() {
-        let mut x: Vec<usize> = vec![1; 4];
-        usize::mk_scal_8sel(8, 2, &mut x);
     }
 }

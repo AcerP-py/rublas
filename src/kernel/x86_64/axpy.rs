@@ -24,13 +24,13 @@ where
     ///
     /// # Arguments
     ///
-    /// * `b` - Number of avx blocks in vectors `x` and `y`
+    /// * `b` - number of avx blocks in vectors `x` and `y`
     ///
-    /// * `alpha` - scaling factor for `x`.
+    /// * `alpha` - scaling factor for `x`
     ///
-    /// * `x` - A vector.
+    /// * `x` - a vector
     ///
-    /// * `y` - A vector.
+    /// * `y` - a vector
     unsafe fn mk_axpy_bssel_avx(b: usize, alpha: Self, x: &[Self], y: &mut [Self]) -> ();
 }
 

@@ -1,5 +1,3 @@
-// Copyright 2025 Asa Rentschler.
-
 #![feature(min_specialization)]
 #![feature(c_size_t)]
 
@@ -8,4 +6,4 @@ mod utils;
 mod kernel;
 
 pub use api::*;
-pub use utils::types::{I32, I64, Zeroable, cf32, cf64};
+pub use utils::types::{I32, I64, cf32, cf64};

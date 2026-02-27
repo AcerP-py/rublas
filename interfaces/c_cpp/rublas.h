@@ -45,6 +45,12 @@ void scal_cf32(const usize_t n, const cf32_t *alpha, cf32_t *x,
 void scal_cf64(const usize_t n, const cf64_t *alpha, cf64_t *x,
                const usize_t inc_x);
 
+// iamax
+usize_t iamax_f32(const usize_t n, const f32_t *x, const usize_t inc_x);
+usize_t iamax_f64(const usize_t n, const f64_t *x, const usize_t inc_x);
+usize_t iamax_cf32(const usize_t n, const cf32_t *x, const usize_t inc_x);
+usize_t iamax_cf64(const usize_t n, const cf64_t *x, const usize_t inc_x);
+
 #ifdef __cplusplus
 }
 #endif
