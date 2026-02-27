@@ -1,6 +1,6 @@
 use std::ffi::{c_double, c_float, c_int, c_void};
 
-use crate::utils::types::{CFloat32, CFloat64, Float32, Float64};
+use crate::utils::types::{cf32, cf64};
 
 use super::axpy;
 
@@ -15,11 +15,11 @@ pub extern "C" fn cblas_saxpy(
     incY: c_int,
 ) -> () {
     let n: usize = N as usize;
-    let alpha: Float32 = alpha as Float32;
+    let alpha: f32 = alpha as f32;
     let inc_x: usize = incX as usize;
-    let x: &[Float32] = unsafe { std::slice::from_raw_parts(X, n * inc_x) };
+    let x: &[f32] = unsafe { std::slice::from_raw_parts(X, n * inc_x) };
     let inc_y: usize = incY as usize;
-    let y: &mut [Float32] = unsafe { std::slice::from_raw_parts_mut(Y, n * inc_y) };
+    let y: &mut [f32] = unsafe { std::slice::from_raw_parts_mut(Y, n * inc_y) };
 
     axpy(n, alpha, x, inc_x, y, inc_y);
 }
@@ -35,11 +35,11 @@ pub extern "C" fn cblas_daxpy(
     incY: c_int,
 ) -> () {
     let n: usize = N as usize;
-    let alpha: Float64 = alpha as Float64;
+    let alpha: f64 = alpha as f64;
     let inc_x: usize = incX as usize;
-    let x: &[Float64] = unsafe { std::slice::from_raw_parts(X, n * inc_x) };
+    let x: &[f64] = unsafe { std::slice::from_raw_parts(X, n * inc_x) };
     let inc_y: usize = incY as usize;
-    let y: &mut [Float64] = unsafe { std::slice::from_raw_parts_mut(Y, n * inc_y) };
+    let y: &mut [f64] = unsafe { std::slice::from_raw_parts_mut(Y, n * inc_y) };
 
     axpy(n, alpha, x, inc_x, y, inc_y);
 }
@@ -55,12 +55,11 @@ pub extern "C" fn cblas_caxpy(
     incY: c_int,
 ) -> () {
     let n: usize = N as usize;
-    let alpha: CFloat32 = CFloat32::from(alpha as *const c_float);
+    let alpha: cf32 = cf32::from(alpha as *const c_float);
     let inc_x: usize = incX as usize;
-    let x: &[CFloat32] = unsafe { std::slice::from_raw_parts(X as *const CFloat32, n * inc_x) };
+    let x: &[cf32] = unsafe { std::slice::from_raw_parts(X as *const cf32, n * inc_x) };
     let inc_y: usize = incY as usize;
-    let y: &mut [CFloat32] =
-        unsafe { std::slice::from_raw_parts_mut(Y as *mut CFloat32, n * inc_y) };
+    let y: &mut [cf32] = unsafe { std::slice::from_raw_parts_mut(Y as *mut cf32, n * inc_y) };
 
     axpy(n, alpha, x, inc_x, y, inc_y);
 }
@@ -76,12 +75,11 @@ pub extern "C" fn cblas_zaxpy(
     incY: c_int,
 ) -> () {
     let n: usize = N as usize;
-    let alpha: CFloat64 = CFloat64::from(alpha as *const c_double);
+    let alpha: cf64 = cf64::from(alpha as *const c_double);
     let inc_x: usize = incX as usize;
-    let x: &[CFloat64] = unsafe { std::slice::from_raw_parts(X as *const CFloat64, n * inc_x) };
+    let x: &[cf64] = unsafe { std::slice::from_raw_parts(X as *const cf64, n * inc_x) };
     let inc_y: usize = incY as usize;
-    let y: &mut [CFloat64] =
-        unsafe { std::slice::from_raw_parts_mut(Y as *mut CFloat64, n * inc_y) };
+    let y: &mut [cf64] = unsafe { std::slice::from_raw_parts_mut(Y as *mut cf64, n * inc_y) };
 
     axpy(n, alpha, x, inc_x, y, inc_y);
 }

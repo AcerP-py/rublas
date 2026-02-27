@@ -2,6 +2,8 @@ use std::ops::{AddAssign, Mul};
 
 use cfg_if::cfg_if;
 
+use crate::utils::types::BLASAbsoluteValue;
+
 // ***************************************************************************
 // ***************************************************************************
 // architecture kernel modules
@@ -35,17 +37,17 @@ cfg_if! {
 ///
 /// # Arguments
 ///
-/// * `n` - Length of vectors `x` and `y`.
+/// * `n` - length of vectors `x` and `y`
 ///
-/// * `alpha` - scaling factor for `x`.
+/// * `alpha` - scaling factor for `x`
 ///
-/// * `x` - A vector.
+/// * `x` - a vector
 ///
-/// * `inc_x` - Increment between elements of `x`.
+/// * `inc_x` - increment between elements of `x`
 ///
-/// * `y` - A vector.
+/// * `y` - a vector
 ///
-/// * `inc_y` - Increment between elements of `y`.
+/// * `inc_y` - increment between elements of `y`
 pub fn k_axpy<T>(n: usize, alpha: T, x: &[T], inc_x: usize, y: &mut [T], inc_y: usize) -> ()
 where
     T: AddAssign + Copy + Mul<Output = T>,
@@ -68,16 +70,37 @@ where
 ///
 /// # Arguments
 ///
-/// * `n` - Length of vector `x`.
+/// * `n` - length of vector `x`
 ///
-/// * `alpha` - scaling factor for `x`.
+/// * `alpha` - scaling factor for `x`
 ///
-/// * `x` - A vector.
+/// * `x` - a vector
 ///
-/// * `inc_x` - Increment between elements of `x`.
+/// * `inc_x` - increment between elements of `x`
 pub fn k_scal<T>(n: usize, alpha: T, x: &mut [T], inc_x: usize) -> ()
 where
     T: Copy + Mul<Output = T>,
 {
     generic::ak_scal(n, alpha, x, inc_x);
+}
+
+// ===========================================================================
+// iamax
+// ===========================================================================
+
+/// k (kernel) _
+/// iamax (the element with the largest "absolute" (|Re(x)|+|Im(x)|) value)
+///
+/// # Arguments
+///
+/// * `n` - length of vector `x`
+///
+/// * `x` - a vector
+///
+/// * `inc_x` - increment between elements of `x`
+pub fn k_iamax<T>(n: usize, x: &[T], inc_x: usize) -> usize
+where
+    T: BLASAbsoluteValue + Copy,
+{
+    generic::ak_iamax(n, x, inc_x)
 }

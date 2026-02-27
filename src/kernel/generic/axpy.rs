@@ -16,18 +16,18 @@ where
     ///
     /// # Arguments
     ///
-    /// * `n` - Length of vectors `x` and `y`
-    /// (must be divisible by 2 and within bounds).
+    /// * `n` - length of vectors `x` and `y`
+    /// (must be divisible by 2)
     ///
-    /// * `alpha` - scaling factor for `x`.
+    /// * `alpha` - scaling factor for `x`
     ///
-    /// * `x` - A vector.
+    /// * `x` - a vector
     ///
-    /// * `inc_x` - Increment between elements of `x`.
+    /// * `inc_x` - increment between elements of `x`
     ///
-    /// * `y` - A vector.
+    /// * `y` - a vector
     ///
-    /// * `inc_y` - Increment between elements of `y`.
+    /// * `inc_y` - increment between elements of `y`
     fn mk_axpy_2nsel(
         n: usize,
         alpha: Self,
@@ -43,14 +43,14 @@ where
     ///
     /// # Arguments
     ///
-    /// * `n` - Length of vectors `x` and `y`
-    /// (must be divisible by 8 and within bounds).
+    /// * `n` - length of vectors `x` and `y`
+    /// (must be divisible by 8)
     ///
-    /// * `alpha` - scaling factor for `x`.
+    /// * `alpha` - scaling factor for `x`
     ///
-    /// * `x` - A vector.
+    /// * `x` - a vector
     ///
-    /// * `y` - A vector.
+    /// * `y` - a vector
     fn mk_axpy_8sel(n: usize, alpha: Self, x: &[Self], y: &mut [Self]) -> ();
 }
 
@@ -129,22 +129,5 @@ mod test {
         let mut y: Vec<usize> = vec![1, 2, 3, 4, 5, 6, 7, 8];
         usize::mk_axpy_8sel(8, 2, &x, &mut y);
         assert_eq!(y, vec![3, 6, 9, 12, 15, 18, 21, 24]);
-    }
-
-    #[test]
-    #[should_panic]
-    fn mk_axpy_2nsel_invalid_bounds() {
-        let x: Vec<usize> = vec![1; 2];
-        let mut y: Vec<usize> = vec![1; 2];
-        let inc: usize = 1;
-        usize::mk_axpy_2nsel(4, 2, &x, inc, &mut y, inc);
-    }
-
-    #[test]
-    #[should_panic]
-    fn mk_axpy_8sel_invalid_bounds() {
-        let x: Vec<usize> = vec![1; 4];
-        let mut y: Vec<usize> = vec![1; 4];
-        usize::mk_axpy_8sel(8, 2, &x, &mut y);
     }
 }

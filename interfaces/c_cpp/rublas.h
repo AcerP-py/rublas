@@ -11,43 +11,45 @@ extern "C" {
  * types
  */
 
-typedef size_t rublas_uint_t;
+typedef size_t usize_t;
 
-typedef float Float32_t;
+typedef float f32_t;
 
-typedef double Float64_t;
+typedef double f64_t;
 
-typedef float complex CFloat32_t;
+typedef float complex cf32_t;
 
-typedef double complex CFloat64_t;
+typedef double complex cf64_t;
 
 /*
  * Level 1 BLAS
  */
 
 // axpy
-void axpy_float32(const rublas_uint_t n, const Float32_t alpha,
-                  const Float32_t *x, const rublas_uint_t inc_x, Float32_t *y,
-                  const rublas_uint_t inc_y);
-void axpy_float64(const rublas_uint_t n, const Float64_t alpha,
-                  const Float64_t *x, const rublas_uint_t inc_x, Float64_t *y,
-                  const rublas_uint_t inc_y);
-void axpy_cfloat32(const rublas_uint_t n, const CFloat32_t *alpha,
-                   const CFloat32_t *x, const rublas_uint_t inc_x,
-                   CFloat32_t *y, const rublas_uint_t inc_y);
-void axpy_cfloat64(const rublas_uint_t n, const CFloat64_t *alpha,
-                   const CFloat64_t *x, const rublas_uint_t inc_x,
-                   CFloat64_t *y, const rublas_uint_t inc_y);
+void axpy_f32(const usize_t n, const f32_t alpha, const f32_t *x,
+              const usize_t inc_x, f32_t *y, const usize_t inc_y);
+void axpy_f64(const usize_t n, const f64_t alpha, const f64_t *x,
+              const usize_t inc_x, f64_t *y, const usize_t inc_y);
+void axpy_cf32(const usize_t n, const cf32_t *alpha, const cf32_t *x,
+               const usize_t inc_x, cf32_t *y, const usize_t inc_y);
+void axpy_cf64(const usize_t n, const cf64_t *alpha, const cf64_t *x,
+               const usize_t inc_x, cf64_t *y, const usize_t inc_y);
 
 // scal
-void scal_float32(const rublas_uint_t n, const Float32_t alpha, Float32_t *x,
-                  const rublas_uint_t inc_x);
-void scal_float64(const rublas_uint_t n, const Float64_t alpha, Float64_t *x,
-                  const rublas_uint_t inc_x);
-void scal_cfloat32(const rublas_uint_t n, const CFloat32_t *alpha,
-                   CFloat32_t *x, const rublas_uint_t inc_x);
-void scal_cfloat64(const rublas_uint_t n, const CFloat64_t *alpha,
-                   CFloat64_t *x, const rublas_uint_t inc_x);
+void scal_f32(const usize_t n, const f32_t alpha, f32_t *x,
+              const usize_t inc_x);
+void scal_f64(const usize_t n, const f64_t alpha, f64_t *x,
+              const usize_t inc_x);
+void scal_cf32(const usize_t n, const cf32_t *alpha, cf32_t *x,
+               const usize_t inc_x);
+void scal_cf64(const usize_t n, const cf64_t *alpha, cf64_t *x,
+               const usize_t inc_x);
+
+// iamax
+usize_t iamax_f32(const usize_t n, const f32_t *x, const usize_t inc_x);
+usize_t iamax_f64(const usize_t n, const f64_t *x, const usize_t inc_x);
+usize_t iamax_cf32(const usize_t n, const cf32_t *x, const usize_t inc_x);
+usize_t iamax_cf64(const usize_t n, const cf64_t *x, const usize_t inc_x);
 
 #ifdef __cplusplus
 }

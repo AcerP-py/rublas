@@ -13,8 +13,8 @@ fn scal_basic() {
 }
 
 #[test]
-fn scal_float32() {
-    let mut x: [Float32; 10] = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0];
+fn scal_f32() {
+    let mut x: [f32; 10] = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0];
 
     scal(10, 2.0, &mut x, 1);
     assert_eq!(x[2], 6.0);
@@ -34,8 +34,8 @@ fn scal_float32() {
 }
 
 #[test]
-fn scal_float64() {
-    let mut x: [Float64; 10] = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0];
+fn scal_f64() {
+    let mut x: [f64; 10] = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0];
 
     scal(10, 2.0, &mut x, 1);
     assert_eq!(x[2], 6.0);
@@ -55,8 +55,8 @@ fn scal_float64() {
 }
 
 #[test]
-fn scal_cfloat32() {
-    let mut x: Vec<CFloat32> = vec![
+fn scal_cf32() {
+    let mut x: Vec<cf32> = vec![
         1.0 + 1.0 * I32,
         2.0 + 1.0 * I32,
         3.0 + 1.0 * I32,
@@ -68,7 +68,7 @@ fn scal_cfloat32() {
         9.0 + 1.0 * I32,
         10.0 + 1.0 * I32,
     ];
-    let alpha: CFloat32 = 2.0 + 1.0 * I32;
+    let alpha: cf32 = 2.0 + 1.0 * I32;
 
     scal(10, alpha, &mut x, 1);
     assert_eq!(x[2].real(), 5.0);
@@ -124,8 +124,8 @@ fn scal_cfloat32() {
 }
 
 #[test]
-fn scal_cfloat64() {
-    let mut x: Vec<CFloat64> = vec![
+fn scal_cf64() {
+    let mut x: Vec<cf64> = vec![
         1.0 + 1.0 * I64,
         2.0 + 1.0 * I64,
         3.0 + 1.0 * I64,
@@ -137,7 +137,7 @@ fn scal_cfloat64() {
         9.0 + 1.0 * I64,
         10.0 + 1.0 * I64,
     ];
-    let alpha: CFloat64 = 2.0 + 1.0 * I64;
+    let alpha: cf64 = 2.0 + 1.0 * I64;
 
     scal(10, alpha, &mut x, 1);
     assert_eq!(x[2].real(), 5.0);

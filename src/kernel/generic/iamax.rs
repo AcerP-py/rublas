@@ -1,0 +1,103 @@
+use crate::utils::types::BLASAbsoluteValue;
+
+// ***************************************************************************
+// ***************************************************************************
+// IAMAX trait and generic implementations
+// ***************************************************************************
+// ***************************************************************************
+
+pub trait IAMAX
+where
+    Self: Sized,
+{
+    /// mk (micro-kernel) _
+    /// iamax (the element with the largest "absolute" (|Re(x)|+|Im(x)|) value) _
+    /// nsel (consumes non-sequential elements)
+    ///
+    /// # Arguments
+    ///
+    /// * `n` - length of vector `x
+    ///
+    /// * `x` - a vector
+    ///
+    /// * `inc_x` - increment between elements of `x`
+    fn mk_iamax_nsel(n: usize, x: &[Self], inc_x: usize) -> usize;
+
+    /// mk (micro-kernel) _
+    /// iamax (the element with the largest "absolute" (|Re(x)|+|Im(x)|) value) _
+    /// nsel (consumes sequential elements)
+    ///
+    /// # Arguments
+    ///
+    /// * `n` - length of vector `x
+    ///
+    /// * `x` - a vector
+    fn mk_iamax_sel(n: usize, x: &[Self]) -> usize;
+}
+
+impl<T> IAMAX for T
+where
+    T: BLASAbsoluteValue + Copy,
+{
+    default fn mk_iamax_nsel(n: usize, x: &[Self], inc_x: usize) -> usize {
+        let mut max: T::Output = x[0].blas_abs();
+        let mut idx: usize = 0;
+
+        for i in 1..n {
+            if x[i * inc_x].blas_abs() > max {
+                max = x[i * inc_x].blas_abs();
+                idx = i;
+            }
+        }
+
+        idx
+    }
+
+    default fn mk_iamax_sel(n: usize, x: &[Self]) -> usize {
+        let mut max: T::Output = x[0].blas_abs();
+        let mut idx: usize = 0;
+
+        for i in 1..n {
+            if x[i].blas_abs() > max {
+                max = x[i].blas_abs();
+                idx = i;
+            }
+        }
+
+        idx
+    }
+}
+
+// ***************************************************************************
+// ***************************************************************************
+// tests
+// ***************************************************************************
+// ***************************************************************************
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn mk_iamax_nsel_basic() {
+        let x: Vec<usize> = vec![4, 7, 1, 8, 3, 0, 2, 9, 4, 3];
+        let inc: usize = 1;
+        let idx: usize = usize::mk_iamax_nsel(10, &x, inc);
+        assert_eq!(idx, 7);
+    }
+
+    #[test]
+    fn mk_iamax_nsel_basic_stride_2() {
+        let x: Vec<usize> = vec![4, 7, 1, 8, 3, 0, 2, 9, 4, 3];
+        let inc: usize = 2;
+        let idx: usize = usize::mk_iamax_nsel(5, &x, inc);
+        assert_eq!(idx, 0);
+    }
+
+    #[test]
+    fn mk_iamax_sel_basic() {
+        let x: Vec<usize> = vec![4, 7, 1, 8, 3, 0, 2, 9, 4, 3];
+        let idx: usize = usize::mk_iamax_sel(10, &x);
+        assert_eq!(idx, 7);
+    }
+}

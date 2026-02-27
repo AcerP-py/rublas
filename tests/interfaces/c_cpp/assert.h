@@ -20,39 +20,41 @@
 #define END_TEST()                                                             \
   { fprintf(stdout, "\033[0;32mok\033[0m\n"); }
 
-static inline void print_rublas_uint(rublas_uint_t val) {
-  fprintf(stderr, "%zu", val);
+static inline void print_int(int val) { fprintf(stderr, "%d", val); }
+
+static inline void print_usize(usize_t val) { fprintf(stderr, "%zu", val); }
+
+static inline void print_f32(f32_t val) { fprintf(stderr, "%g", val); }
+
+static inline void print_f64(f64_t val) { fprintf(stderr, "%g", val); }
+
+static inline void print_cf32(cf32_t val) {
+  fprintf(stderr, "%g + %gi", crealf(val), cimagf(val));
 }
 
-static inline void print_float32(Float32_t val) { fprintf(stderr, "%f", val); }
-
-static inline void print_float64(Float64_t val) { fprintf(stderr, "%f", val); }
-
-static inline void print_cfloat32(CFloat32_t val) {
-  fprintf(stderr, "%f + %fi", crealf(val), cimagf(val));
+static inline void print_cf64(cf64_t val) {
+  fprintf(stderr, "%g + %gi", creal(val), cimag(val));
 }
 
-static inline void print_cfloat64(CFloat64_t val) {
-  fprintf(stderr, "%f + %fi", crealf(val), cimagf(val));
-}
-
-static inline void print_unknown(void) { fprintf(stderr, "<unknown type>"); }
+static inline void print_unknown() { fprintf(stderr, "<unknown type>"); }
 
 #define PRINT_VALUE(val)                                                       \
   _Generic((val),                                                              \
-      rublas_uint_t: print_rublas_uint,                                          \
-      Float32_t: print_float32,                                                \
-      Float64_t: print_float64,                                                \
-      CFloat32_t: print_cfloat32,                                              \
-      CFloat64_t: print_cfloat64,                                              \
-      default: print_unknown)(val)
+      int: print_int(val),                                                     \
+      usize_t: print_usize(val),                                               \
+      f32_t: print_f32(val),                                                   \
+      f64_t: print_f64(val),                                                   \
+      cf32_t: print_cf32(val),                                                 \
+      cf64_t: print_cf64(val),                                                 \
+      default: print_unknown())
 
 #define ASSERT_EQ(a, b)                                                        \
   {                                                                            \
     if ((a) != (b)) {                                                          \
       fprintf(stdout, "\033[0;31mFAILED\033[0m\n");                            \
       fprintf(stderr, "\n---- error ----\n");                                  \
-      fprintf(stderr, "assertion `left == right` failed\n");                   \
+      fprintf(stderr, "assertion `left == right` failed at %s:%d\n", __FILE__, \
+              __LINE__);                                                       \
       fprintf(stderr, "  left: ");                                             \
       PRINT_VALUE(a);                                                          \
       fprintf(stderr, "\n");                                                   \
@@ -69,7 +71,7 @@ static inline void print_unknown(void) { fprintf(stderr, "<unknown type>"); }
       if ((a)[i] != (b)[i]) {                                                  \
         fprintf(stdout, "\033[0;31mFAILED\033[0m\n");                          \
         fprintf(stderr, "\n---- error ----\n");                                \
-        fprintf(stderr, "assertion `left == right` failed ay %s:%d\n",         \
+        fprintf(stderr, "assertion `left == right` failed at %s:%d\n",         \
                 __FILE__, __LINE__);                                           \
         fprintf(stderr, "  left: [");                                          \
         for (size_t l = 0; l < (size); ++l) {                                  \

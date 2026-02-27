@@ -18,17 +18,17 @@ pub mod axpy;
 ///
 /// # Arguments
 ///
-/// * `n` - Length of vectors `x` and `y`.
+/// * `n` - length of vectors `x` and `y`
 ///
-/// * `alpha` - scaling factor for `x`.
+/// * `alpha` - scaling factor for `x`
 ///
-/// * `x` - A vector.
+/// * `x` - a vector
 ///
-/// * `inc_x` - Increment between elements of `x`.
+/// * `inc_x` - increment between elements of `x`
 ///
-/// * `y` - A vector.
+/// * `y` - a vector
 ///
-/// * `inc_y` - Increment between elements of `y`.
+/// * `inc_y` - increment between elements of `y`
 pub fn ak_axpy<T>(n: usize, alpha: T, x: &[T], inc_x: usize, y: &mut [T], inc_y: usize) -> ()
 where
     T: AddAssign + Copy + Mul<Output = T> + axpy::AXPY,
