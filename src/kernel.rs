@@ -2,7 +2,7 @@ use std::ops::{AddAssign, Mul};
 
 use cfg_if::cfg_if;
 
-use crate::utils::types::BLASAbsoluteValue;
+use crate::utils::traits::BLASAbsoluteValue;
 
 // ***************************************************************************
 // ***************************************************************************
@@ -82,6 +82,31 @@ where
     T: Copy + Mul<Output = T>,
 {
     generic::ak_scal(n, alpha, x, inc_x);
+}
+
+// ===========================================================================
+// copy
+// ===========================================================================
+
+/// k (kernel) _
+/// copy (y = x)
+///
+/// # Arguments
+///
+/// * `n` - length of vectors `x` and `y`
+///
+/// * `x` - a vector
+///
+/// * `inc_x` - increment between elements of `x`
+///
+/// * `y` - a vector
+///
+/// * `inc_y` - increment between elements of `y`
+pub fn k_copy<T>(n: usize, x: &[T], inc_x: usize, y: &mut [T], inc_y: usize) -> ()
+where
+    T: Copy,
+{
+    generic::ak_copy(n, x, inc_x, y, inc_y);
 }
 
 // ===========================================================================

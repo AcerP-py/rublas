@@ -2,6 +2,7 @@ use std::ops::{AddAssign, Mul};
 
 pub mod axpy;
 pub mod scal;
+pub mod copy;
 pub mod iamax;
 
 // ***************************************************************************
@@ -85,6 +86,43 @@ where
 }
 
 // ===========================================================================
+// copy
+// ===========================================================================
+
+/// ak (architecture-kernel) _
+/// copy (y = x)
+///
+/// # Arguments
+///
+/// * `n` - length of vectors `x` and `y`
+///
+/// * `x` - a vector
+///
+/// * `inc_x` - increment between elements of `x`
+///
+/// * `y` - a vector
+///
+/// * `inc_y` - increment between elements of `y`
+pub fn ak_copy<T>(n: usize, x: &[T], inc_x: usize, y: &mut [T], inc_y: usize) -> ()
+where
+    T: Copy + copy::COPY,
+{
+    let c: usize;
+
+    if inc_x == 1 && inc_y == 1 {
+        c = n & !7;
+        T::mk_copy_8sel(c, x, y);
+    } else {
+        c = n & !1;
+        T::mk_copy_2nsel(c, x, inc_x, y, inc_y);
+    }
+
+    for i in c..n {
+        y[i * inc_y] = x[i * inc_x];
+    }
+}
+
+// ===========================================================================
 // iamax
 // ===========================================================================
 
@@ -121,37 +159,66 @@ mod tests {
 
     #[test]
     fn ak_axpy_basic() {
-        let x: Vec<usize> = vec![1; 10];
-        let mut y: Vec<usize> = vec![1; 10];
+        let x: Vec<i32> = vec![1; 9];
+        let mut y: Vec<i32>;
+        let mut inc: usize;
 
-        ak_axpy(10, 2, &x, 1, &mut y, 1);
-        assert_eq!(y, vec![3; 10]);
+        y = vec![2; 9];
+        inc = 1;
+        ak_axpy(9, 2, &x, inc, &mut y, inc);
+        assert_eq!(y, vec![4; 9]);
 
-        y = vec![1; 10];
-        ak_axpy(5, 2, &x, 2, &mut y, 2);
-        assert_eq!(y, Vec::from([3, 1, 3, 1, 3, 1, 3, 1, 3, 1]));
+        y = vec![2; 9];
+        inc = 2;
+        ak_axpy(5, 2, &x, inc, &mut y, inc);
+        assert_eq!(y, vec![4, 2, 4, 2, 4, 2, 4, 2, 4]);
     }
 
     #[test]
     fn ak_scal_basic() {
-        let mut x: Vec<usize> = vec![1; 10];
+        let mut x: Vec<i32>;
+        let mut inc: usize;
 
-        ak_scal(10, 2, &mut x, 1);
-        assert_eq!(x, vec![2; 10]);
+        x = vec![1; 9];
+        inc = 1;
+        ak_scal(9, 2, &mut x, inc);
+        assert_eq!(x, vec![2; 9]);
 
-        x = vec![1; 10];
-        ak_scal(5, 2, &mut x, 2);
-        assert_eq!(x, Vec::from([2, 1, 2, 1, 2, 1, 2, 1, 2, 1]));
+        x = vec![1; 9];
+        inc = 2;
+        ak_scal(5, 2, &mut x, inc);
+        assert_eq!(x, vec![2, 1, 2, 1, 2, 1, 2, 1, 2]);
+    }
+
+    #[test]
+    fn ak_copy_basic() {
+        let x: Vec<i32> = vec![1; 9];
+        let mut y: Vec<i32>;
+        let mut inc: usize;
+
+        y = vec![2; 9];
+        inc = 1;
+        ak_copy(9, &x, inc, &mut y, inc);
+        assert_eq!(y, x);
+
+        y = vec![2; 9];
+        inc = 2;
+        ak_copy(5, &x, inc, &mut y, inc);
+        assert_eq!(y, vec![1, 2, 1, 2, 1, 2, 1, 2, 1]);
     }
 
     #[test]
     fn ak_iamax_basic() {
-        let x: Vec<usize> = vec![2, 5, 7, 3, 8, 4, 8, 1, 5, 3];
+        let x: Vec<i32> = vec![2, 5, 7, 3, 8, 4, 8, 1, 5];
+        let mut inc: usize;
+        let mut idx: usize;
 
-        let mut result: usize = ak_iamax(10, &x, 1);
-        assert_eq!(result, 4);
+        inc = 1;
+        idx = ak_iamax(9, &x, inc);
+        assert_eq!(idx, 4);
 
-        result = ak_iamax(4, &x, 2);
-        assert_eq!(result, 2);
+        inc = 2;
+        idx = ak_iamax(5, &x, inc);
+        assert_eq!(idx, 2);
     }
 }

@@ -45,6 +45,16 @@ void scal_cf32(const usize_t n, const cf32_t *alpha, cf32_t *x,
 void scal_cf64(const usize_t n, const cf64_t *alpha, cf64_t *x,
                const usize_t inc_x);
 
+// copy
+void copy_f32(const usize_t n, const f32_t *x, const usize_t inc_x, f32_t *y,
+              const usize_t inc_y);
+void copy_f64(const usize_t n, const f64_t *x, const usize_t inc_x, f64_t *y,
+              const usize_t inc_y);
+void copy_cf32(const usize_t n, const cf32_t *x, const usize_t inc_x, cf32_t *y,
+               const usize_t inc_y);
+void copy_cf64(const usize_t n, const cf64_t *x, const usize_t inc_x, cf64_t *y,
+               const usize_t inc_y);
+
 // iamax
 usize_t iamax_f32(const usize_t n, const f32_t *x, const usize_t inc_x);
 usize_t iamax_f64(const usize_t n, const f64_t *x, const usize_t inc_x);

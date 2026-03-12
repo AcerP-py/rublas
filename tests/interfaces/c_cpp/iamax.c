@@ -8,6 +8,8 @@ int main() {
   // rublas
   // ####################################################
 
+  usize_t inc;
+
   // iamax_f32
   START_TEST("iamax_f32");
 
@@ -15,11 +17,13 @@ int main() {
                    6.0f, 11.0f, 8.0f, 9.0f, 10.0f};
 
   // Test sequential elements
-  usize_t exp32 = iamax_f32(10, x32, 1);
+  inc = 1;
+  usize_t exp32 = iamax_f32(10, x32, inc);
   ASSERT_EQ(exp32, 6);
 
   // Test non-sequential elements
-  exp32 = iamax_f32(5, x32, 2);
+  inc = 2;
+  exp32 = iamax_f32(5, x32, inc);
   ASSERT_EQ(exp32, 3);
 
   END_TEST();
@@ -30,11 +34,13 @@ int main() {
   f64_t x64[10] = {1.0, 9.0, 3.0, 4.0, 3.0, 6.0, 11.0, 8.0, 9.0, 10.0};
 
   // Test sequential elements
-  usize_t exp64 = iamax_f64(10, x64, 1);
+  inc = 1;
+  usize_t exp64 = iamax_f64(10, x64, inc);
   ASSERT_EQ(exp64, 6);
 
   // Test non-sequential elements
-  exp64 = iamax_f64(5, x64, 2);
+  inc = 2;
+  exp64 = iamax_f64(5, x64, inc);
   ASSERT_EQ(exp64, 3);
 
   END_TEST();
@@ -49,11 +55,13 @@ int main() {
   };
 
   // Test sequential elements
-  usize_t cexp32 = iamax_cf32(10, cx32, 1);
+  inc = 1;
+  usize_t cexp32 = iamax_cf32(10, cx32, inc);
   ASSERT_EQ(cexp32, 7);
 
   // Test non-sequential elements
-  cexp32 = iamax_cf32(5, cx32, 2);
+  inc = 2;
+  cexp32 = iamax_cf32(5, cx32, inc);
   ASSERT_EQ(cexp32, 4);
 
   END_TEST();
@@ -68,11 +76,13 @@ int main() {
   };
 
   // Test sequential elements
-  usize_t cexp64 = iamax_cf64(10, cx64, 1);
+  inc = 1;
+  usize_t cexp64 = iamax_cf64(10, cx64, inc);
   ASSERT_EQ(cexp64, 7);
 
   // Test non-sequential elements
-  cexp64 = iamax_cf64(5, cx64, 2);
+  inc = 2;
+  cexp64 = iamax_cf64(5, cx64, inc);
   ASSERT_EQ(cexp64, 4);
 
   END_TEST();
@@ -81,6 +91,8 @@ int main() {
   // cblas
   // ####################################################
 
+  CBLAS_INDEX cblas_inc;
+
   // cblas_isamax
   START_TEST("cblas_isamax");
 
@@ -88,11 +100,13 @@ int main() {
                          6.0f, 11.0f, 8.0f, 9.0f, 10.0f};
 
   // Test sequential elements
-  CBLAS_INDEX cblas_exp32 = cblas_isamax(10, cblas_x32, 1);
+  cblas_inc = 1;
+  CBLAS_INDEX cblas_exp32 = cblas_isamax(10, cblas_x32, cblas_inc);
   ASSERT_EQ(cblas_exp32, 6);
 
   // Test non-sequential elements
-  cblas_exp32 = cblas_isamax(5, cblas_x32, 2);
+  cblas_inc = 2;
+  cblas_exp32 = cblas_isamax(5, cblas_x32, cblas_inc);
   ASSERT_EQ(cblas_exp32, 3);
 
   END_TEST();
@@ -103,11 +117,13 @@ int main() {
   double cblas_x64[10] = {1.0, 9.0, 3.0, 4.0, 3.0, 6.0, 11.0, 8.0, 9.0, 10.0};
 
   // Test sequential elements
-  CBLAS_INDEX cblas_exp64 = cblas_idamax(10, cblas_x64, 1);
+  cblas_inc = 1;
+  CBLAS_INDEX cblas_exp64 = cblas_idamax(10, cblas_x64, cblas_inc);
   ASSERT_EQ(cblas_exp64, 6);
 
   // Test non-sequential elements
-  cblas_exp64 = cblas_idamax(5, cblas_x64, 2);
+  cblas_inc = 2;
+  cblas_exp64 = cblas_idamax(5, cblas_x64, cblas_inc);
   ASSERT_EQ(cblas_exp64, 3);
 
   END_TEST();
@@ -122,11 +138,13 @@ int main() {
   };
 
   // Test sequential elements
-  CBLAS_INDEX cblas_cexp32 = cblas_icamax(10, cblas_cx32, 1);
+  cblas_inc = 1;
+  CBLAS_INDEX cblas_cexp32 = cblas_icamax(10, cblas_cx32, cblas_inc);
   ASSERT_EQ(cblas_cexp32, 7);
 
   // Test non-sequential elements
-  cblas_cexp32 = cblas_icamax(5, cblas_cx32, 2);
+  cblas_inc = 2;
+  cblas_cexp32 = cblas_icamax(5, cblas_cx32, cblas_inc);
   ASSERT_EQ(cblas_cexp32, 4);
 
   END_TEST();
@@ -141,11 +159,13 @@ int main() {
   };
 
   // Test sequential elements
-  CBLAS_INDEX cblas_cexp64 = cblas_izamax(10, cblas_cx64, 1);
+  cblas_inc = 1;
+  CBLAS_INDEX cblas_cexp64 = cblas_izamax(10, cblas_cx64, cblas_inc);
   ASSERT_EQ(cblas_cexp64, 7);
 
   // Test non-sequential elements
-  cblas_cexp64 = cblas_izamax(5, cblas_cx64, 2);
+  cblas_inc = 2;
+  cblas_cexp64 = cblas_izamax(5, cblas_cx64, cblas_inc);
   ASSERT_EQ(cblas_cexp64, 4);
 
   END_TEST();

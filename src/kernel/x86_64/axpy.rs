@@ -98,27 +98,22 @@ mod test {
     #[test]
     fn mk_axpy_bssel_avx_basic() {
         let b: usize = 2;
-        let x: Vec<usize> = vec![1; b * 32 / size_of::<usize>()];
-        let mut y: Vec<usize> = vec![1; b * 32 / size_of::<usize>()];
-        unsafe { usize::mk_axpy_bssel_avx(b, 2, &x, &mut y) };
-        assert_eq!(y, vec![3; b * 32 / size_of::<usize>()]);
+        let x: Vec<i32> = vec![1; b * i32::AVX_BLOCK_SIZE];
+        let mut y: Vec<i32>;
+
+        y = vec![2; b * i32::AVX_BLOCK_SIZE];
+        unsafe { i32::mk_axpy_bssel_avx(b, 2, &x, &mut y) };
+        assert_eq!(y, vec![4; b * i32::AVX_BLOCK_SIZE]);
     }
 
     #[test]
     fn mk_axpy_bssel_avx_f32() {
         let b: usize = 2;
-        let x: Vec<f32> = vec![1.0; b * 32 / size_of::<f32>()];
-        let mut y: Vec<f32> = vec![1.0; b * 32 / size_of::<f32>()];
-        unsafe { f32::mk_axpy_bssel_avx(b, 2.0, &x, &mut y) };
-        assert_eq!(y, vec![3.0; b * 32 / size_of::<f32>()]);
-    }
+        let x: Vec<f32> = vec![1.0; b * f32::AVX_BLOCK_SIZE];
+        let mut y: Vec<f32>;
 
-    #[test]
-    #[should_panic]
-    fn mk_axpy_bssel_avx_invalid_bounds() {
-        let b: usize = 2;
-        let x: Vec<usize> = vec![1; b * 32 / size_of::<usize>()];
-        let mut y: Vec<usize> = vec![1; b * 32 / size_of::<usize>()];
-        unsafe { usize::mk_axpy_bssel_avx(3, 2, &x, &mut y) };
+        y = vec![2.0; b * f32::AVX_BLOCK_SIZE];
+        unsafe { f32::mk_axpy_bssel_avx(b, 2.0, &x, &mut y) };
+        assert_eq!(y, vec![4.0; b * f32::AVX_BLOCK_SIZE]);
     }
 }

@@ -8,6 +8,8 @@ int main() {
   // rublas
   // ####################################################
 
+  usize_t inc;
+
   // axpy_f32
   START_TEST("axpy_f32");
 
@@ -20,13 +22,15 @@ int main() {
   // Test sequential elements
   INIT_ARRAY(y32, 10, 1.0f);
   INIT_ARRAY(exp32, 10, 3.0f);
-  axpy_f32(10, 2.0f, x32, 1, y32, 1);
+  inc = 1;
+  axpy_f32(10, 2.0f, x32, inc, y32, inc);
   ASSERT_EQ_ARRAY(y32, exp32, 10);
 
   // Test non-sequential elements
   INIT_ARRAY(y32, 10, 1.0f);
   INIT_ARRAY2(exp32, 10, 3.0f, 1.0f);
-  axpy_f32(5, 2.0f, x32, 2, y32, 2);
+  inc = 2;
+  axpy_f32(5, 2.0f, x32, inc, y32, inc);
   ASSERT_EQ_ARRAY(y32, exp32, 10);
 
   END_TEST();
@@ -43,13 +47,15 @@ int main() {
   // Test sequential elements
   INIT_ARRAY(y64, 10, 1.0);
   INIT_ARRAY(exp64, 10, 3.0);
-  axpy_f64(10, 2.0, x64, 1, y64, 1);
+  inc = 1;
+  axpy_f64(10, 2.0, x64, inc, y64, inc);
   ASSERT_EQ_ARRAY(y64, exp64, 10);
 
   // Test non-sequential elements
   INIT_ARRAY(y64, 10, 1.0);
   INIT_ARRAY2(exp64, 10, 3.0, 1.0);
-  axpy_f64(5, 2.0, x64, 2, y64, 2);
+  inc = 2;
+  axpy_f64(5, 2.0, x64, inc, y64, inc);
   ASSERT_EQ_ARRAY(y64, exp64, 10);
 
   END_TEST();
@@ -67,13 +73,15 @@ int main() {
   // Test sequential elements
   INIT_ARRAY(cy32, 10, 1.0f + 1.0f * I);
   INIT_ARRAY(cexp32, 10, 1.0f + 5.0f * I);
-  axpy_cf32(10, &calpha32, cx32, 1, cy32, 1);
+  inc = 1;
+  axpy_cf32(10, &calpha32, cx32, inc, cy32, inc);
   ASSERT_EQ_ARRAY(cy32, cexp32, 10);
 
   // Test non-sequential elements
   INIT_ARRAY(cy32, 10, 1.0f + 1.0f * I);
   INIT_ARRAY2(cexp32, 10, 1.0f + 5.0f * I, 1.0f + 1.0f * I);
-  axpy_cf32(5, &calpha32, cx32, 2, cy32, 2);
+  inc = 2;
+  axpy_cf32(5, &calpha32, cx32, inc, cy32, inc);
   ASSERT_EQ_ARRAY(cy32, cexp32, 10);
 
   END_TEST();
@@ -91,13 +99,15 @@ int main() {
   // Test sequential elements
   INIT_ARRAY(cy64, 10, 1.0 + 1.0 * I);
   INIT_ARRAY(cexp64, 10, 1.0 + 5.0 * I);
-  axpy_cf64(10, &calpha64, cx64, 1, cy64, 1);
+  inc = 1;
+  axpy_cf64(10, &calpha64, cx64, inc, cy64, inc);
   ASSERT_EQ_ARRAY(cy64, cexp64, 10);
 
   // Test non-sequential elements
   INIT_ARRAY(cy64, 10, 1.0 + 1.0 * I);
   INIT_ARRAY2(cexp64, 10, 1.0 + 5.0 * I, 1.0 + 1.0 * I);
-  axpy_cf64(5, &calpha64, cx64, 2, cy64, 2);
+  inc = 2;
+  axpy_cf64(5, &calpha64, cx64, inc, cy64, inc);
   ASSERT_EQ_ARRAY(cy64, cexp64, 10);
 
   END_TEST();
@@ -105,6 +115,8 @@ int main() {
   // ####################################################
   // cblas
   // ####################################################
+
+  CBLAS_INDEX cblas_inc;
 
   // cblas_saxpy
   START_TEST("cblas_saxpy");
@@ -118,13 +130,15 @@ int main() {
   // Test sequential elements
   INIT_ARRAY(cblas_y32, 10, 1.0f);
   INIT_ARRAY(cblas_exp32, 10, 3.0f);
-  cblas_saxpy(10, 2.0f, cblas_x32, 1, cblas_y32, 1);
+  cblas_inc = 1;
+  cblas_saxpy(10, 2.0f, cblas_x32, cblas_inc, cblas_y32, cblas_inc);
   ASSERT_EQ_ARRAY(cblas_y32, cblas_exp32, 10);
 
   // Test non-sequential elements
   INIT_ARRAY(cblas_y32, 10, 1.0f);
   INIT_ARRAY2(cblas_exp32, 10, 3.0f, 1.0f);
-  cblas_saxpy(5, 2.0f, cblas_x32, 2, cblas_y32, 2);
+  cblas_inc = 2;
+  cblas_saxpy(5, 2.0f, cblas_x32, cblas_inc, cblas_y32, cblas_inc);
   ASSERT_EQ_ARRAY(cblas_y32, cblas_exp32, 10);
 
   END_TEST();
@@ -141,13 +155,15 @@ int main() {
   // Test sequential elements
   INIT_ARRAY(cblas_y64, 10, 1.0);
   INIT_ARRAY(cblas_exp64, 10, 3.0);
-  cblas_daxpy(10, 2.0, cblas_x64, 1, cblas_y64, 1);
+  cblas_inc = 1;
+  cblas_daxpy(10, 2.0, cblas_x64, cblas_inc, cblas_y64, cblas_inc);
   ASSERT_EQ_ARRAY(cblas_y64, cblas_exp64, 10);
 
   // Test non-sequential elements
   INIT_ARRAY(cblas_y64, 10, 1.0);
   INIT_ARRAY2(cblas_exp64, 10, 3.0, 1.0);
-  cblas_daxpy(5, 2.0, cblas_x64, 2, cblas_y64, 2);
+  cblas_inc = 2;
+  cblas_daxpy(5, 2.0, cblas_x64, cblas_inc, cblas_y64, cblas_inc);
   ASSERT_EQ_ARRAY(cblas_y64, cblas_exp64, 10);
 
   END_TEST();
@@ -165,13 +181,15 @@ int main() {
   // Test sequential elements
   INIT_ARRAY(cblas_cy32, 10, 1.0f + 1.0f * I);
   INIT_ARRAY(cblas_cexp32, 10, 1.0f + 5.0f * I);
-  cblas_caxpy(10, &cblas_calpha32, cblas_cx32, 1, cblas_cy32, 1);
+  cblas_inc = 1;
+  cblas_caxpy(10, &cblas_calpha32, cblas_cx32, cblas_inc, cblas_cy32, cblas_inc);
   ASSERT_EQ_ARRAY(cblas_cy32, cblas_cexp32, 10);
 
   // Test non-sequential elements
   INIT_ARRAY(cblas_cy32, 10, 1.0f + 1.0f * I);
   INIT_ARRAY2(cblas_cexp32, 10, 1.0f + 5.0f * I, 1.0f + 1.0f * I);
-  cblas_caxpy(5, &cblas_calpha32, cblas_cx32, 2, cblas_cy32, 2);
+  cblas_inc = 2;
+  cblas_caxpy(5, &cblas_calpha32, cblas_cx32, cblas_inc, cblas_cy32, cblas_inc);
   ASSERT_EQ_ARRAY(cblas_cy32, cblas_cexp32, 10);
 
   END_TEST();
@@ -189,13 +207,15 @@ int main() {
   // Test sequential elements
   INIT_ARRAY(cblas_cy64, 10, 1.0 + 1.0 * I);
   INIT_ARRAY(cblas_cexp64, 10, 1.0 + 5.0 * I);
-  cblas_zaxpy(10, &cblas_calpha64, cblas_cx64, 1, cblas_cy64, 1);
+  cblas_inc = 1;
+  cblas_zaxpy(10, &cblas_calpha64, cblas_cx64, cblas_inc, cblas_cy64, cblas_inc);
   ASSERT_EQ_ARRAY(cblas_cy64, cblas_cexp64, 10);
 
   // Test non-sequential elements
   INIT_ARRAY(cblas_cy64, 10, 1.0 + 1.0 * I);
   INIT_ARRAY2(cblas_cexp64, 10, 1.0 + 5.0 * I, 1.0 + 1.0 * I);
-  cblas_zaxpy(5, &cblas_calpha64, cblas_cx64, 2, cblas_cy64, 2);
+  cblas_inc = 2;
+  cblas_zaxpy(5, &cblas_calpha64, cblas_cx64, cblas_inc, cblas_cy64, cblas_inc);
   ASSERT_EQ_ARRAY(cblas_cy64, cblas_cexp64, 10);
 
   END_TEST();

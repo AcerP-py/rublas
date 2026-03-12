@@ -1,6 +1,6 @@
 use crate::{
     kernel::k_iamax,
-    utils::types::{BLASAbsoluteValue, Zeroable},
+    utils::traits::{BLASAbsoluteValue, Zeroable},
 };
 
 #[cfg(feature = "cblas")]
