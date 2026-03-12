@@ -83,24 +83,26 @@ mod test {
 
     #[test]
     fn mk_scal_2nsel_basic() {
-        let mut x: Vec<usize> = vec![1, 2, 3, 4];
-        let inc: usize = 1;
-        usize::mk_scal_2nsel(4, 2, &mut x, inc);
-        assert_eq!(x, vec![2, 4, 6, 8]);
-    }
+        let mut x: Vec<i32>;
+        let mut inc: usize;
 
-    #[test]
-    fn mk_scal_2nsel_stride_2() {
-        let mut x: Vec<usize> = vec![1, 99, 2, 99, 3, 99, 4, 99];
-        let inc: usize = 2;
-        usize::mk_scal_2nsel(4, 2, &mut x, inc);
-        assert_eq!(x, vec![2, 99, 4, 99, 6, 99, 8, 99]);
+        x = vec![1; 4];
+        inc = 1;
+        i32::mk_scal_2nsel(4, 2, &mut x, inc);
+        assert_eq!(x, vec![2; 4]);
+
+        x = vec![1; 8];
+        inc = 2;
+        i32::mk_scal_2nsel(4, 2, &mut x, inc);
+        assert_eq!(x, vec![2, 1, 2, 1, 2, 1, 2, 1]);
     }
 
     #[test]
     fn mk_scal_8sel_basic() {
-        let mut x: Vec<usize> = vec![1, 2, 3, 4, 5, 6, 7, 8];
-        usize::mk_scal_8sel(8, 2, &mut x);
-        assert_eq!(x, vec![2, 4, 6, 8, 10, 12, 14, 16]);
+        let mut x: Vec<i32>;
+
+        x = vec![1; 16];
+        i32::mk_scal_8sel(16, 2, &mut x);
+        assert_eq!(x, vec![2; 16]);
     }
 }

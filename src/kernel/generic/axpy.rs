@@ -107,27 +107,28 @@ mod test {
 
     #[test]
     fn mk_axpy_2nsel_basic() {
-        let x: Vec<usize> = vec![1, 2, 3, 4];
-        let mut y: Vec<usize> = vec![1, 2, 3, 4];
-        let inc: usize = 1;
-        usize::mk_axpy_2nsel(4, 2, &x, inc, &mut y, inc);
-        assert_eq!(y, vec![3, 6, 9, 12]);
-    }
+        let x: Vec<i32> = vec![1; 8];
+        let mut y: Vec<i32>;
+        let mut inc: usize;
 
-    #[test]
-    fn mk_axpy_2nsel_stride_2() {
-        let x: Vec<usize> = vec![1, 99, 2, 99, 3, 99, 4, 99];
-        let mut y: Vec<usize> = vec![1, 99, 2, 99, 3, 99, 4, 99];
-        let inc: usize = 2;
-        usize::mk_axpy_2nsel(4, 2, &x, inc, &mut y, inc);
-        assert_eq!(y, vec![3, 99, 6, 99, 9, 99, 12, 99]);
+        y = vec![2; 4];
+        inc = 1;
+        i32::mk_axpy_2nsel(4, 2, &x, inc, &mut y, inc);
+        assert_eq!(y, vec![4; 4]);
+
+        y = vec![2; 8];
+        inc = 2;
+        i32::mk_axpy_2nsel(4, 2, &x, inc, &mut y, inc);
+        assert_eq!(y, vec![4, 2, 4, 2, 4, 2, 4, 2]);
     }
 
     #[test]
     fn mk_axpy_8sel_basic() {
-        let x: Vec<usize> = vec![1, 2, 3, 4, 5, 6, 7, 8];
-        let mut y: Vec<usize> = vec![1, 2, 3, 4, 5, 6, 7, 8];
-        usize::mk_axpy_8sel(8, 2, &x, &mut y);
-        assert_eq!(y, vec![3, 6, 9, 12, 15, 18, 21, 24]);
+        let x: Vec<i32> = vec![1; 16];
+        let mut y: Vec<i32>;
+
+        y = vec![2; 16];
+        i32::mk_axpy_8sel(16, 2, &x, &mut y);
+        assert_eq!(y, vec![4; 16]);
     }
 }

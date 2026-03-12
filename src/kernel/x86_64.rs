@@ -66,14 +66,18 @@ mod tests {
 
     #[test]
     fn ak_axpy_basic() {
-        let x: Vec<usize> = vec![1; 10];
-        let mut y: Vec<usize> = vec![1; 10];
+        let x: Vec<i32> = vec![1; 9];
+        let mut y: Vec<i32>;
+        let mut inc: usize;
 
-        ak_axpy(10, 2, &x, 1, &mut y, 1);
-        assert_eq!(y, vec![3; 10]);
+        y = vec![2; 9];
+        inc = 1;
+        ak_axpy(9, 2, &x, inc, &mut y, inc);
+        assert_eq!(y, vec![4; 9]);
 
-        y = vec![1; 10];
-        ak_axpy(5, 2, &x, 2, &mut y, 2);
-        assert_eq!(y, Vec::from([3, 1, 3, 1, 3, 1, 3, 1, 3, 1]))
+        y = vec![2; 9];
+        inc = 2;
+        ak_axpy(5, 2, &x, inc, &mut y, inc);
+        assert_eq!(y, vec![4, 2, 4, 2, 4, 2, 4, 2, 4]);
     }
 }

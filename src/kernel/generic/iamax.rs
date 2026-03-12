@@ -1,4 +1,4 @@
-use crate::utils::types::BLASAbsoluteValue;
+use crate::utils::traits::BLASAbsoluteValue;
 
 // ***************************************************************************
 // ***************************************************************************
@@ -80,24 +80,25 @@ mod test {
 
     #[test]
     fn mk_iamax_nsel_basic() {
-        let x: Vec<usize> = vec![4, 7, 1, 8, 3, 0, 2, 9, 4, 3];
-        let inc: usize = 1;
-        let idx: usize = usize::mk_iamax_nsel(10, &x, inc);
-        assert_eq!(idx, 7);
-    }
+        let x: Vec<i32> = vec![4, 7, 1, 8, 3, 0, 2, 9, 4, 3];
+        let mut inc: usize;
+        let mut idx: usize;
 
-    #[test]
-    fn mk_iamax_nsel_basic_stride_2() {
-        let x: Vec<usize> = vec![4, 7, 1, 8, 3, 0, 2, 9, 4, 3];
-        let inc: usize = 2;
-        let idx: usize = usize::mk_iamax_nsel(5, &x, inc);
+        inc = 1;
+        idx = i32::mk_iamax_nsel(10, &x, inc);
+        assert_eq!(idx, 7);
+
+        inc = 2;
+        idx = i32::mk_iamax_nsel(5, &x, inc);
         assert_eq!(idx, 0);
     }
 
     #[test]
     fn mk_iamax_sel_basic() {
-        let x: Vec<usize> = vec![4, 7, 1, 8, 3, 0, 2, 9, 4, 3];
-        let idx: usize = usize::mk_iamax_sel(10, &x);
+        let x: Vec<i32> = vec![4, 7, 1, 8, 3, 0, 2, 9, 4, 3];
+        let idx: usize;
+
+        idx = i32::mk_iamax_sel(10, &x);
         assert_eq!(idx, 7);
     }
 }

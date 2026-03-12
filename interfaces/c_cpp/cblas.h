@@ -33,6 +33,16 @@ void cblas_cscal(const CBLAS_INT N, const void *alpha, void *X,
 void cblas_zscal(const CBLAS_INT N, const void *alpha, void *X,
                  const CBLAS_INT incX);
 
+// copy
+void cblas_scopy(const CBLAS_INT N, const float *X, const CBLAS_INT incX,
+                 float *Y, const CBLAS_INT incY);
+void cblas_dcopy(const CBLAS_INT N, const double *X, const CBLAS_INT incX,
+                 double *Y, const CBLAS_INT incY);
+void cblas_ccopy(const CBLAS_INT N, const void *X, const CBLAS_INT incX,
+                 void *Y, const CBLAS_INT incY);
+void cblas_zcopy(const CBLAS_INT N, const void *X, const CBLAS_INT incX,
+                 void *Y, const CBLAS_INT incY);
+
 // iamax
 CBLAS_INDEX cblas_isamax(const CBLAS_INT N, const float *X,
                          const CBLAS_INT incX);

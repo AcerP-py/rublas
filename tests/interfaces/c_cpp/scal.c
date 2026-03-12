@@ -8,6 +8,8 @@ int main() {
   // rublas
   // ####################################################
 
+  usize_t inc;
+
   // scal_f32
   START_TEST("scal_f32");
 
@@ -17,13 +19,15 @@ int main() {
   // Test sequential elements
   INIT_ARRAY(x32, 10, 1.0f);
   INIT_ARRAY(exp32, 10, 2.0f);
-  scal_f32(10, 2.0f, x32, 1);
+  inc = 1;
+  scal_f32(10, 2.0f, x32, inc);
   ASSERT_EQ_ARRAY(x32, exp32, 10);
 
   // Test non-sequential elements
   INIT_ARRAY(x32, 10, 1.0f);
   INIT_ARRAY2(exp32, 10, 2.0f, 1.0f);
-  scal_f32(5, 2.0f, x32, 2);
+  inc = 2;
+  scal_f32(5, 2.0f, x32, inc);
   ASSERT_EQ_ARRAY(x32, exp32, 10);
 
   END_TEST();
@@ -37,13 +41,15 @@ int main() {
   // Test sequential elements
   INIT_ARRAY(x64, 10, 1.0);
   INIT_ARRAY(exp64, 10, 2.0);
-  scal_f64(10, 2.0, x64, 1);
+  inc = 1;
+  scal_f64(10, 2.0, x64, inc);
   ASSERT_EQ_ARRAY(x64, exp64, 10);
 
   // Test non-sequential elements
   INIT_ARRAY(x64, 10, 1.0);
   INIT_ARRAY2(exp64, 10, 2.0, 1.0);
-  scal_f64(5, 2.0, x64, 2);
+  inc = 2;
+  scal_f64(5, 2.0, x64, inc);
   ASSERT_EQ_ARRAY(x64, exp64, 10);
 
   END_TEST();
@@ -58,13 +64,15 @@ int main() {
   // Test sequential elements
   INIT_ARRAY(cx32, 10, 1.0f + 1.0f * I);
   INIT_ARRAY(cexp32, 10, 0.0f + 4.0f * I);
-  scal_cf32(10, &calpha32, cx32, 1);
+  inc = 1;
+  scal_cf32(10, &calpha32, cx32, inc);
   ASSERT_EQ_ARRAY(cx32, cexp32, 10);
 
   // Test non-sequential elements
   INIT_ARRAY(cx32, 10, 1.0f + 1.0f * I);
   INIT_ARRAY2(cexp32, 10, 0.0f + 4.0f * I, 1.0f + 1.0f * I);
-  scal_cf32(5, &calpha32, cx32, 2);
+  inc = 2;
+  scal_cf32(5, &calpha32, cx32, inc);
   ASSERT_EQ_ARRAY(cx32, cexp32, 10);
 
   END_TEST();
@@ -79,13 +87,15 @@ int main() {
   // Test sequential elements
   INIT_ARRAY(cx64, 10, 1.0 + 1.0 * I);
   INIT_ARRAY(cexp64, 10, 0.0 + 4.0 * I);
-  scal_cf64(10, &calpha64, cx64, 1);
+  inc = 1;
+  scal_cf64(10, &calpha64, cx64, inc);
   ASSERT_EQ_ARRAY(cx64, cexp64, 10);
 
   // Test non-sequential elements
   INIT_ARRAY(cx64, 10, 1.0 + 1.0 * I);
   INIT_ARRAY2(cexp64, 10, 0.0 + 4.0 * I, 1.0 + 1.0 * I);
-  scal_cf64(5, &calpha64, cx64, 2);
+  inc = 2;
+  scal_cf64(5, &calpha64, cx64, inc);
   ASSERT_EQ_ARRAY(cx64, cexp64, 10);
 
   END_TEST();
@@ -93,6 +103,8 @@ int main() {
   // ####################################################
   // cblas
   // ####################################################
+
+  CBLAS_INDEX cblas_inc;
 
   // cblas_sscal
   START_TEST("cblas_sscal");
@@ -103,13 +115,15 @@ int main() {
   // Test sequential elements
   INIT_ARRAY(cblas_x32, 10, 1.0f);
   INIT_ARRAY(cblas_exp32, 10, 2.0f);
-  cblas_sscal(10, 2.0f, cblas_x32, 1);
+  cblas_inc = 1;
+  cblas_sscal(10, 2.0f, cblas_x32, cblas_inc);
   ASSERT_EQ_ARRAY(cblas_x32, cblas_exp32, 10);
 
   // Test non-sequential elements
   INIT_ARRAY(cblas_x32, 10, 1.0f);
   INIT_ARRAY2(cblas_exp32, 10, 2.0f, 1.0f);
-  cblas_sscal(5, 2.0f, cblas_x32, 2);
+  cblas_inc = 2;
+  cblas_sscal(5, 2.0f, cblas_x32, cblas_inc);
   ASSERT_EQ_ARRAY(cblas_x32, cblas_exp32, 10);
 
   END_TEST();
@@ -123,13 +137,15 @@ int main() {
   // Test sequential elements
   INIT_ARRAY(cblas_x64, 10, 1.0);
   INIT_ARRAY(cblas_exp64, 10, 2.0);
-  cblas_dscal(10, 2.0, cblas_x64, 1);
+  cblas_inc = 1;
+  cblas_dscal(10, 2.0, cblas_x64, cblas_inc);
   ASSERT_EQ_ARRAY(cblas_x64, cblas_exp64, 10);
 
   // Test non-sequential elements
   INIT_ARRAY(cblas_x64, 10, 1.0);
   INIT_ARRAY2(cblas_exp64, 10, 2.0, 1.0);
-  cblas_dscal(5, 2.0, cblas_x64, 2);
+  cblas_inc = 2;
+  cblas_dscal(5, 2.0, cblas_x64, cblas_inc);
   ASSERT_EQ_ARRAY(cblas_x64, cblas_exp64, 10);
 
   END_TEST();
@@ -144,13 +160,15 @@ int main() {
   // Test sequential elements
   INIT_ARRAY(cblas_cx32, 10, 1.0f + 1.0f * I);
   INIT_ARRAY(cblas_cexp32, 10, 0.0f + 4.0f * I);
-  cblas_cscal(10, &cblas_calpha32, cblas_cx32, 1);
+  cblas_inc = 1;
+  cblas_cscal(10, &cblas_calpha32, cblas_cx32, cblas_inc);
   ASSERT_EQ_ARRAY(cblas_cx32, cblas_cexp32, 10);
 
   // Test non-sequential elements
   INIT_ARRAY(cblas_cx32, 10, 1.0f + 1.0f * I);
   INIT_ARRAY2(cblas_cexp32, 10, 0.0f + 4.0f * I, 1.0f + 1.0f * I);
-  cblas_cscal(5, &cblas_calpha32, cblas_cx32, 2);
+  cblas_inc = 2;
+  cblas_cscal(5, &cblas_calpha32, cblas_cx32, cblas_inc);
   ASSERT_EQ_ARRAY(cblas_cx32, cblas_cexp32, 10);
 
   END_TEST();
@@ -165,13 +183,15 @@ int main() {
   // Test sequential elements
   INIT_ARRAY(cblas_cx64, 10, 1.0 + 1.0 * I);
   INIT_ARRAY(cblas_cexp64, 10, 0.0 + 4.0 * I);
-  cblas_zscal(10, &cblas_calpha64, cblas_cx64, 1);
+  cblas_inc = 1;
+  cblas_zscal(10, &cblas_calpha64, cblas_cx64, cblas_inc);
   ASSERT_EQ_ARRAY(cblas_cx64, cblas_cexp64, 10);
 
   // Test non-sequential elements
   INIT_ARRAY(cblas_cx64, 10, 1.0 + 1.0 * I);
   INIT_ARRAY2(cblas_cexp64, 10, 0.0 + 4.0 * I, 1.0 + 1.0 * I);
-  cblas_zscal(5, &cblas_calpha64, cblas_cx64, 2);
+  cblas_inc = 2;
+  cblas_zscal(5, &cblas_calpha64, cblas_cx64, cblas_inc);
   ASSERT_EQ_ARRAY(cblas_cx64, cblas_cexp64, 10);
 
   END_TEST();
