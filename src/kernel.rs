@@ -1,8 +1,8 @@
-use std::ops::{AddAssign, Mul};
+use std::ops::{Add, AddAssign, Mul};
 
 use cfg_if::cfg_if;
 
-use crate::utils::traits::BLASAbsoluteValue;
+use crate::utils::traits::{BLASAbsoluteValue, Conjigatable, Zeroable};
 
 // ***************************************************************************
 // ***************************************************************************
@@ -107,6 +107,28 @@ where
     T: Copy,
 {
     generic::ak_copy(n, x, inc_x, y, inc_y);
+}
+
+// ===========================================================================
+// dot
+// ===========================================================================
+
+/// k (kernel) _
+/// dot (x^T * y)
+///
+/// # Arguments
+/// * `n` - length of vectors `x` and `y`
+/// * `x` - a vector
+/// * `inc_x` - increment between elements of `x`
+/// * `y` - a vector
+/// * `inc_y` - increment between elements of `y`
+/// * `conjigate` - conjigate `x` before calculations
+pub fn k_dot<T, A>(n: usize, x: &[T], inc_x: usize, y: &[T], inc_y: usize, conjigate: bool) -> A
+where
+    T: Add<Output = T> + Conjigatable + Copy + Mul<Output = T>,
+    A: AddAssign + From<T> + Zeroable,
+{
+    generic::ak_dot(n, x, inc_x, y, inc_y, conjigate)
 }
 
 // ===========================================================================

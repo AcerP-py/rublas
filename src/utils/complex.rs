@@ -4,12 +4,12 @@ use std::{
     ops::{Add, AddAssign, Div, Mul, Neg, Sub},
 };
 
-use super::traits::Zeroable;
+use super::traits::{Conjigatable, Zeroable};
 
 // ===========================================================================
 // Complex
 // ===========================================================================
-
+#[repr(C)]
 #[derive(Clone, Copy, Debug)]
 pub struct Complex<T> {
     real: T,
@@ -66,6 +66,18 @@ where
     T: PartialEq,
 {
     fn eq(&self, other: &Self) -> bool { self.real == other.real && self.imag == other.imag }
+}
+
+impl<T> Conjigatable for Complex<T>
+where
+    T: Neg<Output = T>,
+{
+    fn conj(self) -> Self {
+        Self {
+            real: self.real,
+            imag: -self.imag,
+        }
+    }
 }
 
 impl<T> Zeroable for Complex<T>
@@ -235,6 +247,11 @@ mod test {
         // PartialEq
         assert_eq!(a, a);
         assert_ne!(a, b);
+
+        // Conjigatable
+        r = a.conj();
+        assert_eq!(r.real(), -14i32);
+        assert_eq!(r.imag(), -2i32);
 
         // Zeroable
         // Not tested here. See crate::utils::types

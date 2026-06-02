@@ -8,8 +8,10 @@ mod axpy;
 mod scal;
 mod copy;
 mod iamax;
+mod dot;
 
 pub use axpy::*;
 pub use copy::*;
+pub use dot::*;
 pub use iamax::*;
 pub use scal::*;

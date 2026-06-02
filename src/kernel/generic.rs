@@ -1,9 +1,12 @@
-use std::ops::{AddAssign, Mul};
+use std::ops::{Add, AddAssign, Mul};
+
+use crate::utils::traits::{Conjigatable, Zeroable};
 
 pub mod axpy;
 pub mod scal;
 pub mod copy;
 pub mod iamax;
+pub mod dot;
 
 // ***************************************************************************
 // ***************************************************************************
@@ -123,6 +126,55 @@ where
 }
 
 // ===========================================================================
+// dot
+// ===========================================================================
+
+/// ak (architecture-kernel) _
+/// dot (x^T*y)
+///
+/// # Arguments
+/// * `n` - length of vectors `x` and `y`
+/// * `x` - a vector
+/// * `inc_x` - increment between elements of `x`
+/// * `y` - a vector
+/// * `inc_y` - increment between elements of `y`
+/// * `conjigate` - conjigate `x` before calculations
+pub fn ak_dot<T, A>(n: usize, x: &[T], inc_x: usize, y: &[T], inc_y: usize, conjigate: bool) -> A
+where
+    T: Add<Output = T> + Conjigatable + Copy + Mul<Output = T> + dot::DOT<A>,
+    A: AddAssign + From<T> + Zeroable,
+{
+    let c: usize;
+    let mut result: A = A::zero();
+
+    if inc_x == 1 && inc_y == 1 {
+        c = n & !7;
+        if conjigate {
+            result += T::mk_dot_conj_8sel(c, x, y);
+        } else {
+            result += T::mk_dot_8sel(c, x, y);
+        }
+    } else {
+        c = n & !1;
+        if conjigate {
+            result += T::mk_dot_conj_2nsel(c, x, inc_x, y, inc_y);
+        } else {
+            result += T::mk_dot_2nsel(c, x, inc_x, y, inc_y);
+        }
+    }
+
+    for i in c..n {
+        if conjigate {
+            result += A::from(x[i * inc_x].conj() * y[i * inc_y]);
+        } else {
+            result += A::from(x[i * inc_x] * y[i * inc_y]);
+        }
+    }
+
+    result
+}
+
+// ===========================================================================
 // iamax
 // ===========================================================================
 
@@ -205,6 +257,22 @@ mod tests {
         inc = 2;
         ak_copy(5, &x, inc, &mut y, inc);
         assert_eq!(y, vec![1, 2, 1, 2, 1, 2, 1, 2, 1]);
+    }
+
+    #[test]
+    fn ak_dot_basic() {
+        let x: Vec<i32> = vec![1; 9];
+        let mut y: Vec<i32> = vec![2; 9];
+        let mut inc: usize;
+        let mut res: i32;
+
+        inc = 1;
+        res = ak_dot(9, &x, inc, &mut y, inc, false);
+        assert_eq!(res, 18);
+
+        inc = 2;
+        res = ak_dot(5, &x, inc, &mut y, inc, false);
+        assert_eq!(res, 10);
     }
 
     #[test]
