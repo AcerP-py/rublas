@@ -1,7 +1,7 @@
 #ifndef RUBLAS_H
 #define RUBLAS_H
 #include <complex.h>
-#include <stdlib.h>
+#include <stddef.h>
 
 #ifdef __cplusplus
 extern "C" {
