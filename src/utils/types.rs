@@ -1,175 +1,231 @@
 use std::ops::{Add, Div, Mul, Sub};
 
-use super::traits::{BLASAbsoluteValue, Zeroable};
+use super::traits::{BLASAbsoluteValue, Conjigatable, Zeroable};
 
 use super::complex::Complex;
 
 // ===========================================================================
 // usize
 // ===========================================================================
-impl Zeroable for usize {
-    fn zero() -> Self { 0usize }
-}
-
 impl BLASAbsoluteValue for usize {
     type Output = Self;
     fn blas_abs(self) -> Self { self }
 }
 
+impl Conjigatable for usize {
+    fn conj(self) -> Self { self }
+}
+
+impl Zeroable for usize {
+    fn zero() -> Self { 0usize }
+}
+
 // ===========================================================================
 // u8
 // ===========================================================================
-impl Zeroable for u8 {
-    fn zero() -> Self { 0u8 }
-}
-
 impl BLASAbsoluteValue for u8 {
     type Output = Self;
     fn blas_abs(self) -> Self { self }
 }
 
+impl Conjigatable for u8 {
+    fn conj(self) -> Self { self }
+}
+
+impl Zeroable for u8 {
+    fn zero() -> Self { 0u8 }
+}
+
 // ===========================================================================
 // u16
 // ===========================================================================
-impl Zeroable for u16 {
-    fn zero() -> Self { 0u16 }
-}
-
 impl BLASAbsoluteValue for u16 {
     type Output = Self;
     fn blas_abs(self) -> Self { self }
 }
 
+impl Conjigatable for u16 {
+    fn conj(self) -> Self { self }
+}
+
+impl Zeroable for u16 {
+    fn zero() -> Self { 0u16 }
+}
+
 // ===========================================================================
 // u32
 // ===========================================================================
-impl Zeroable for u32 {
-    fn zero() -> Self { 0u32 }
-}
-
 impl BLASAbsoluteValue for u32 {
     type Output = Self;
     fn blas_abs(self) -> Self { self }
 }
 
+impl Conjigatable for u32 {
+    fn conj(self) -> Self { self }
+}
+
+impl Zeroable for u32 {
+    fn zero() -> Self { 0u32 }
+}
+
 // ===========================================================================
 // u64
 // ===========================================================================
-impl Zeroable for u64 {
-    fn zero() -> Self { 0u64 }
-}
-
 impl BLASAbsoluteValue for u64 {
     type Output = Self;
     fn blas_abs(self) -> Self { self }
 }
 
+impl Conjigatable for u64 {
+    fn conj(self) -> Self { self }
+}
+
+impl Zeroable for u64 {
+    fn zero() -> Self { 0u64 }
+}
+
 // ===========================================================================
 // u128
 // ===========================================================================
-impl Zeroable for u128 {
-    fn zero() -> Self { 0u128 }
-}
-
 impl BLASAbsoluteValue for u128 {
     type Output = Self;
     fn blas_abs(self) -> Self { self }
 }
 
+impl Conjigatable for u128 {
+    fn conj(self) -> Self { self }
+}
+
+impl Zeroable for u128 {
+    fn zero() -> Self { 0u128 }
+}
+
 // ===========================================================================
 // isize
 // ===========================================================================
-impl Zeroable for isize {
-    fn zero() -> Self { 0isize }
-}
-
 impl BLASAbsoluteValue for isize {
     type Output = Self;
     fn blas_abs(self) -> Self { self }
 }
 
+impl Conjigatable for isize {
+    fn conj(self) -> Self { self }
+}
+
+impl Zeroable for isize {
+    fn zero() -> Self { 0isize }
+}
+
 // ===========================================================================
 // i8
 // ===========================================================================
-impl Zeroable for i8 {
-    fn zero() -> Self { 0i8 }
-}
-
 impl BLASAbsoluteValue for i8 {
     type Output = Self;
     fn blas_abs(self) -> Self { self }
 }
 
+impl Conjigatable for i8 {
+    fn conj(self) -> Self { self }
+}
+
+impl Zeroable for i8 {
+    fn zero() -> Self { 0i8 }
+}
+
 // ===========================================================================
 // i16
 // ===========================================================================
-impl Zeroable for i16 {
-    fn zero() -> Self { 0i16 }
-}
-
 impl BLASAbsoluteValue for i16 {
     type Output = Self;
     fn blas_abs(self) -> Self { self }
 }
 
+impl Conjigatable for i16 {
+    fn conj(self) -> Self { self }
+}
+
+impl Zeroable for i16 {
+    fn zero() -> Self { 0i16 }
+}
+
 // ===========================================================================
 // i32
 // ===========================================================================
-impl Zeroable for i32 {
-    fn zero() -> Self { 0i32 }
-}
-
 impl BLASAbsoluteValue for i32 {
     type Output = Self;
     fn blas_abs(self) -> Self { self }
 }
 
+impl Conjigatable for i32 {
+    fn conj(self) -> Self { self }
+}
+
+impl Zeroable for i32 {
+    fn zero() -> Self { 0i32 }
+}
+
 // ===========================================================================
 // i64
 // ===========================================================================
-impl Zeroable for i64 {
-    fn zero() -> Self { 0i64 }
-}
-
 impl BLASAbsoluteValue for i64 {
     type Output = Self;
     fn blas_abs(self) -> Self { self }
 }
 
+impl Conjigatable for i64 {
+    fn conj(self) -> Self { self }
+}
+
+impl Zeroable for i64 {
+    fn zero() -> Self { 0i64 }
+}
+
 // ===========================================================================
 // i128
 // ===========================================================================
-impl Zeroable for i128 {
-    fn zero() -> Self { 0i128 }
-}
-
 impl BLASAbsoluteValue for i128 {
     type Output = Self;
     fn blas_abs(self) -> Self { self }
 }
 
+impl Conjigatable for i128 {
+    fn conj(self) -> Self { self }
+}
+
+impl Zeroable for i128 {
+    fn zero() -> Self { 0i128 }
+}
+
 // ===========================================================================
 // f32
 // ===========================================================================
-impl Zeroable for f32 {
-    fn zero() -> Self { 0.0f32 }
-}
-
 impl BLASAbsoluteValue for f32 {
     type Output = f32;
     fn blas_abs(self) -> Self::Output { self.abs() }
 }
 
+impl Conjigatable for f32 {
+    fn conj(self) -> Self { self }
+}
+
+impl Zeroable for f32 {
+    fn zero() -> Self { 0.0f32 }
+}
+
 // ===========================================================================
 // f64
 // ===========================================================================
-impl Zeroable for f64 {
-    fn zero() -> Self { 0.0f64 }
-}
-
 impl BLASAbsoluteValue for f64 {
     type Output = f64;
     fn blas_abs(self) -> Self::Output { self.abs() }
+}
+
+impl Conjigatable for f64 {
+    fn conj(self) -> Self { self }
+}
+
+impl Zeroable for f64 {
+    fn zero() -> Self { 0.0f64 }
 }
 
 // ===========================================================================
@@ -213,10 +269,20 @@ impl Sub<cf32> for f32 {
 pub static I32: cf32 = cf32::new(0.0f32, 1.0f32);
 
 // ===========================================================================
+// c_float_complex
+// ===========================================================================
+#[allow(non_camel_case_types)]
+pub type c_float_complex = cf32;
+
+// ===========================================================================
 // cf64
 // ===========================================================================
 #[allow(non_camel_case_types)]
 pub type cf64 = Complex<f64>;
+
+impl From<cf32> for cf64 {
+    fn from(value: cf32) -> Self { Self::new(value.real() as f64, value.imag() as f64) }
+}
 
 impl BLASAbsoluteValue for cf64 {
     type Output = f64;
@@ -251,6 +317,12 @@ impl Sub<cf64> for f64 {
 }
 
 pub static I64: cf64 = cf64::new(0.0f64, 1.0f64);
+
+// ===========================================================================
+// c_double_complex
+// ===========================================================================
+#[allow(non_camel_case_types)]
+pub type c_double_complex = cf64;
 
 #[cfg(test)]
 mod test {

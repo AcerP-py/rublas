@@ -1,7 +1,7 @@
 #ifndef RUBLAS_H
 #define RUBLAS_H
 #include <complex.h>
-#include <stdlib.h>
+#include <stddef.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -60,6 +60,22 @@ usize_t iamax_f32(const usize_t n, const f32_t *x, const usize_t inc_x);
 usize_t iamax_f64(const usize_t n, const f64_t *x, const usize_t inc_x);
 usize_t iamax_cf32(const usize_t n, const cf32_t *x, const usize_t inc_x);
 usize_t iamax_cf64(const usize_t n, const cf64_t *x, const usize_t inc_x);
+
+// dot
+f32_t dot_f32(const usize_t n, const f32_t *x, const usize_t inc_x,
+              const f32_t *y, const usize_t inc_y);
+f64_t dot_f32_as_f64(const usize_t n, const f32_t *x, const usize_t inc_x,
+                     const f32_t *y, const usize_t inc_y);
+f64_t dot_f64(const usize_t n, const f64_t *x, const usize_t inc_x,
+              const f64_t *y, const usize_t inc_y);
+cf32_t dot_cf32(const usize_t n, const cf32_t *x, const usize_t inc_x,
+                const cf32_t *y, const usize_t inc_y);
+cf32_t dot_cf32_conj(const usize_t n, const cf32_t *x, const usize_t inc_x,
+                     const cf32_t *y, const usize_t inc_y);
+cf64_t dot_cf64(const usize_t n, const cf64_t *x, const usize_t inc_x,
+                const cf64_t *y, const usize_t inc_y);
+cf64_t dot_cf64_conj(const usize_t n, const cf64_t *x, const usize_t inc_x,
+                     const cf64_t *y, const usize_t inc_y);
 
 #ifdef __cplusplus
 }
