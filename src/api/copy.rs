@@ -10,13 +10,9 @@ mod rublas_ffi;
 /// # Arguments
 ///
 /// * `n` - length of vectors `x` and `y`
-///
 /// * `x` - a vector
-///
 /// * `inc_x` - increment between elements of `x`
-///
 /// * `y` - a vector
-///
 /// * `inc_y` - increment between elements of `y`
 pub fn copy<T>(n: usize, x: &[T], inc_x: usize, y: &mut [T], inc_y: usize) -> ()
 where

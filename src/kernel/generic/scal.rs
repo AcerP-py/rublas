@@ -15,14 +15,9 @@ where
     /// 2nsel (consumes elements by 2 non-sequential elements)
     ///
     /// # Arguments
-    ///
-    /// * `n` - length of vector `x
-    /// (must be divisible by 2)
-    ///
+    /// * `n` - length of vector `x` (must be divisible by 2)
     /// * `alpha` - scaling factor for `x`
-    ///
     /// * `x` - a vector
-    ///
     /// * `inc_x` - increment between elements of `x`
     fn mk_scal_2nsel(n: usize, alpha: Self, x: &mut [Self], inc_x: usize) -> ();
 
@@ -32,11 +27,8 @@ where
     ///
     /// # Arguments
     ///
-    /// * `n` - length of vector `x`
-    /// (must be divisible by 8)
-    ///
+    /// * `n` - length of vector `x` (must be divisible by 8)
     /// * `alpha` - scaling factor for `x`
-    ///
     /// * `x` - a vector
     fn mk_scal_8sel(n: usize, alpha: Self, x: &mut [Self]) -> ();
 }

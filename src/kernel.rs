@@ -36,17 +36,11 @@ cfg_if! {
 /// axpy (y = y + ax)
 ///
 /// # Arguments
-///
 /// * `n` - length of vectors `x` and `y`
-///
 /// * `alpha` - scaling factor for `x`
-///
 /// * `x` - a vector
-///
 /// * `inc_x` - increment between elements of `x`
-///
 /// * `y` - a vector
-///
 /// * `inc_y` - increment between elements of `y`
 pub fn k_axpy<T>(n: usize, alpha: T, x: &[T], inc_x: usize, y: &mut [T], inc_y: usize) -> ()
 where
@@ -69,13 +63,9 @@ where
 /// scal (x = ax)
 ///
 /// # Arguments
-///
 /// * `n` - length of vector `x`
-///
 /// * `alpha` - scaling factor for `x`
-///
 /// * `x` - a vector
-///
 /// * `inc_x` - increment between elements of `x`
 pub fn k_scal<T>(n: usize, alpha: T, x: &mut [T], inc_x: usize) -> ()
 where
@@ -92,15 +82,10 @@ where
 /// copy (y = x)
 ///
 /// # Arguments
-///
 /// * `n` - length of vectors `x` and `y`
-///
 /// * `x` - a vector
-///
 /// * `inc_x` - increment between elements of `x`
-///
 /// * `y` - a vector
-///
 /// * `inc_y` - increment between elements of `y`
 pub fn k_copy<T>(n: usize, x: &[T], inc_x: usize, y: &mut [T], inc_y: usize) -> ()
 where
@@ -139,11 +124,8 @@ where
 /// iamax (the element with the largest "absolute" (|Re(x)|+|Im(x)|) value)
 ///
 /// # Arguments
-///
 /// * `n` - length of vector `x`
-///
 /// * `x` - a vector
-///
 /// * `inc_x` - increment between elements of `x`
 pub fn k_iamax<T>(n: usize, x: &[T], inc_x: usize) -> usize
 where

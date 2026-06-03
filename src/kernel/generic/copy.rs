@@ -13,16 +13,10 @@ where
     /// 2nsel (consumes elements by 2 non-sequential elements)
     ///
     /// # Arguments
-    ///
-    /// * `n` - length of vectors `x` and `y`
-    /// (must be divisible by 2)
-    ///
+    /// * `n` - length of vectors `x` and `y` (must be divisible by 2)
     /// * `x` - a vector
-    ///
     /// * `inc_x` - increment between elements of `x`
-    ///
     /// * `y` - a vector
-    ///
     /// * `inc_y` - increment between elements of `y`
     fn mk_copy_2nsel(n: usize, x: &[Self], inc_x: usize, y: &mut [Self], inc_y: usize) -> ();
 
@@ -31,12 +25,8 @@ where
     /// 8sel (consumes elements by 8 sequential elements)
     ///
     /// # Arguments
-    ///
-    /// * `n` - length of vectors `x` and `y`
-    /// (must be divisible by 8)
-    ///
+    /// * `n` - length of vectors `x` and `y` (must be divisible by 8)
     /// * `x` - a vector
-    ///
     /// * `y` - a vector
     fn mk_copy_8sel(n: usize, x: &[Self], y: &mut [Self]) -> ();
 }

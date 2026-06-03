@@ -15,11 +15,8 @@ where
     /// nsel (consumes non-sequential elements)
     ///
     /// # Arguments
-    ///
     /// * `n` - length of vector `x
-    ///
     /// * `x` - a vector
-    ///
     /// * `inc_x` - increment between elements of `x`
     fn mk_iamax_nsel(n: usize, x: &[Self], inc_x: usize) -> usize;
 
@@ -28,9 +25,7 @@ where
     /// nsel (consumes sequential elements)
     ///
     /// # Arguments
-    ///
-    /// * `n` - length of vector `x
-    ///
+    /// * `n` - length of vector `x`
     /// * `x` - a vector
     fn mk_iamax_sel(n: usize, x: &[Self]) -> usize;
 }
