@@ -44,6 +44,16 @@ void cblas_ccopy(const CBLAS_INT N, const void *X, const CBLAS_INT incX,
 void cblas_zcopy(const CBLAS_INT N, const void *X, const CBLAS_INT incX,
                  void *Y, const CBLAS_INT incY);
 
+// swap
+void cblas_sswap(const CBLAS_INT N, float *X, const CBLAS_INT incX, float *Y,
+                 const CBLAS_INT incY);
+void cblas_dswap(const CBLAS_INT N, double *X, const CBLAS_INT incX, double *Y,
+                 const CBLAS_INT incY);
+void cblas_cswap(const CBLAS_INT N, void *X, const CBLAS_INT incX, void *Y,
+                 const CBLAS_INT incY);
+void cblas_zswap(const CBLAS_INT N, void *X, const CBLAS_INT incX, void *Y,
+                 const CBLAS_INT incY);
+
 // iamax
 CBLAS_INDEX cblas_isamax(const CBLAS_INT N, const float *X,
                          const CBLAS_INT incX);
