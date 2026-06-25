@@ -1,8 +1,6 @@
-use std::ffi::{c_double, c_float, c_int, c_void};
-
-use crate::utils::types::{cf32, cf64};
-
 use super::axpy;
+use crate::utils::types::{cf32, cf64};
+use std::ffi::{c_double, c_float, c_int, c_void};
 
 #[allow(non_snake_case)]
 #[unsafe(no_mangle)]

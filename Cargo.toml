@@ -1,6 +1,6 @@
 [package]
 authors = ["Asa Rentschler <asa.rentschler@proton.me>"]
-description = "BLAS in pure Rust"
+description = "A pure Rust implementation of BLAS."
 name = "rublas"
 version = "0.1.0-alpha.1"
 edition = "2024"
@@ -19,4 +19,4 @@ c_cpp = []
 cblas = []
 
 [dependencies]
-cfg-if = "1.0.3"
+cfg-if = "1.0.4"

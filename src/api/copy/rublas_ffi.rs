@@ -1,8 +1,6 @@
-use std::ffi::{c_double, c_float, c_size_t};
-
-use crate::utils::types::{cf32, cf64};
-
 use super::copy;
+use crate::utils::types::{cf32, cf64};
+use std::ffi::{c_double, c_float, c_size_t};
 
 #[unsafe(no_mangle)]
 pub extern "C" fn copy_f32(

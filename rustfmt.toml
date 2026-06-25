@@ -1,4 +1,3 @@
 edition = "2024"
 fn_single_line = true
-reorder_modules = false
 imports_granularity = "Crate"

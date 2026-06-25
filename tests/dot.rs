@@ -8,16 +8,16 @@ fn dot_basic() {
     let mut res: i32;
 
     inc = 1;
-    res = dot(10, &x, inc, &y, inc);
+    res = dot(10, &x, inc, &y, inc, false);
     assert_eq!(res, 20);
 
-    res = dot(4, &x, inc, &y, inc);
+    res = dot(4, &x, inc, &y, inc, false);
     assert_eq!(res, 8);
 
-    res = dot(0, &x, inc, &y, inc);
+    res = dot(0, &x, inc, &y, inc, false);
     assert_eq!(res, 0);
 
     inc = 2;
-    res = dot(5, &x, inc, &y, inc);
+    res = dot(5, &x, inc, &y, inc, false);
     assert_eq!(res, 10);
 }

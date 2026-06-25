@@ -1,3 +1,6 @@
+# IDE configuration
+/.vscode
+
+# build files
 /target
 Cargo.lock
-/.vscode

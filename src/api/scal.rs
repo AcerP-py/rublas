@@ -1,6 +1,5 @@
-use std::ops::Mul;
-
 use crate::kernel::k_scal;
+use std::ops::Mul;
 
 #[cfg(feature = "cblas")]
 mod cblas_ffi;

@@ -114,9 +114,8 @@ mod test {
     #[test]
     fn mk_axpy_8sel_basic() {
         let x: Vec<i32> = vec![1; 16];
-        let mut y: Vec<i32>;
+        let mut y: Vec<i32> = vec![2; 16];
 
-        y = vec![2; 16];
         i32::mk_axpy_8sel(16, 2, &x, &mut y);
         assert_eq!(y, vec![4; 16]);
     }

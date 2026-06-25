@@ -18,6 +18,9 @@ where
     /// * `n` - length of vector `x
     /// * `x` - a vector
     /// * `inc_x` - increment between elements of `x`
+    ///
+    /// # Returns
+    /// the index of the first element with the largest absolute value
     fn mk_iamax_nsel(n: usize, x: &[Self], inc_x: usize) -> usize;
 
     /// mk (micro-kernel) _
@@ -27,6 +30,9 @@ where
     /// # Arguments
     /// * `n` - length of vector `x`
     /// * `x` - a vector
+    ///
+    /// # Returns
+    /// the index of the first element with the largest absolute value
     fn mk_iamax_sel(n: usize, x: &[Self]) -> usize;
 }
 

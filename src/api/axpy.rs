@@ -1,6 +1,5 @@
-use std::ops::{AddAssign, Mul};
-
 use crate::kernel::k_axpy;
+use std::ops::{AddAssign, Mul};
 
 #[cfg(feature = "cblas")]
 mod cblas_ffi;

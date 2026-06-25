@@ -1,8 +1,6 @@
-use std::ffi::{c_double, c_float, c_size_t};
-
-use crate::utils::types::{cf32, cf64};
-
 use super::scal;
+use crate::utils::types::{cf32, cf64};
+use std::ffi::{c_double, c_float, c_size_t};
 
 #[unsafe(no_mangle)]
 pub extern "C" fn scal_f32(n: c_size_t, alpha: c_float, x: *mut c_float, inc_x: c_size_t) -> () {

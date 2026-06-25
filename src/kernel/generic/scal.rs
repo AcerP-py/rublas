@@ -91,9 +91,8 @@ mod test {
 
     #[test]
     fn mk_scal_8sel_basic() {
-        let mut x: Vec<i32>;
+        let mut x: Vec<i32> = vec![1; 16];
 
-        x = vec![1; 16];
         i32::mk_scal_8sel(16, 2, &mut x);
         assert_eq!(x, vec![2; 16]);
     }
