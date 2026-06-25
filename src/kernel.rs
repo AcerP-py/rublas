@@ -1,8 +1,6 @@
-use std::ops::{Add, AddAssign, Mul};
-
+use crate::utils::traits::{BLASAbsoluteValue, Conjugatable, Zeroable};
 use cfg_if::cfg_if;
-
-use crate::utils::traits::{BLASAbsoluteValue, Conjigatable, Zeroable};
+use std::ops::{Add, AddAssign, Mul};
 
 // ***************************************************************************
 // ***************************************************************************
@@ -36,17 +34,11 @@ cfg_if! {
 /// axpy (y = y + ax)
 ///
 /// # Arguments
-///
 /// * `n` - length of vectors `x` and `y`
-///
 /// * `alpha` - scaling factor for `x`
-///
 /// * `x` - a vector
-///
 /// * `inc_x` - increment between elements of `x`
-///
 /// * `y` - a vector
-///
 /// * `inc_y` - increment between elements of `y`
 pub fn k_axpy<T>(n: usize, alpha: T, x: &[T], inc_x: usize, y: &mut [T], inc_y: usize) -> ()
 where
@@ -62,29 +54,6 @@ where
 }
 
 // ===========================================================================
-// scal
-// ===========================================================================
-
-/// k (kernel) _
-/// scal (x = ax)
-///
-/// # Arguments
-///
-/// * `n` - length of vector `x`
-///
-/// * `alpha` - scaling factor for `x`
-///
-/// * `x` - a vector
-///
-/// * `inc_x` - increment between elements of `x`
-pub fn k_scal<T>(n: usize, alpha: T, x: &mut [T], inc_x: usize) -> ()
-where
-    T: Copy + Mul<Output = T>,
-{
-    generic::ak_scal(n, alpha, x, inc_x);
-}
-
-// ===========================================================================
 // copy
 // ===========================================================================
 
@@ -92,37 +61,16 @@ where
 /// copy (y = x)
 ///
 /// # Arguments
-///
 /// * `n` - length of vectors `x` and `y`
-///
 /// * `x` - a vector
-///
 /// * `inc_x` - increment between elements of `x`
-///
 /// * `y` - a vector
-///
 /// * `inc_y` - increment between elements of `y`
 pub fn k_copy<T>(n: usize, x: &[T], inc_x: usize, y: &mut [T], inc_y: usize) -> ()
 where
     T: Copy,
 {
     generic::ak_copy(n, x, inc_x, y, inc_y);
-}
-
-/// k (kernel) _
-/// swap (x <-> y)
-///
-/// # Arguments
-/// * `n` - length of vectors `x` and `y`
-/// * `x` - a vector
-/// * `inc_x` - increment between elements of `x`
-/// * `y` - a vector
-/// * `inc_y` - increment between elements of `y`
-pub fn k_swap<T>(n: usize, x: &mut [T], inc_x: usize, y: &mut [T], inc_y: usize) -> ()
-where
-    T: Copy + Zeroable,
-{
-    generic::ak_swap(n, x, inc_x, y, inc_y);
 }
 
 // ===========================================================================
@@ -138,13 +86,16 @@ where
 /// * `inc_x` - increment between elements of `x`
 /// * `y` - a vector
 /// * `inc_y` - increment between elements of `y`
-/// * `conjigate` - conjigate `x` before calculations
-pub fn k_dot<T, A>(n: usize, x: &[T], inc_x: usize, y: &[T], inc_y: usize, conjigate: bool) -> A
+/// * `conjugate` - conjugate `x` before calculations
+///
+/// # Returns
+/// the dot product of vectors 'x' and 'y'
+pub fn k_dot<T, A>(n: usize, x: &[T], inc_x: usize, y: &[T], inc_y: usize, conjugate: bool) -> A
 where
-    T: Add<Output = T> + Conjigatable + Copy + Mul<Output = T>,
+    T: Add<Output = T> + Conjugatable + Copy + Mul<Output = T>,
     A: AddAssign + From<T> + Zeroable,
 {
-    generic::ak_dot(n, x, inc_x, y, inc_y, conjigate)
+    generic::ak_dot(n, x, inc_x, y, inc_y, conjugate)
 }
 
 // ===========================================================================
@@ -155,15 +106,54 @@ where
 /// iamax (the element with the largest "absolute" (|Re(x)|+|Im(x)|) value)
 ///
 /// # Arguments
-///
 /// * `n` - length of vector `x`
-///
 /// * `x` - a vector
-///
 /// * `inc_x` - increment between elements of `x`
+///
+/// # Returns
+/// the index of the first element with the largest absolute value
 pub fn k_iamax<T>(n: usize, x: &[T], inc_x: usize) -> usize
 where
     T: BLASAbsoluteValue + Copy,
 {
     generic::ak_iamax(n, x, inc_x)
+}
+
+// ===========================================================================
+// scal
+// ===========================================================================
+
+/// k (kernel) _
+/// scal (x = ax)
+///
+/// # Arguments
+/// * `n` - length of vector `x`
+/// * `alpha` - scaling factor for `x`
+/// * `x` - a vector
+/// * `inc_x` - increment between elements of `x`
+pub fn k_scal<T>(n: usize, alpha: T, x: &mut [T], inc_x: usize) -> ()
+where
+    T: Copy + Mul<Output = T>,
+{
+    generic::ak_scal(n, alpha, x, inc_x);
+}
+
+// ===========================================================================
+// swap
+// ===========================================================================
+
+/// k (kernel) _
+/// swap (x <-> y)
+///
+/// # Arguments
+/// * `n` - length of vectors `x` and `y`
+/// * `x` - a vector
+/// * `inc_x` - increment between elements of `x`
+/// * `y` - a vector
+/// * `inc_y` - increment between elements of `y`
+pub fn k_swap<T>(n: usize, x: &mut [T], inc_x: usize, y: &mut [T], inc_y: usize) -> ()
+where
+    T: Copy + Zeroable,
+{
+    generic::ak_swap(n, x, inc_x, y, inc_y);
 }

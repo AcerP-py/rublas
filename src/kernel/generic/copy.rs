@@ -13,16 +13,10 @@ where
     /// 2nsel (consumes elements by 2 non-sequential elements)
     ///
     /// # Arguments
-    ///
-    /// * `n` - length of vectors `x` and `y`
-    /// (must be divisible by 2)
-    ///
+    /// * `n` - length of vectors `x` and `y` (must be divisible by 2)
     /// * `x` - a vector
-    ///
     /// * `inc_x` - increment between elements of `x`
-    ///
     /// * `y` - a vector
-    ///
     /// * `inc_y` - increment between elements of `y`
     fn mk_copy_2nsel(n: usize, x: &[Self], inc_x: usize, y: &mut [Self], inc_y: usize) -> ();
 
@@ -31,12 +25,8 @@ where
     /// 8sel (consumes elements by 8 sequential elements)
     ///
     /// # Arguments
-    ///
-    /// * `n` - length of vectors `x` and `y`
-    /// (must be divisible by 8)
-    ///
+    /// * `n` - length of vectors `x` and `y` (must be divisible by 8)
     /// * `x` - a vector
-    ///
     /// * `y` - a vector
     fn mk_copy_8sel(n: usize, x: &[Self], y: &mut [Self]) -> ();
 }
@@ -45,7 +35,13 @@ impl<T> COPY for T
 where
     T: Copy,
 {
-    fn mk_copy_2nsel(n: usize, x: &[Self], inc_x: usize, y: &mut [Self], inc_y: usize) -> () {
+    default fn mk_copy_2nsel(
+        n: usize,
+        x: &[Self],
+        inc_x: usize,
+        y: &mut [Self],
+        inc_y: usize,
+    ) -> () {
         let mut x1: usize = 0;
         let mut y1: usize = 0;
         let mut x2: usize = n / 2 * inc_x;
@@ -61,7 +57,7 @@ where
         }
     }
 
-    fn mk_copy_8sel(n: usize, x: &[Self], y: &mut [Self]) -> () {
+    default fn mk_copy_8sel(n: usize, x: &[Self], y: &mut [Self]) -> () {
         for i in (0..n).step_by(8) {
             y[i] = x[i];
             y[i + 1] = x[i + 1];
@@ -83,8 +79,6 @@ where
 
 #[cfg(test)]
 mod test {
-    use std::vec;
-
     use super::*;
 
     #[test]
@@ -107,9 +101,8 @@ mod test {
     #[test]
     fn mk_copy_8sel_basic() {
         let x: Vec<i32> = vec![1; 16];
-        let mut y: Vec<i32>;
+        let mut y: Vec<i32> = vec![2; 16];
 
-        y = vec![2; 16];
         i32::mk_copy_8sel(16, &x, &mut y);
         assert_eq!(y, x);
     }

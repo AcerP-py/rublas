@@ -1,8 +1,6 @@
-use std::ffi::{c_double, c_float, c_int, c_void};
-
+use super::dot;
 use crate::utils::types::{cf32, cf64};
-
-use super::{dot, dotc as dot_c};
+use std::ffi::{c_double, c_float, c_int, c_void};
 
 #[allow(non_snake_case)]
 #[unsafe(no_mangle)]
@@ -19,7 +17,7 @@ pub extern "C" fn cblas_sdot(
     let inc_y: usize = incY as usize;
     let y: &[f32] = unsafe { std::slice::from_raw_parts(Y, n * inc_y) };
 
-    let result: f32 = dot(n, x, inc_x, y, inc_y);
+    let result: f32 = dot(n, x, inc_x, y, inc_y, false);
 
     result as c_float
 }
@@ -40,7 +38,7 @@ pub extern "C" fn cblas_sdsdot(
     let inc_y: usize = incY as usize;
     let y: &[f32] = unsafe { std::slice::from_raw_parts(Y, n * inc_y) };
 
-    let mut result: f64 = dot(n, x, inc_x, y, inc_y);
+    let mut result: f64 = dot(n, x, inc_x, y, inc_y, false);
     result += alpha as f64;
 
     result as f32 as c_float
@@ -61,7 +59,7 @@ pub extern "C" fn cblas_dsdot(
     let inc_y: usize = incY as usize;
     let y: &[f32] = unsafe { std::slice::from_raw_parts(Y, n * inc_y) };
 
-    let result: f64 = dot(n, x, inc_x, y, inc_y);
+    let result: f64 = dot(n, x, inc_x, y, inc_y, false);
 
     result as c_double
 }
@@ -81,7 +79,7 @@ pub extern "C" fn cblas_ddot(
     let inc_y: usize = incY as usize;
     let y: &[f64] = unsafe { std::slice::from_raw_parts(Y, n * inc_y) };
 
-    let result: f64 = dot(n, x, inc_x, y, inc_y);
+    let result: f64 = dot(n, x, inc_x, y, inc_y, false);
 
     result as c_double
 }
@@ -103,7 +101,7 @@ pub extern "C" fn cblas_cdotu_sub(
     let y: &[cf32] = unsafe { std::slice::from_raw_parts(Y as *const cf32, n * inc_y) };
     let dot_u_ptr: *mut cf32 = dotu as *mut cf32;
 
-    let result: cf32 = dot(n, x, inc_x, y, inc_y);
+    let result: cf32 = dot(n, x, inc_x, y, inc_y, false);
 
     unsafe {
         std::ptr::write(dot_u_ptr, result);
@@ -127,7 +125,7 @@ pub extern "C" fn cblas_cdotc_sub(
     let y: &[cf32] = unsafe { std::slice::from_raw_parts(Y as *const cf32, n * inc_y) };
     let dot_c_ptr: *mut cf32 = dotc as *mut cf32;
 
-    let result: cf32 = dot_c(n, x, inc_x, y, inc_y);
+    let result: cf32 = dot(n, x, inc_x, y, inc_y, true);
 
     unsafe {
         std::ptr::write(dot_c_ptr, result);
@@ -151,7 +149,7 @@ pub extern "C" fn cblas_zdotu_sub(
     let y: &[cf64] = unsafe { std::slice::from_raw_parts(Y as *const cf64, n * inc_y) };
     let dot_u_ptr: *mut cf64 = dotu as *mut cf64;
 
-    let result: cf64 = dot(n, x, inc_x, y, inc_y);
+    let result: cf64 = dot(n, x, inc_x, y, inc_y, false);
 
     unsafe {
         std::ptr::write(dot_u_ptr, result);
@@ -175,7 +173,7 @@ pub extern "C" fn cblas_zdotc_sub(
     let y: &[cf64] = unsafe { std::slice::from_raw_parts(Y as *const cf64, n * inc_y) };
     let dot_c_ptr: *mut cf64 = dotc as *mut cf64;
 
-    let result: cf64 = dot_c(n, x, inc_x, y, inc_y);
+    let result: cf64 = dot(n, x, inc_x, y, inc_y, true);
 
     unsafe {
         std::ptr::write(dot_c_ptr, result);

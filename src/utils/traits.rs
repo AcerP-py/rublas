@@ -7,7 +7,7 @@ pub trait BLASAbsoluteValue {
     fn blas_abs(self) -> Self::Output;
 }
 
-pub trait Conjigatable {
+pub trait Conjugatable {
     fn conj(self) -> Self;
 }
 

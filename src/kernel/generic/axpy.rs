@@ -15,18 +15,11 @@ where
     /// 2nsel (consumes elements by 2 non-sequential elements)
     ///
     /// # Arguments
-    ///
-    /// * `n` - length of vectors `x` and `y`
-    /// (must be divisible by 2)
-    ///
+    /// * `n` - length of vectors `x` and `y` (must be divisible by 2)
     /// * `alpha` - scaling factor for `x`
-    ///
     /// * `x` - a vector
-    ///
     /// * `inc_x` - increment between elements of `x`
-    ///
     /// * `y` - a vector
-    ///
     /// * `inc_y` - increment between elements of `y`
     fn mk_axpy_2nsel(
         n: usize,
@@ -43,13 +36,9 @@ where
     ///
     /// # Arguments
     ///
-    /// * `n` - length of vectors `x` and `y`
-    /// (must be divisible by 8)
-    ///
+    /// * `n` - length of vectors `x` and `y` (must be divisible by 8)
     /// * `alpha` - scaling factor for `x`
-    ///
     /// * `x` - a vector
-    ///
     /// * `y` - a vector
     fn mk_axpy_8sel(n: usize, alpha: Self, x: &[Self], y: &mut [Self]) -> ();
 }
@@ -125,9 +114,8 @@ mod test {
     #[test]
     fn mk_axpy_8sel_basic() {
         let x: Vec<i32> = vec![1; 16];
-        let mut y: Vec<i32>;
+        let mut y: Vec<i32> = vec![2; 16];
 
-        y = vec![2; 16];
         i32::mk_axpy_8sel(16, 2, &x, &mut y);
         assert_eq!(y, vec![4; 16]);
     }

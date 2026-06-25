@@ -1,9 +1,9 @@
+use crate::{kernel::k_swap, utils::traits::Zeroable};
+
 //#[cfg(feature = "cblas")]
 mod cblas_ffi;
 //#[cfg(feature = "c_cpp")]
 mod rublas_ffi;
-
-use crate::{kernel::k_swap, utils::traits::Zeroable};
 
 /// swap (x <-> y)
 ///

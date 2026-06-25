@@ -1,11 +1,9 @@
+use super::utils::BlockSizes;
+use crate::{kernel::generic, utils::mem::is_aligned};
 use std::{
     arch::x86_64::*,
     ops::{AddAssign, Mul},
 };
-
-use crate::{kernel::generic, utils::mem::is_aligned};
-
-use super::utils::BlockSizes;
 
 // ***************************************************************************
 // ***************************************************************************
@@ -23,13 +21,9 @@ where
     /// avx (avx accelerated)
     ///
     /// # Arguments
-    ///
     /// * `b` - number of avx blocks in vectors `x` and `y`
-    ///
     /// * `alpha` - scaling factor for `x`
-    ///
     /// * `x` - a vector
-    ///
     /// * `y` - a vector
     unsafe fn mk_axpy_bssel_avx(b: usize, alpha: Self, x: &[Self], y: &mut [Self]) -> ();
 }
@@ -99,9 +93,8 @@ mod test {
     fn mk_axpy_bssel_avx_basic() {
         let b: usize = 2;
         let x: Vec<i32> = vec![1; b * i32::AVX_BLOCK_SIZE];
-        let mut y: Vec<i32>;
+        let mut y: Vec<i32> = vec![2; b * i32::AVX_BLOCK_SIZE];
 
-        y = vec![2; b * i32::AVX_BLOCK_SIZE];
         unsafe { i32::mk_axpy_bssel_avx(b, 2, &x, &mut y) };
         assert_eq!(y, vec![4; b * i32::AVX_BLOCK_SIZE]);
     }
@@ -110,9 +103,8 @@ mod test {
     fn mk_axpy_bssel_avx_f32() {
         let b: usize = 2;
         let x: Vec<f32> = vec![1.0; b * f32::AVX_BLOCK_SIZE];
-        let mut y: Vec<f32>;
+        let mut y: Vec<f32> = vec![2.0; b * f32::AVX_BLOCK_SIZE];
 
-        y = vec![2.0; b * f32::AVX_BLOCK_SIZE];
         unsafe { f32::mk_axpy_bssel_avx(b, 2.0, &x, &mut y) };
         assert_eq!(y, vec![4.0; b * f32::AVX_BLOCK_SIZE]);
     }

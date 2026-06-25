@@ -1,10 +1,9 @@
+use super::traits::{Conjugatable, Zeroable};
 use std::{
     any::type_name,
     fmt::Display,
     ops::{Add, AddAssign, Div, Mul, Neg, Sub},
 };
-
-use super::traits::{Conjigatable, Zeroable};
 
 // ===========================================================================
 // Complex
@@ -68,7 +67,7 @@ where
     fn eq(&self, other: &Self) -> bool { self.real == other.real && self.imag == other.imag }
 }
 
-impl<T> Conjigatable for Complex<T>
+impl<T> Conjugatable for Complex<T>
 where
     T: Neg<Output = T>,
 {
@@ -227,19 +226,19 @@ mod test {
         let mut r: Complex<i32>;
 
         // create Complex<T>
-        let a: Complex<i32> = Complex::<i32>::new(-14i32, 2i32);
-        assert_eq!(a.real(), -14i32);
-        assert_eq!(a.imag(), 2i32);
+        let a: Complex<i32> = Complex::<i32>::new(-14, 2);
+        assert_eq!(a.real(), -14);
+        assert_eq!(a.imag(), 2);
 
-        let b: Complex<i32> = Complex::<i32>::new(4i32, 3i32);
-        assert_eq!(b.real(), 4i32);
-        assert_eq!(b.imag(), 3i32);
+        let b: Complex<i32> = Complex::<i32>::new(4, 3);
+        assert_eq!(b.real(), 4);
+        assert_eq!(b.imag(), 3);
 
         // Display
-        // Not tested here. See crate::utils::types.
+        // Not tested here.
 
         // From *const T
-        let l: Vec<i32> = vec![-14i32, 2i32];
+        let l: Vec<i32> = vec![-14, 2];
         let l_ptr: *const i32 = l.as_ptr();
         r = Complex::<i32>::from(l_ptr);
         assert_eq!(r, a);
@@ -248,59 +247,59 @@ mod test {
         assert_eq!(a, a);
         assert_ne!(a, b);
 
-        // Conjigatable
+        // Conjugatable
         r = a.conj();
-        assert_eq!(r.real(), -14i32);
-        assert_eq!(r.imag(), -2i32);
+        assert_eq!(r.real(), -14);
+        assert_eq!(r.imag(), -2);
 
         // Zeroable
-        // Not tested here. See crate::utils::types
+        // Not tested here.
 
         // math with Complex<T>
         // Add
         r = a + b;
-        assert_eq!(r.real(), -10i32);
-        assert_eq!(r.imag(), 5i32);
+        assert_eq!(r.real(), -10);
+        assert_eq!(r.imag(), 5);
 
         // AddAssign
         r += a;
-        assert_eq!(r.real(), -24i32);
-        assert_eq!(r.imag(), 7i32);
+        assert_eq!(r.real(), -24);
+        assert_eq!(r.imag(), 7);
 
         // Div
         r = a / b;
-        assert_eq!(r.real(), -2i32);
-        assert_eq!(r.imag(), 2i32);
+        assert_eq!(r.real(), -2);
+        assert_eq!(r.imag(), 2);
 
         // Mul
         r = a * b;
-        assert_eq!(r.real(), -62i32);
-        assert_eq!(r.imag(), -34i32);
+        assert_eq!(r.real(), -62);
+        assert_eq!(r.imag(), -34);
 
         // Sub
         r = a - b;
-        assert_eq!(r.real(), -18i32);
-        assert_eq!(r.imag(), -1i32);
+        assert_eq!(r.real(), -18);
+        assert_eq!(r.imag(), -1);
 
         // math with T
         // Add
-        r = a + 2i32;
-        assert_eq!(r.real(), -12i32);
-        assert_eq!(r.imag(), 2i32);
+        r = a + 2;
+        assert_eq!(r.real(), -12);
+        assert_eq!(r.imag(), 2);
 
         // Div
-        r = a / 2i32;
-        assert_eq!(r.real(), -7i32);
-        assert_eq!(r.imag(), 1i32);
+        r = a / 2;
+        assert_eq!(r.real(), -7);
+        assert_eq!(r.imag(), 1);
 
         // Mul
-        r = a * 2i32;
-        assert_eq!(r.real(), -28i32);
-        assert_eq!(r.imag(), 4i32);
+        r = a * 2;
+        assert_eq!(r.real(), -28);
+        assert_eq!(r.imag(), 4);
 
         // Sub
-        r = a - 2i32;
-        assert_eq!(r.real(), -16i32);
-        assert_eq!(r.imag(), 2i32);
+        r = a - 2;
+        assert_eq!(r.real(), -16);
+        assert_eq!(r.imag(), 2);
     }
 }

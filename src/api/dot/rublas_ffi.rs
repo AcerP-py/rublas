@@ -1,8 +1,6 @@
-use std::ffi::{c_double, c_float, c_size_t};
-
+use super::dot;
 use crate::utils::types::{c_double_complex, c_float_complex, cf32, cf64};
-
-use super::{dot, dotc};
+use std::ffi::{c_double, c_float, c_size_t};
 
 #[unsafe(no_mangle)]
 pub extern "C" fn dot_f32(
@@ -18,7 +16,7 @@ pub extern "C" fn dot_f32(
     let inc_y: usize = inc_y as usize;
     let y: &[f32] = unsafe { std::slice::from_raw_parts(y, n * inc_y) };
 
-    let result: f32 = dot(n, x, inc_x, y, inc_y);
+    let result: f32 = dot(n, x, inc_x, y, inc_y, false);
 
     result as c_float
 }
@@ -37,7 +35,7 @@ pub extern "C" fn dot_f32_as_f64(
     let inc_y: usize = inc_y as usize;
     let y: &[f32] = unsafe { std::slice::from_raw_parts(y, n * inc_y) };
 
-    let result: f64 = dot(n, x, inc_x, y, inc_y);
+    let result: f64 = dot(n, x, inc_x, y, inc_y, false);
 
     result as c_double
 }
@@ -56,7 +54,7 @@ pub extern "C" fn dot_f64(
     let inc_y: usize = inc_y as usize;
     let y: &[f64] = unsafe { std::slice::from_raw_parts(y, n * inc_y) };
 
-    let result: f64 = dot(n, x, inc_x, y, inc_y);
+    let result: f64 = dot(n, x, inc_x, y, inc_y, false);
 
     result as c_double
 }
@@ -75,7 +73,7 @@ pub extern "C" fn dot_cf32(
     let inc_y: usize = inc_y as usize;
     let y: &[cf32] = unsafe { std::slice::from_raw_parts(y as *const cf32, n * inc_y) };
 
-    let result: cf32 = dot(n, x, inc_x, y, inc_y);
+    let result: cf32 = dot(n, x, inc_x, y, inc_y, false);
 
     c_float_complex::from(result)
 }
@@ -94,7 +92,7 @@ pub extern "C" fn dot_cf32_conj(
     let inc_y: usize = inc_y as usize;
     let y: &[cf32] = unsafe { std::slice::from_raw_parts(y as *const cf32, n * inc_y) };
 
-    let result: cf32 = dotc(n, x, inc_x, y, inc_y);
+    let result: cf32 = dot(n, x, inc_x, y, inc_y, true);
 
     c_float_complex::from(result)
 }
@@ -113,7 +111,7 @@ pub extern "C" fn dot_cf64(
     let inc_y: usize = inc_y as usize;
     let y: &[cf64] = unsafe { std::slice::from_raw_parts(y as *const cf64, n * inc_y) };
 
-    let result: cf64 = dot(n, x, inc_x, y, inc_y);
+    let result: cf64 = dot(n, x, inc_x, y, inc_y, false);
 
     c_double_complex::from(result)
 }
@@ -132,7 +130,7 @@ pub extern "C" fn dot_cf64_conj(
     let inc_y: usize = inc_y as usize;
     let y: &[cf64] = unsafe { std::slice::from_raw_parts(y as *const cf64, n * inc_y) };
 
-    let result: cf64 = dotc(n, x, inc_x, y, inc_y);
+    let result: cf64 = dot(n, x, inc_x, y, inc_y, true);
 
     c_double_complex::from(result)
 }

@@ -1,8 +1,8 @@
+use super::{
+    complex::Complex,
+    traits::{BLASAbsoluteValue, Conjugatable, Zeroable},
+};
 use std::ops::{Add, Div, Mul, Sub};
-
-use super::traits::{BLASAbsoluteValue, Conjigatable, Zeroable};
-
-use super::complex::Complex;
 
 // ===========================================================================
 // usize
@@ -12,7 +12,7 @@ impl BLASAbsoluteValue for usize {
     fn blas_abs(self) -> Self { self }
 }
 
-impl Conjigatable for usize {
+impl Conjugatable for usize {
     fn conj(self) -> Self { self }
 }
 
@@ -28,7 +28,7 @@ impl BLASAbsoluteValue for u8 {
     fn blas_abs(self) -> Self { self }
 }
 
-impl Conjigatable for u8 {
+impl Conjugatable for u8 {
     fn conj(self) -> Self { self }
 }
 
@@ -44,7 +44,7 @@ impl BLASAbsoluteValue for u16 {
     fn blas_abs(self) -> Self { self }
 }
 
-impl Conjigatable for u16 {
+impl Conjugatable for u16 {
     fn conj(self) -> Self { self }
 }
 
@@ -60,7 +60,7 @@ impl BLASAbsoluteValue for u32 {
     fn blas_abs(self) -> Self { self }
 }
 
-impl Conjigatable for u32 {
+impl Conjugatable for u32 {
     fn conj(self) -> Self { self }
 }
 
@@ -76,7 +76,7 @@ impl BLASAbsoluteValue for u64 {
     fn blas_abs(self) -> Self { self }
 }
 
-impl Conjigatable for u64 {
+impl Conjugatable for u64 {
     fn conj(self) -> Self { self }
 }
 
@@ -92,7 +92,7 @@ impl BLASAbsoluteValue for u128 {
     fn blas_abs(self) -> Self { self }
 }
 
-impl Conjigatable for u128 {
+impl Conjugatable for u128 {
     fn conj(self) -> Self { self }
 }
 
@@ -108,7 +108,7 @@ impl BLASAbsoluteValue for isize {
     fn blas_abs(self) -> Self { self }
 }
 
-impl Conjigatable for isize {
+impl Conjugatable for isize {
     fn conj(self) -> Self { self }
 }
 
@@ -124,7 +124,7 @@ impl BLASAbsoluteValue for i8 {
     fn blas_abs(self) -> Self { self }
 }
 
-impl Conjigatable for i8 {
+impl Conjugatable for i8 {
     fn conj(self) -> Self { self }
 }
 
@@ -140,7 +140,7 @@ impl BLASAbsoluteValue for i16 {
     fn blas_abs(self) -> Self { self }
 }
 
-impl Conjigatable for i16 {
+impl Conjugatable for i16 {
     fn conj(self) -> Self { self }
 }
 
@@ -156,7 +156,7 @@ impl BLASAbsoluteValue for i32 {
     fn blas_abs(self) -> Self { self }
 }
 
-impl Conjigatable for i32 {
+impl Conjugatable for i32 {
     fn conj(self) -> Self { self }
 }
 
@@ -172,7 +172,7 @@ impl BLASAbsoluteValue for i64 {
     fn blas_abs(self) -> Self { self }
 }
 
-impl Conjigatable for i64 {
+impl Conjugatable for i64 {
     fn conj(self) -> Self { self }
 }
 
@@ -188,7 +188,7 @@ impl BLASAbsoluteValue for i128 {
     fn blas_abs(self) -> Self { self }
 }
 
-impl Conjigatable for i128 {
+impl Conjugatable for i128 {
     fn conj(self) -> Self { self }
 }
 
@@ -204,7 +204,7 @@ impl BLASAbsoluteValue for f32 {
     fn blas_abs(self) -> Self::Output { self.abs() }
 }
 
-impl Conjigatable for f32 {
+impl Conjugatable for f32 {
     fn conj(self) -> Self { self }
 }
 
@@ -220,7 +220,7 @@ impl BLASAbsoluteValue for f64 {
     fn blas_abs(self) -> Self::Output { self.abs() }
 }
 
-impl Conjigatable for f64 {
+impl Conjugatable for f64 {
     fn conj(self) -> Self { self }
 }
 
@@ -330,61 +330,61 @@ mod test {
 
     #[test]
     fn cf32_basic() {
-        assert_eq!(I32.real(), 0.0f32);
-        assert_eq!(I32.imag(), 1.0f32);
+        assert_eq!(I32.real(), 0.0);
+        assert_eq!(I32.imag(), 1.0);
 
-        let a: cf32 = cf32::new(2.0f32, 3.0f32);
+        let a: cf32 = cf32::new(2.0, 3.0);
         let mut r: cf32;
 
         // math for f32 * Complex<f32>
         // Add
-        r = 2.0f32 + a;
-        assert_eq!(r.real(), 4.0f32);
-        assert_eq!(r.imag(), 3.0f32);
+        r = 2.0 + a;
+        assert_eq!(r.real(), 4.0);
+        assert_eq!(r.imag(), 3.0);
 
         // Div
-        r = 26.0f32 / a;
-        assert_eq!(r.real(), 4.0f32);
-        assert_eq!(r.imag(), -6.0f32);
+        r = 26.0 / a;
+        assert_eq!(r.real(), 4.0);
+        assert_eq!(r.imag(), -6.0);
 
         // Mul
-        r = 2.0f32 * a;
-        assert_eq!(r.real(), 4.0f32);
-        assert_eq!(r.imag(), 6.0f32);
+        r = 2.0 * a;
+        assert_eq!(r.real(), 4.0);
+        assert_eq!(r.imag(), 6.0);
 
         // Sub
-        r = 2.0f32 - a;
-        assert_eq!(r.real(), 0.0f32);
-        assert_eq!(r.imag(), -3.0f32);
+        r = 2.0 - a;
+        assert_eq!(r.real(), 0.0);
+        assert_eq!(r.imag(), -3.0);
     }
 
     #[test]
     fn cf64_basic() {
-        assert_eq!(I64.real(), 0.0f64);
-        assert_eq!(I64.imag(), 1.0f64);
+        assert_eq!(I64.real(), 0.0);
+        assert_eq!(I64.imag(), 1.0);
 
-        let a: cf64 = cf64::new(2.0f64, 3.0f64);
+        let a: cf64 = cf64::new(2.0, 3.0);
         let mut r: cf64;
 
         // math for f32 * Complex<f32>
         // Add
-        r = 2.0f64 + a;
-        assert_eq!(r.real(), 4.0f64);
-        assert_eq!(r.imag(), 3.0f64);
+        r = 2.0 + a;
+        assert_eq!(r.real(), 4.0);
+        assert_eq!(r.imag(), 3.0);
 
         // Div
-        r = 26.0f64 / a;
-        assert_eq!(r.real(), 4.0f64);
-        assert_eq!(r.imag(), -6.0f64);
+        r = 26.0 / a;
+        assert_eq!(r.real(), 4.0);
+        assert_eq!(r.imag(), -6.0);
 
         // Mul
-        r = 2.0f64 * a;
-        assert_eq!(r.real(), 4.0f64);
-        assert_eq!(r.imag(), 6.0f64);
+        r = 2.0 * a;
+        assert_eq!(r.real(), 4.0);
+        assert_eq!(r.imag(), 6.0);
 
         // Sub
-        r = 2.0f64 - a;
-        assert_eq!(r.real(), 0.0f64);
-        assert_eq!(r.imag(), -3.0f64);
+        r = 2.0 - a;
+        assert_eq!(r.real(), 0.0);
+        assert_eq!(r.imag(), -3.0);
     }
 }
