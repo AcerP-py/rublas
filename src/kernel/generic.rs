@@ -80,41 +80,6 @@ where
 }
 
 // ===========================================================================
-// swap
-// ===========================================================================
-
-/// ak (architecture-kernel) _
-/// swap (x <-> y)
-///
-/// # Arguments
-/// * `n` - length of vectors `x` and `y`
-/// * `x` - a vector
-/// * `inc_x` - increment between elements of `x`
-/// * `y` - a vector
-/// * `inc_y` - increment between elements of `y`
-pub fn ak_swap<T>(n: usize, x: &mut [T], inc_x: usize, y: &mut [T], inc_y: usize) -> ()
-where
-    T: Copy + swap::SWAP,
-{
-    let c: usize;
-    let mut shelf: T;
-
-    if inc_x == 1 && inc_y == 1 {
-        c = n & !7;
-        T::mk_swap_8sel(c, x, y);
-    } else {
-        c = n & !1;
-        T::mk_swap_2nsel(c, x, inc_x, y, inc_y);
-    }
-
-    for i in c..n {
-        shelf = y[i * inc_y];
-        y[i * inc_y] = x[i * inc_x];
-        x[i * inc_x] = shelf;
-    }
-}
-
-// ===========================================================================
 // dot
 // ===========================================================================
 
@@ -222,6 +187,41 @@ where
     }
 }
 
+// ===========================================================================
+// swap
+// ===========================================================================
+
+/// ak (architecture-kernel) _
+/// swap (x <-> y)
+///
+/// # Arguments
+/// * `n` - length of vectors `x` and `y`
+/// * `x` - a vector
+/// * `inc_x` - increment between elements of `x`
+/// * `y` - a vector
+/// * `inc_y` - increment between elements of `y`
+pub fn ak_swap<T>(n: usize, x: &mut [T], inc_x: usize, y: &mut [T], inc_y: usize) -> ()
+where
+    T: Copy + swap::SWAP,
+{
+    let c: usize;
+    let mut shelf: T;
+
+    if inc_x == 1 && inc_y == 1 {
+        c = n & !7;
+        T::mk_swap_8sel(c, x, y);
+    } else {
+        c = n & !1;
+        T::mk_swap_2nsel(c, x, inc_x, y, inc_y);
+    }
+
+    for i in c..n {
+        shelf = y[i * inc_y];
+        y[i * inc_y] = x[i * inc_x];
+        x[i * inc_x] = shelf;
+    }
+}
+
 // ***************************************************************************
 // ***************************************************************************
 // tests
@@ -264,23 +264,6 @@ mod tests {
         inc = 2;
         ak_copy(5, &x, inc, &mut y, inc);
         assert_eq!(y, vec![1, 2, 1, 2, 1, 2, 1, 2, 1]);
-    }
-
-    #[test]
-    fn ak_swap_basic() {
-        let mut x: Vec<i32> = vec![1; 9];
-        let mut y: Vec<i32> = vec![2; 9];
-        let mut inc: usize;
-
-        inc = 1;
-        ak_swap(9, &mut x, inc, &mut y, inc);
-        assert_eq!(x, vec![2; 9]);
-        assert_eq!(y, vec![1; 9]);
-
-        inc = 2;
-        ak_swap(5, &mut x, inc, &mut y, inc);
-        assert_eq!(x, vec![1, 2, 1, 2, 1, 2, 1, 2, 1]);
-        assert_eq!(y, vec![2, 1, 2, 1, 2, 1, 2, 1, 2]);
     }
 
     #[test]
@@ -328,5 +311,22 @@ mod tests {
         inc = 2;
         ak_scal(5, 2, &mut x, inc);
         assert_eq!(x, vec![2, 1, 2, 1, 2, 1, 2, 1, 2]);
+    }
+
+    #[test]
+    fn ak_swap_basic() {
+        let mut x: Vec<i32> = vec![1; 9];
+        let mut y: Vec<i32> = vec![2; 9];
+        let mut inc: usize;
+
+        inc = 1;
+        ak_swap(9, &mut x, inc, &mut y, inc);
+        assert_eq!(x, vec![2; 9]);
+        assert_eq!(y, vec![1; 9]);
+
+        inc = 2;
+        ak_swap(5, &mut x, inc, &mut y, inc);
+        assert_eq!(x, vec![1, 2, 1, 2, 1, 2, 1, 2, 1]);
+        assert_eq!(y, vec![2, 1, 2, 1, 2, 1, 2, 1, 2]);
     }
 }

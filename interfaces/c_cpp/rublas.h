@@ -35,16 +35,6 @@ void axpy_cf32(const usize_t n, const cf32_t *alpha, const cf32_t *x,
 void axpy_cf64(const usize_t n, const cf64_t *alpha, const cf64_t *x,
                const usize_t inc_x, cf64_t *y, const usize_t inc_y);
 
-// scal
-void scal_f32(const usize_t n, const f32_t alpha, f32_t *x,
-              const usize_t inc_x);
-void scal_f64(const usize_t n, const f64_t alpha, f64_t *x,
-              const usize_t inc_x);
-void scal_cf32(const usize_t n, const cf32_t *alpha, cf32_t *x,
-               const usize_t inc_x);
-void scal_cf64(const usize_t n, const cf64_t *alpha, cf64_t *x,
-               const usize_t inc_x);
-
 // copy
 void copy_f32(const usize_t n, const f32_t *x, const usize_t inc_x, f32_t *y,
               const usize_t inc_y);
@@ -54,22 +44,6 @@ void copy_cf32(const usize_t n, const cf32_t *x, const usize_t inc_x, cf32_t *y,
                const usize_t inc_y);
 void copy_cf64(const usize_t n, const cf64_t *x, const usize_t inc_x, cf64_t *y,
                const usize_t inc_y);
-
-// swap
-void swap_f32(const usize_t n, f32_t *x, const usize_t inc_x, f32_t *y,
-              const usize_t inc_y);
-void swap_f64(const usize_t n, f64_t *x, const usize_t inc_x, f64_t *y,
-              const usize_t inc_y);
-void swap_cf32(const usize_t n, cf32_t *x, const usize_t inc_x, cf32_t *y,
-               const usize_t inc_y);
-void swap_cf64(const usize_t n, cf64_t *x, const usize_t inc_x, cf64_t *y,
-               const usize_t inc_y);
-
-// iamax
-usize_t iamax_f32(const usize_t n, const f32_t *x, const usize_t inc_x);
-usize_t iamax_f64(const usize_t n, const f64_t *x, const usize_t inc_x);
-usize_t iamax_cf32(const usize_t n, const cf32_t *x, const usize_t inc_x);
-usize_t iamax_cf64(const usize_t n, const cf64_t *x, const usize_t inc_x);
 
 // dot
 f32_t dot_f32(const usize_t n, const f32_t *x, const usize_t inc_x,
@@ -86,6 +60,32 @@ cf64_t dot_cf64(const usize_t n, const cf64_t *x, const usize_t inc_x,
                 const cf64_t *y, const usize_t inc_y);
 cf64_t dot_cf64_conj(const usize_t n, const cf64_t *x, const usize_t inc_x,
                      const cf64_t *y, const usize_t inc_y);
+
+// iamax
+usize_t iamax_f32(const usize_t n, const f32_t *x, const usize_t inc_x);
+usize_t iamax_f64(const usize_t n, const f64_t *x, const usize_t inc_x);
+usize_t iamax_cf32(const usize_t n, const cf32_t *x, const usize_t inc_x);
+usize_t iamax_cf64(const usize_t n, const cf64_t *x, const usize_t inc_x);
+
+// scal
+void scal_f32(const usize_t n, const f32_t alpha, f32_t *x,
+              const usize_t inc_x);
+void scal_f64(const usize_t n, const f64_t alpha, f64_t *x,
+              const usize_t inc_x);
+void scal_cf32(const usize_t n, const cf32_t *alpha, cf32_t *x,
+               const usize_t inc_x);
+void scal_cf64(const usize_t n, const cf64_t *alpha, cf64_t *x,
+               const usize_t inc_x);
+
+// swap
+void swap_f32(const usize_t n, f32_t *x, const usize_t inc_x, f32_t *y,
+              const usize_t inc_y);
+void swap_f64(const usize_t n, f64_t *x, const usize_t inc_x, f64_t *y,
+              const usize_t inc_y);
+void swap_cf32(const usize_t n, cf32_t *x, const usize_t inc_x, cf32_t *y,
+               const usize_t inc_y);
+void swap_cf64(const usize_t n, cf64_t *x, const usize_t inc_x, cf64_t *y,
+               const usize_t inc_y);
 
 #ifdef __cplusplus
 }

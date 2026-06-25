@@ -73,22 +73,6 @@ where
     generic::ak_copy(n, x, inc_x, y, inc_y);
 }
 
-/// k (kernel) _
-/// swap (x <-> y)
-///
-/// # Arguments
-/// * `n` - length of vectors `x` and `y`
-/// * `x` - a vector
-/// * `inc_x` - increment between elements of `x`
-/// * `y` - a vector
-/// * `inc_y` - increment between elements of `y`
-pub fn k_swap<T>(n: usize, x: &mut [T], inc_x: usize, y: &mut [T], inc_y: usize) -> ()
-where
-    T: Copy + Zeroable,
-{
-    generic::ak_swap(n, x, inc_x, y, inc_y);
-}
-
 // ===========================================================================
 // dot
 // ===========================================================================
@@ -152,4 +136,24 @@ where
     T: Copy + Mul<Output = T>,
 {
     generic::ak_scal(n, alpha, x, inc_x);
+}
+
+// ===========================================================================
+// swap
+// ===========================================================================
+
+/// k (kernel) _
+/// swap (x <-> y)
+///
+/// # Arguments
+/// * `n` - length of vectors `x` and `y`
+/// * `x` - a vector
+/// * `inc_x` - increment between elements of `x`
+/// * `y` - a vector
+/// * `inc_y` - increment between elements of `y`
+pub fn k_swap<T>(n: usize, x: &mut [T], inc_x: usize, y: &mut [T], inc_y: usize) -> ()
+where
+    T: Copy + Zeroable,
+{
+    generic::ak_swap(n, x, inc_x, y, inc_y);
 }
