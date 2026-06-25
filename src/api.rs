@@ -9,6 +9,7 @@ mod copy;
 mod dot;
 mod iamax;
 mod scal;
+mod swap;
 
 // ===========================================================================
 // level 1
@@ -19,3 +20,4 @@ pub use copy::*;
 pub use dot::*;
 pub use iamax::*;
 pub use scal::*;
+pub use swap::*;
