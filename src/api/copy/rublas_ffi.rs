@@ -1,5 +1,5 @@
 use super::copy;
-use crate::utils::types::{cf32, cf64};
+use crate::utils::types::{c_double_complex, c_float_complex, cf32, cf64};
 use std::ffi::{c_double, c_float, c_size_t};
 
 #[unsafe(no_mangle)]
@@ -39,9 +39,9 @@ pub extern "C" fn copy_f64(
 #[unsafe(no_mangle)]
 pub extern "C" fn copy_cf32(
     n: c_size_t,
-    x: *const c_float,
+    x: *const c_float_complex,
     inc_x: c_size_t,
-    y: *mut c_float,
+    y: *mut c_float_complex,
     inc_y: c_size_t,
 ) -> () {
     let n: usize = n as usize;
@@ -56,9 +56,9 @@ pub extern "C" fn copy_cf32(
 #[unsafe(no_mangle)]
 pub extern "C" fn copy_cf64(
     n: c_size_t,
-    x: *const c_double,
+    x: *const c_double_complex,
     inc_x: c_size_t,
-    y: *mut c_double,
+    y: *mut c_double_complex,
     inc_y: c_size_t,
 ) -> () {
     let n: usize = n as usize;

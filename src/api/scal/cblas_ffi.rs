@@ -1,5 +1,5 @@
 use super::scal;
-use crate::utils::types::{cf32, cf64};
+use crate::utils::types::{c_double_complex, c_float_complex, cf32, cf64};
 use std::ffi::{c_double, c_float, c_int, c_void};
 
 #[allow(non_snake_case)]
@@ -28,7 +28,7 @@ pub extern "C" fn cblas_dscal(N: c_int, alpha: c_double, X: *mut c_double, incX:
 #[unsafe(no_mangle)]
 pub extern "C" fn cblas_cscal(N: c_int, alpha: *const c_void, X: *const c_void, incX: c_int) -> () {
     let n: usize = N as usize;
-    let alpha: cf32 = cf32::from(alpha as *const c_float);
+    let alpha: cf32 = cf32::from(alpha as *const c_float_complex as *const cf32);
     let inc_x: usize = incX as usize;
     let x: &mut [cf32] = unsafe { std::slice::from_raw_parts_mut(X as *mut cf32, n * inc_x) };
 
@@ -39,7 +39,7 @@ pub extern "C" fn cblas_cscal(N: c_int, alpha: *const c_void, X: *const c_void, 
 #[unsafe(no_mangle)]
 pub extern "C" fn cblas_zscal(N: c_int, alpha: *const c_void, X: *const c_void, incX: c_int) -> () {
     let n: usize = N as usize;
-    let alpha: cf64 = cf64::from(alpha as *const c_double);
+    let alpha: cf64 = cf64::from(alpha as *const c_double_complex as *const cf64);
     let inc_x: usize = incX as usize;
     let x: &mut [cf64] = unsafe { std::slice::from_raw_parts_mut(X as *mut cf64, n * inc_x) };
 

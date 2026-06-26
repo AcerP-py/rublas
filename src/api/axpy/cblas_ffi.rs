@@ -1,5 +1,5 @@
 use super::axpy;
-use crate::utils::types::{cf32, cf64};
+use crate::utils::types::{c_double_complex, c_float_complex, cf32, cf64};
 use std::ffi::{c_double, c_float, c_int, c_void};
 
 #[allow(non_snake_case)]
@@ -53,7 +53,7 @@ pub extern "C" fn cblas_caxpy(
     incY: c_int,
 ) -> () {
     let n: usize = N as usize;
-    let alpha: cf32 = cf32::from(alpha as *const c_float);
+    let alpha: cf32 = cf32::from(alpha as *const c_float_complex as *const cf32);
     let inc_x: usize = incX as usize;
     let x: &[cf32] = unsafe { std::slice::from_raw_parts(X as *const cf32, n * inc_x) };
     let inc_y: usize = incY as usize;
@@ -73,7 +73,7 @@ pub extern "C" fn cblas_zaxpy(
     incY: c_int,
 ) -> () {
     let n: usize = N as usize;
-    let alpha: cf64 = cf64::from(alpha as *const c_double);
+    let alpha: cf64 = cf64::from(alpha as *const c_double_complex as *const cf64);
     let inc_x: usize = incX as usize;
     let x: &[cf64] = unsafe { std::slice::from_raw_parts(X as *const cf64, n * inc_x) };
     let inc_y: usize = incY as usize;

@@ -62,9 +62,9 @@ pub extern "C" fn dot_f64(
 #[unsafe(no_mangle)]
 pub extern "C" fn dot_cf32(
     n: c_size_t,
-    x: *const c_float,
+    x: *const c_float_complex,
     inc_x: c_size_t,
-    y: *const c_float,
+    y: *const c_float_complex,
     inc_y: c_size_t,
 ) -> c_float_complex {
     let n: usize = n as usize;
@@ -81,9 +81,9 @@ pub extern "C" fn dot_cf32(
 #[unsafe(no_mangle)]
 pub extern "C" fn dot_cf32_conj(
     n: c_size_t,
-    x: *const c_float,
+    x: *const c_float_complex,
     inc_x: c_size_t,
-    y: *const c_float,
+    y: *const c_float_complex,
     inc_y: c_size_t,
 ) -> c_float_complex {
     let n: usize = n as usize;
@@ -100,9 +100,9 @@ pub extern "C" fn dot_cf32_conj(
 #[unsafe(no_mangle)]
 pub extern "C" fn dot_cf64(
     n: c_size_t,
-    x: *const c_double,
+    x: *const c_double_complex,
     inc_x: c_size_t,
-    y: *const c_double,
+    y: *const c_double_complex,
     inc_y: c_size_t,
 ) -> c_double_complex {
     let n: usize = n as usize;
@@ -119,9 +119,9 @@ pub extern "C" fn dot_cf64(
 #[unsafe(no_mangle)]
 pub extern "C" fn dot_cf64_conj(
     n: c_size_t,
-    x: *const c_double,
+    x: *const c_double_complex,
     inc_x: c_size_t,
-    y: *const c_double,
+    y: *const c_double_complex,
     inc_y: c_size_t,
 ) -> c_double_complex {
     let n: usize = n as usize;
