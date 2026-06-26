@@ -105,7 +105,7 @@ impl Zeroable for u128 {
 // ===========================================================================
 impl BLASAbsoluteValue for isize {
     type Output = Self;
-    fn blas_abs(self) -> Self { self }
+    fn blas_abs(self) -> Self { self.abs() }
 }
 
 impl Conjugatable for isize {
@@ -121,7 +121,7 @@ impl Zeroable for isize {
 // ===========================================================================
 impl BLASAbsoluteValue for i8 {
     type Output = Self;
-    fn blas_abs(self) -> Self { self }
+    fn blas_abs(self) -> Self { self.abs() }
 }
 
 impl Conjugatable for i8 {
@@ -137,7 +137,7 @@ impl Zeroable for i8 {
 // ===========================================================================
 impl BLASAbsoluteValue for i16 {
     type Output = Self;
-    fn blas_abs(self) -> Self { self }
+    fn blas_abs(self) -> Self { self.abs() }
 }
 
 impl Conjugatable for i16 {
@@ -153,7 +153,7 @@ impl Zeroable for i16 {
 // ===========================================================================
 impl BLASAbsoluteValue for i32 {
     type Output = Self;
-    fn blas_abs(self) -> Self { self }
+    fn blas_abs(self) -> Self { self.abs() }
 }
 
 impl Conjugatable for i32 {
@@ -169,7 +169,7 @@ impl Zeroable for i32 {
 // ===========================================================================
 impl BLASAbsoluteValue for i64 {
     type Output = Self;
-    fn blas_abs(self) -> Self { self }
+    fn blas_abs(self) -> Self { self.abs() }
 }
 
 impl Conjugatable for i64 {
@@ -185,7 +185,7 @@ impl Zeroable for i64 {
 // ===========================================================================
 impl BLASAbsoluteValue for i128 {
     type Output = Self;
-    fn blas_abs(self) -> Self { self }
+    fn blas_abs(self) -> Self { self.abs() }
 }
 
 impl Conjugatable for i128 {

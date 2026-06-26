@@ -25,6 +25,12 @@ typedef double complex cf64_t;
  * Level 1 BLAS
  */
 
+// asum
+f32_t asum_f32(const usize_t n, const f32_t *x, const usize_t inc_x);
+f64_t asum_f64(const usize_t n, const f64_t *x, const usize_t inc_x);
+f32_t asum_cf32(const usize_t n, const cf32_t *x, const usize_t inc_x);
+f64_t asum_cf64(const usize_t n, const cf64_t *x, const usize_t inc_x);
+
 // axpy
 void axpy_f32(const usize_t n, const f32_t alpha, const f32_t *x,
               const usize_t inc_x, f32_t *y, const usize_t inc_y);

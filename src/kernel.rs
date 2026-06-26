@@ -27,6 +27,28 @@ cfg_if! {
 // ***************************************************************************
 
 // ===========================================================================
+// asum
+// ===========================================================================
+
+/// k (kernel) _
+/// asum (sum of "absolute" (|Re(x)|+|Im(x)|) values)
+///
+/// # Arguments
+/// * `n` - length of vector `x`
+/// * `x` - a vector
+/// * `inc_x` - increment between elements of `x`
+///
+/// # Returns
+/// the sum of absolute values of vector elements
+pub fn k_asum<T, A>(n: usize, x: &[T], inc_x: usize) -> A
+where
+    T: BLASAbsoluteValue<Output = A> + Copy,
+    A: AddAssign + Zeroable,
+{
+    generic::ak_asum(n, x, inc_x)
+}
+
+// ===========================================================================
 // axpy
 // ===========================================================================
 
