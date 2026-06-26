@@ -40,23 +40,18 @@ where
     }
 }
 
-impl<T> From<*const T> for Complex<T>
+impl<T> From<*const Complex<T>> for Complex<T>
 where
     T: Copy,
 {
-    fn from(value: *const T) -> Self {
+    fn from(value: *const Complex<T>) -> Self {
         assert!(
             !value.is_null(),
             "Null pointer passed to Complex<{}>::from",
             type_name::<T>()
         );
 
-        unsafe {
-            Self {
-                real: *value,
-                imag: *value.add(1),
-            }
-        }
+        unsafe { *value }
     }
 }
 
@@ -237,10 +232,9 @@ mod test {
         // Display
         // Not tested here.
 
-        // From *const T
-        let l: Vec<i32> = vec![-14, 2];
-        let l_ptr: *const i32 = l.as_ptr();
-        r = Complex::<i32>::from(l_ptr);
+        // From *const Complex<T>
+        let a_ptr: *const Complex<i32> = &a;
+        r = Complex::<i32>::from(a_ptr);
         assert_eq!(r, a);
 
         // PartialEq

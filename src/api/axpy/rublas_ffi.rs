@@ -1,5 +1,5 @@
 use super::axpy;
-use crate::utils::types::{cf32, cf64};
+use crate::utils::types::{c_double_complex, c_float_complex, cf32, cf64};
 use std::ffi::{c_double, c_float, c_size_t};
 
 #[unsafe(no_mangle)]
@@ -43,14 +43,14 @@ pub extern "C" fn axpy_f64(
 #[unsafe(no_mangle)]
 pub extern "C" fn axpy_cf32(
     n: c_size_t,
-    alpha: *const c_float,
-    x: *const c_float,
+    alpha: *const c_float_complex,
+    x: *const c_float_complex,
     inc_x: c_size_t,
-    y: *mut c_float,
+    y: *mut c_float_complex,
     inc_y: c_size_t,
 ) -> () {
     let n: usize = n as usize;
-    let alpha: cf32 = cf32::from(alpha);
+    let alpha: cf32 = cf32::from(alpha as *const cf32);
     let inc_x: usize = inc_x as usize;
     let x: &[cf32] = unsafe { std::slice::from_raw_parts(x as *const cf32, n * inc_x) };
     let inc_y: usize = inc_y as usize;
@@ -62,14 +62,14 @@ pub extern "C" fn axpy_cf32(
 #[unsafe(no_mangle)]
 pub extern "C" fn axpy_cf64(
     n: c_size_t,
-    alpha: *const c_double,
-    x: *const c_double,
+    alpha: *const c_double_complex,
+    x: *const c_double_complex,
     inc_x: c_size_t,
-    y: *mut c_double,
+    y: *mut c_double_complex,
     inc_y: c_size_t,
 ) -> () {
     let n: usize = n as usize;
-    let alpha: cf64 = cf64::from(alpha);
+    let alpha: cf64 = cf64::from(alpha as *const cf64);
     let inc_x: usize = inc_x as usize;
     let x: &[cf64] = unsafe { std::slice::from_raw_parts(x as *const cf64, n * inc_x) };
     let inc_y: usize = inc_y as usize;

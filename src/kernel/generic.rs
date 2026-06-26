@@ -1,6 +1,7 @@
 use crate::utils::traits::{Conjugatable, Zeroable};
 use std::ops::{Add, AddAssign, Mul};
 
+pub mod asum;
 pub mod axpy;
 pub mod copy;
 pub mod dot;
@@ -13,6 +14,31 @@ pub mod swap;
 // level 1 architecture kernels
 // ***************************************************************************
 // ***************************************************************************
+
+// ===========================================================================
+// asum
+// ===========================================================================
+
+/// ak (architecture-kernel) _
+/// asum (sum of "absolute" (|Re(x)|+|Im(x)|) values)
+///
+/// # Arguments
+/// * `n` - length of vector `x`
+/// * `x` - a vector
+/// * `inc_x` - increment between elements of `x`
+///
+/// # Returns
+/// the sum of absolute values of vector elements
+pub fn ak_asum<T, A>(n: usize, x: &[T], inc_x: usize) -> A
+where
+    T: asum::ASUM<A>,
+{
+    if inc_x == 1 {
+        T::mk_asum_sel(n, x)
+    } else {
+        T::mk_asum_nsel(n, x, inc_x)
+    }
+}
 
 // ===========================================================================
 // axpy
@@ -231,6 +257,21 @@ where
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn ak_asum_basic() {
+        let x: Vec<i32> = vec![1, -2, 3, -4, 5, -6, 7, -8, 9, -10];
+        let mut inc: usize;
+        let mut res: i32;
+
+        inc = 1;
+        res = ak_asum(10, &x, inc);
+        assert_eq!(res, 55);
+
+        inc = 2;
+        res = ak_asum(5, &x, inc);
+        assert_eq!(res, 25);
+    }
 
     #[test]
     fn ak_axpy_basic() {

@@ -1,5 +1,5 @@
 use super::scal;
-use crate::utils::types::{cf32, cf64};
+use crate::utils::types::{c_double_complex, c_float_complex, cf32, cf64};
 use std::ffi::{c_double, c_float, c_size_t};
 
 #[unsafe(no_mangle)]
@@ -25,12 +25,12 @@ pub extern "C" fn scal_f64(n: c_size_t, alpha: c_double, x: *mut c_double, inc_x
 #[unsafe(no_mangle)]
 pub extern "C" fn scal_cf32(
     n: c_size_t,
-    alpha: *const c_float,
-    x: *mut c_float,
+    alpha: *const c_float_complex,
+    x: *mut c_float_complex,
     inc_x: c_size_t,
 ) -> () {
     let n: usize = n as usize;
-    let alpha: cf32 = cf32::from(alpha);
+    let alpha: cf32 = cf32::from(alpha as *const cf32);
     let inc_x: usize = inc_x as usize;
     let x: &mut [cf32] = unsafe { std::slice::from_raw_parts_mut(x as *mut cf32, n * inc_x) };
 
@@ -40,12 +40,12 @@ pub extern "C" fn scal_cf32(
 #[unsafe(no_mangle)]
 pub extern "C" fn scal_cf64(
     n: c_size_t,
-    alpha: *const c_double,
-    x: *mut c_double,
+    alpha: *const c_double_complex,
+    x: *mut c_double_complex,
     inc_x: c_size_t,
 ) -> () {
     let n: usize = n as usize;
-    let alpha: cf64 = cf64::from(alpha);
+    let alpha: cf64 = cf64::from(alpha as *const cf64);
     let inc_x: usize = inc_x as usize;
     let x: &mut [cf64] = unsafe { std::slice::from_raw_parts_mut(x as *mut cf64, n * inc_x) };
 

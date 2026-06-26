@@ -14,6 +14,12 @@ extern "C" {
  * Level 1 BLAS
  */
 
+// asum
+float cblas_sasum(const CBLAS_INT N, const float *X, const CBLAS_INT incX);
+double cblas_dasum(const CBLAS_INT N, const double *X, const CBLAS_INT incX);
+float cblas_scasum(const CBLAS_INT N, const void *X, const CBLAS_INT incX);
+double cblas_dzasum(const CBLAS_INT N, const void *X, const CBLAS_INT incX);
+
 // axpy
 void cblas_saxpy(const CBLAS_INT N, const float alpha, const float *X,
                  const CBLAS_INT incX, float *Y, const CBLAS_INT incY);

@@ -1,5 +1,5 @@
 use super::swap;
-use crate::utils::types::{cf32, cf64};
+use crate::utils::types::{c_double_complex, c_float_complex, cf32, cf64};
 use std::ffi::{c_double, c_float, c_size_t};
 
 #[unsafe(no_mangle)]
@@ -39,9 +39,9 @@ pub extern "C" fn swap_f64(
 #[unsafe(no_mangle)]
 pub extern "C" fn swap_cf32(
     n: c_size_t,
-    x: *mut c_float,
+    x: *mut c_float_complex,
     inc_x: c_size_t,
-    y: *mut c_float,
+    y: *mut c_float_complex,
     inc_y: c_size_t,
 ) -> () {
     let n: usize = n as usize;
@@ -56,9 +56,9 @@ pub extern "C" fn swap_cf32(
 #[unsafe(no_mangle)]
 pub extern "C" fn swap_cf64(
     n: c_size_t,
-    x: *mut c_double,
+    x: *mut c_double_complex,
     inc_x: c_size_t,
-    y: *mut c_double,
+    y: *mut c_double_complex,
     inc_y: c_size_t,
 ) -> () {
     let n: usize = n as usize;
