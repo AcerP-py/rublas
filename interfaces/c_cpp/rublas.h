@@ -73,6 +73,16 @@ usize_t iamax_f64(const usize_t n, const f64_t *x, const usize_t inc_x);
 usize_t iamax_cf32(const usize_t n, const cf32_t *x, const usize_t inc_x);
 usize_t iamax_cf64(const usize_t n, const cf64_t *x, const usize_t inc_x);
 
+// rot
+void rot_f32(const usize_t n, f32_t *x, const usize_t inc_x, f32_t *y,
+             const usize_t inc_y, const f32_t c, const f32_t s);
+void rot_f64(const usize_t n, f64_t *x, const usize_t inc_x, f64_t *y,
+             const usize_t inc_y, const f64_t c, const f64_t s);
+void rot_cf32(const usize_t n, cf32_t *x, const usize_t inc_x, cf32_t *y,
+              const usize_t inc_y, const f32_t c, const f32_t s);
+void rot_cf64(const usize_t n, cf64_t *x, const usize_t inc_x, cf64_t *y,
+              const usize_t inc_y, const f64_t c, const f64_t s);
+
 // scal
 void scal_f32(const usize_t n, const f32_t alpha, f32_t *x,
               const usize_t inc_x);

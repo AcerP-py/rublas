@@ -9,6 +9,7 @@ mod axpy;
 mod copy;
 mod dot;
 mod iamax;
+mod rot;
 mod scal;
 mod swap;
 
@@ -21,5 +22,6 @@ pub use axpy::*;
 pub use copy::*;
 pub use dot::*;
 pub use iamax::*;
+pub use rot::*;
 pub use scal::*;
 pub use swap::*;
