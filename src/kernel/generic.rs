@@ -1,11 +1,12 @@
 use crate::utils::traits::{Conjugatable, Zeroable};
-use std::ops::{Add, AddAssign, Mul};
+use std::ops::{Add, AddAssign, Mul, Neg};
 
 pub mod asum;
 pub mod axpy;
 pub mod copy;
 pub mod dot;
 pub mod iamax;
+pub mod rot;
 pub mod scal;
 pub mod swap;
 
@@ -183,6 +184,53 @@ where
 }
 
 // ===========================================================================
+// rot
+// ===========================================================================
+
+/// ak (architecture-kernel) _
+/// rot (apply a Givens rotation)
+///
+/// # Arguments
+/// * `n` - length of vectors `x` and `y`
+/// * `x` - a vector
+/// * `inc_x` - increment between elements of `x`
+/// * `y` - a vector
+/// * `inc_y` - increment between elements of `y`
+/// * `c` - cosine factor
+/// * `s` - sine factor
+pub fn ak_rot<T, A, B>(
+    n: usize,
+    x: &mut [T],
+    inc_x: usize,
+    y: &mut [T],
+    inc_y: usize,
+    c: A,
+    s: B,
+) -> ()
+where
+    T: Add<Output = T> + Copy + rot::ROT<A, B>,
+    A: Copy + Mul<T, Output = T>,
+    B: Copy + Mul<T, Output = T> + Neg<Output = B>,
+{
+    let _c: usize;
+
+    if inc_x == 1 && inc_y == 1 {
+        _c = n & !7;
+        T::mk_rot_8sel(_c, x, y, c, s);
+    } else {
+        _c = n & !1;
+        T::mk_rot_2nsel(_c, x, inc_x, y, inc_y, c, s);
+    }
+
+    for i in _c..n {
+        let x_i: T = x[i * inc_x];
+        let y_i: T = y[i * inc_y];
+        x[i * inc_x] = c * x_i + s * y_i;
+        y[i * inc_y] = -s * x_i + c * y_i;
+    }
+}
+
+// ===========================================================================
 // scal
 // ===========================================================================
 
@@ -336,6 +384,27 @@ mod tests {
         inc = 2;
         idx = ak_iamax(5, &x, inc);
         assert_eq!(idx, 2);
+    }
+
+    #[test]
+    fn ak_rot_basic() {
+        let mut x: Vec<i32>;
+        let mut y: Vec<i32>;
+        let mut inc: usize;
+
+        x = vec![1, 2, 3, 4, 5, 6, 7, 8, 9];
+        y = vec![10, 11, 12, 13, 14, 15, 16, 17, 18];
+        inc = 1;
+        ak_rot(9, &mut x, inc, &mut y, inc, 0, 1);
+        assert_eq!(x, vec![10, 11, 12, 13, 14, 15, 16, 17, 18]);
+        assert_eq!(y, vec![-1, -2, -3, -4, -5, -6, -7, -8, -9]);
+
+        x = vec![1, 2, 3, 4, 5, 6, 7, 8, 9];
+        y = vec![10, 11, 12, 13, 14, 15, 16, 17, 18];
+        inc = 2;
+        ak_rot(5, &mut x, inc, &mut y, inc, 0, 1);
+        assert_eq!(x, vec![10, 2, 12, 4, 14, 6, 16, 8, 18]);
+        assert_eq!(y, vec![-1, 11, -3, 13, -5, 15, -7, 17, -9]);
     }
 
     #[test]

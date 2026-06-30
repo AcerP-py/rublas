@@ -1,6 +1,6 @@
 use crate::utils::traits::{BLASAbsoluteValue, Conjugatable, Zeroable};
 use cfg_if::cfg_if;
-use std::ops::{Add, AddAssign, Mul};
+use std::ops::{Add, AddAssign, Mul, Neg};
 
 // ***************************************************************************
 // ***************************************************************************
@@ -139,6 +139,38 @@ where
     T: BLASAbsoluteValue + Copy,
 {
     generic::ak_iamax(n, x, inc_x)
+}
+
+// ===========================================================================
+// rot
+// ===========================================================================
+
+/// k (kernel) _
+/// rot (apply a Givens rotation)
+///
+/// # Arguments
+/// * `n` - length of vectors `x` and `y`
+/// * `x` - a vector
+/// * `inc_x` - increment between elements of `x`
+/// * `y` - a vector
+/// * `inc_y` - increment between elements of `y`
+/// * `c` - cosine factor
+/// * `s` - sine factor
+pub fn k_rot<T, A, B>(
+    n: usize,
+    x: &mut [T],
+    inc_x: usize,
+    y: &mut [T],
+    inc_y: usize,
+    c: A,
+    s: B,
+) -> ()
+where
+    T: Add<Output = T> + Copy,
+    A: Copy + Mul<T, Output = T>,
+    B: Copy + Mul<T, Output = T> + Neg<Output = B>,
+{
+    generic::ak_rot(n, x, inc_x, y, inc_y, c, s);
 }
 
 // ===========================================================================
