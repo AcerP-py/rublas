@@ -2,11 +2,11 @@ use crate::utils::traits::BLASAbsoluteValue;
 
 // ***************************************************************************
 // ***************************************************************************
-// IAMAX trait and generic implementations
+// Iamax trait and generic implementations
 // ***************************************************************************
 // ***************************************************************************
 
-pub trait IAMAX
+pub trait Iamax
 where
     Self: Sized,
 {
@@ -36,7 +36,7 @@ where
     fn mk_iamax_sel(n: usize, x: &[Self]) -> usize;
 }
 
-impl<T> IAMAX for T
+impl<T> Iamax for T
 where
     T: BLASAbsoluteValue + Copy,
 {
@@ -58,6 +58,7 @@ where
         let mut max: T::Output = x[0].blas_abs();
         let mut idx: usize = 0;
 
+        #[allow(clippy::needless_range_loop)]
         for i in 1..n {
             if x[i].blas_abs() > max {
                 max = x[i].blas_abs();
@@ -97,9 +98,8 @@ mod test {
     #[test]
     fn mk_iamax_sel_basic() {
         let x: Vec<i32> = vec![4, 7, 1, 8, 3, 0, 2, 9, 4, 3];
-        let idx: usize;
 
-        idx = i32::mk_iamax_sel(10, &x);
+        let idx: usize = i32::mk_iamax_sel(10, &x);
         assert_eq!(idx, 7);
     }
 }

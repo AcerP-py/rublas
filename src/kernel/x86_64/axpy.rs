@@ -7,11 +7,11 @@ use std::{
 
 // ***************************************************************************
 // ***************************************************************************
-// AXPY trait and generic implementations
+// Axpy trait and generic implementations
 // ***************************************************************************
 // ***************************************************************************
 
-pub trait AXPY: generic::axpy::AXPY + BlockSizes
+pub trait Axpy: generic::axpy::Axpy + BlockSizes
 where
     Self: Sized,
 {
@@ -28,7 +28,7 @@ where
     unsafe fn mk_axpy_bssel_avx(b: usize, alpha: Self, x: &[Self], y: &mut [Self]) -> ();
 }
 
-impl<T> AXPY for T
+impl<T> Axpy for T
 where
     Self: AddAssign + Copy + Mul<Output = Self> + BlockSizes,
 {
@@ -46,7 +46,7 @@ where
 // ***************************************************************************
 // ***************************************************************************
 
-impl AXPY for f32 {
+impl Axpy for f32 {
     #[target_feature(enable = "avx")]
     unsafe fn mk_axpy_bssel_avx(b: usize, alpha: Self, x: &[Self], y: &mut [Self]) -> () {
         let x_ptr: *const Self = x.as_ptr();

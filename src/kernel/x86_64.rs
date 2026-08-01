@@ -25,7 +25,7 @@ pub mod utils;
 /// * `inc_y` - increment between elements of `y`
 pub fn ak_axpy<T>(n: usize, alpha: T, x: &[T], inc_x: usize, y: &mut [T], inc_y: usize) -> ()
 where
-    T: AddAssign + Copy + Mul<Output = T> + axpy::AXPY,
+    T: AddAssign + Copy + Mul<Output = T> + axpy::Axpy,
 {
     let c: usize;
 

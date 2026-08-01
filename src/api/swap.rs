@@ -17,7 +17,7 @@ pub fn swap<T>(n: usize, x: &mut [T], inc_x: usize, y: &mut [T], inc_y: usize) -
 where
     T: Copy + Zeroable,
 {
-    if n <= 0 {
+    if n == 0 {
         return ();
     }
 

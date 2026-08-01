@@ -1,10 +1,10 @@
 // ***************************************************************************
 // ***************************************************************************
-// COPY trait and generic implementations
+// Copy trait and generic implementations
 // ***************************************************************************
 // ***************************************************************************
 
-pub trait COPY
+pub trait Copy
 where
     Self: Sized,
 {
@@ -31,9 +31,9 @@ where
     fn mk_copy_8sel(n: usize, x: &[Self], y: &mut [Self]) -> ();
 }
 
-impl<T> COPY for T
+impl<T> Copy for T
 where
-    T: Copy,
+    T: std::marker::Copy,
 {
     default fn mk_copy_2nsel(
         n: usize,

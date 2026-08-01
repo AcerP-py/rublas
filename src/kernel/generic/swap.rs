@@ -2,11 +2,11 @@ use crate::utils::traits::Zeroable;
 
 // ***************************************************************************
 // ***************************************************************************
-// COPY trait and generic implementations
+// Swap trait and generic implementations
 // ***************************************************************************
 // ***************************************************************************
 
-pub trait SWAP
+pub trait Swap
 where
     Self: Sized,
 {
@@ -33,7 +33,7 @@ where
     fn mk_swap_8sel(n: usize, x: &mut [Self], y: &mut [Self]) -> ();
 }
 
-impl<T> SWAP for T
+impl<T> Swap for T
 where
     T: Copy + Zeroable,
 {

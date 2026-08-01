@@ -3,11 +3,11 @@ use std::ops::{Add, AddAssign, Mul};
 
 // ***************************************************************************
 // ***************************************************************************
-// DOT trait and generic implementations
+// Dot trait and generic implementations
 // ***************************************************************************
 // ***************************************************************************
 
-pub trait DOT<A>
+pub trait Dot<A>
 where
     Self: Sized,
 {
@@ -70,7 +70,7 @@ where
     fn mk_dot_conj_8sel(n: usize, x: &[Self], y: &[Self]) -> A;
 }
 
-impl<T, A> DOT<A> for T
+impl<T, A> Dot<A> for T
 where
     T: Add<Output = T> + Conjugatable + Copy + Mul<Output = T>,
     A: AddAssign + From<T> + Zeroable,
@@ -253,15 +253,13 @@ mod test {
     fn mk_dot_8sel_basic() {
         let x: Vec<Complex<i32>> = vec![Complex::new(3, 1); 16];
         let y: Vec<Complex<i32>> = vec![Complex::new(2, 1); 16];
-        let res32: Complex<i32>;
-        let res64: Complex<i64>;
 
-        res32 = Complex::<i32>::mk_dot_8sel(16, &x, &y);
+        let res32: Complex<i32> = Complex::<i32>::mk_dot_8sel(16, &x, &y);
         assert_eq!(res32.real(), 80);
         assert_eq!(res32.imag(), 80);
 
         // test type up-casting
-        res64 = Complex::<i32>::mk_dot_8sel(16, &x, &y);
+        let res64: Complex<i64> = Complex::<i32>::mk_dot_8sel(16, &x, &y);
         assert_eq!(res64.real(), 80);
         assert_eq!(res64.imag(), 80);
     }
@@ -270,15 +268,13 @@ mod test {
     fn mk_dot_8sel_conj_basic() {
         let x: Vec<Complex<i32>> = vec![Complex::new(3, 1); 16];
         let y: Vec<Complex<i32>> = vec![Complex::new(2, 1); 16];
-        let res32: Complex<i32>;
-        let res64: Complex<i64>;
 
-        res32 = Complex::<i32>::mk_dot_conj_8sel(16, &x, &y);
+        let res32: Complex<i32> = Complex::<i32>::mk_dot_conj_8sel(16, &x, &y);
         assert_eq!(res32.real(), 112);
         assert_eq!(res32.imag(), 16);
 
         // test type up-casting
-        res64 = Complex::<i32>::mk_dot_conj_8sel(16, &x, &y);
+        let res64: Complex<i64> = Complex::<i32>::mk_dot_conj_8sel(16, &x, &y);
         assert_eq!(res64.real(), 112);
         assert_eq!(res64.imag(), 16);
     }

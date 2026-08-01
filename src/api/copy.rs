@@ -18,7 +18,7 @@ pub fn copy<T>(n: usize, x: &[T], inc_x: usize, y: &mut [T], inc_y: usize) -> ()
 where
     T: Copy,
 {
-    if n <= 0 {
+    if n == 0 {
         return ();
     }
 

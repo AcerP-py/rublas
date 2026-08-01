@@ -2,11 +2,11 @@ use std::ops::{Add, Mul, Neg};
 
 // ***************************************************************************
 // ***************************************************************************
-// ROT trait and generic implementations
+// Rot trait and generic implementations
 // ***************************************************************************
 // ***************************************************************************
 
-pub trait ROT<A, B>
+pub trait Rot<A, B>
 where
     Self: Sized,
 {
@@ -45,7 +45,7 @@ where
     fn mk_rot_8sel(n: usize, x: &mut [Self], y: &mut [Self], c: A, s: B) -> ();
 }
 
-impl<T, A, B> ROT<A, B> for T
+impl<T, A, B> Rot<A, B> for T
 where
     T: Add<Output = T> + Copy,
     A: Copy + Mul<T, Output = T>,
