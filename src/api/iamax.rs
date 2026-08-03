@@ -1,6 +1,6 @@
 use crate::{
     kernel::k_iamax,
-    utils::traits::{BLASAbsoluteValue, Zeroable},
+    utils::traits::{AbsoluteValue, Zeroable},
 };
 
 #[cfg(feature = "cblas")]
@@ -19,7 +19,7 @@ mod rublas_ffi;
 /// the index of the first element with the largest absolute value
 pub fn iamax<T>(n: usize, x: &[T], inc_x: usize) -> usize
 where
-    T: BLASAbsoluteValue + Copy,
+    T: AbsoluteValue + Copy,
 {
     if n == 0 {
         return usize::zero();

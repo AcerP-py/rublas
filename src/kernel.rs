@@ -1,4 +1,7 @@
-use crate::utils::traits::{BLASAbsoluteValue, Conjugatable, Zeroable};
+use crate::utils::{
+    enums::RotmFlag,
+    traits::{AbsoluteValue, Conjugatable, Zeroable},
+};
 use cfg_if::cfg_if;
 use std::ops::{Add, AddAssign, Mul, Neg};
 
@@ -42,7 +45,7 @@ cfg_if! {
 /// the sum of absolute values of vector elements
 pub fn k_asum<T, A>(n: usize, x: &[T], inc_x: usize) -> A
 where
-    T: BLASAbsoluteValue<Output = A> + Copy,
+    T: AbsoluteValue<Output = A> + Copy,
     A: AddAssign + Zeroable,
 {
     generic::ak_asum(n, x, inc_x)
@@ -136,7 +139,7 @@ where
 /// the index of the first element with the largest absolute value
 pub fn k_iamax<T>(n: usize, x: &[T], inc_x: usize) -> usize
 where
-    T: BLASAbsoluteValue + Copy,
+    T: AbsoluteValue + Copy,
 {
     generic::ak_iamax(n, x, inc_x)
 }
@@ -171,6 +174,36 @@ where
     B: Copy + Mul<T, Output = T> + Neg<Output = B>,
 {
     generic::ak_rot(n, x, inc_x, y, inc_y, c, s);
+}
+
+// ===========================================================================
+// rotm
+// ===========================================================================
+
+/// k (kernel) _
+/// rotm (apply a modified Givens rotation)
+///
+/// # Arguments
+/// * `n` - length of vectors `x` and `y`
+/// * `x` - a vector
+/// * `inc_x` - increment between elements of `x`
+/// * `y` - a vector
+/// * `inc_y` - increment between elements of `y`
+/// * `flag` - type of modified rotation to apply
+/// * `params` - 4 element (2x2) transformation matrix
+pub fn k_rotm<T>(
+    n: usize,
+    x: &mut [T],
+    inc_x: usize,
+    y: &mut [T],
+    inc_y: usize,
+    flag: RotmFlag,
+    params: &[T],
+) -> ()
+where
+    T: Add<Output = T> + Copy + Mul<Output = T>,
+{
+    generic::ak_rotm(n, x, inc_x, y, inc_y, flag, params);
 }
 
 // ===========================================================================

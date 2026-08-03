@@ -2,7 +2,7 @@
 // useful traits
 // ===========================================================================
 
-pub trait BLASAbsoluteValue {
+pub trait AbsoluteValue {
     type Output: PartialOrd;
     fn blas_abs(self) -> Self::Output;
 }

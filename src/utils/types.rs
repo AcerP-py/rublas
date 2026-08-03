@@ -1,13 +1,19 @@
 use super::{
     complex::Complex,
-    traits::{BLASAbsoluteValue, Conjugatable, Zeroable},
+    traits::{AbsoluteValue, Conjugatable, Zeroable},
 };
 use std::ops::{Add, Div, Mul, Sub};
+
+// ***************************************************************************
+// ***************************************************************************
+// numeric types
+// ***************************************************************************
+// ***************************************************************************
 
 // ===========================================================================
 // usize
 // ===========================================================================
-impl BLASAbsoluteValue for usize {
+impl AbsoluteValue for usize {
     type Output = Self;
     fn blas_abs(self) -> Self { self }
 }
@@ -23,7 +29,7 @@ impl Zeroable for usize {
 // ===========================================================================
 // u8
 // ===========================================================================
-impl BLASAbsoluteValue for u8 {
+impl AbsoluteValue for u8 {
     type Output = Self;
     fn blas_abs(self) -> Self { self }
 }
@@ -39,7 +45,7 @@ impl Zeroable for u8 {
 // ===========================================================================
 // u16
 // ===========================================================================
-impl BLASAbsoluteValue for u16 {
+impl AbsoluteValue for u16 {
     type Output = Self;
     fn blas_abs(self) -> Self { self }
 }
@@ -55,7 +61,7 @@ impl Zeroable for u16 {
 // ===========================================================================
 // u32
 // ===========================================================================
-impl BLASAbsoluteValue for u32 {
+impl AbsoluteValue for u32 {
     type Output = Self;
     fn blas_abs(self) -> Self { self }
 }
@@ -71,7 +77,7 @@ impl Zeroable for u32 {
 // ===========================================================================
 // u64
 // ===========================================================================
-impl BLASAbsoluteValue for u64 {
+impl AbsoluteValue for u64 {
     type Output = Self;
     fn blas_abs(self) -> Self { self }
 }
@@ -87,7 +93,7 @@ impl Zeroable for u64 {
 // ===========================================================================
 // u128
 // ===========================================================================
-impl BLASAbsoluteValue for u128 {
+impl AbsoluteValue for u128 {
     type Output = Self;
     fn blas_abs(self) -> Self { self }
 }
@@ -103,7 +109,7 @@ impl Zeroable for u128 {
 // ===========================================================================
 // isize
 // ===========================================================================
-impl BLASAbsoluteValue for isize {
+impl AbsoluteValue for isize {
     type Output = Self;
     fn blas_abs(self) -> Self { self.abs() }
 }
@@ -119,7 +125,7 @@ impl Zeroable for isize {
 // ===========================================================================
 // i8
 // ===========================================================================
-impl BLASAbsoluteValue for i8 {
+impl AbsoluteValue for i8 {
     type Output = Self;
     fn blas_abs(self) -> Self { self.abs() }
 }
@@ -135,7 +141,7 @@ impl Zeroable for i8 {
 // ===========================================================================
 // i16
 // ===========================================================================
-impl BLASAbsoluteValue for i16 {
+impl AbsoluteValue for i16 {
     type Output = Self;
     fn blas_abs(self) -> Self { self.abs() }
 }
@@ -151,7 +157,7 @@ impl Zeroable for i16 {
 // ===========================================================================
 // i32
 // ===========================================================================
-impl BLASAbsoluteValue for i32 {
+impl AbsoluteValue for i32 {
     type Output = Self;
     fn blas_abs(self) -> Self { self.abs() }
 }
@@ -167,7 +173,7 @@ impl Zeroable for i32 {
 // ===========================================================================
 // i64
 // ===========================================================================
-impl BLASAbsoluteValue for i64 {
+impl AbsoluteValue for i64 {
     type Output = Self;
     fn blas_abs(self) -> Self { self.abs() }
 }
@@ -183,7 +189,7 @@ impl Zeroable for i64 {
 // ===========================================================================
 // i128
 // ===========================================================================
-impl BLASAbsoluteValue for i128 {
+impl AbsoluteValue for i128 {
     type Output = Self;
     fn blas_abs(self) -> Self { self.abs() }
 }
@@ -199,7 +205,7 @@ impl Zeroable for i128 {
 // ===========================================================================
 // f32
 // ===========================================================================
-impl BLASAbsoluteValue for f32 {
+impl AbsoluteValue for f32 {
     type Output = f32;
     fn blas_abs(self) -> Self::Output { self.abs() }
 }
@@ -215,7 +221,7 @@ impl Zeroable for f32 {
 // ===========================================================================
 // f64
 // ===========================================================================
-impl BLASAbsoluteValue for f64 {
+impl AbsoluteValue for f64 {
     type Output = f64;
     fn blas_abs(self) -> Self::Output { self.abs() }
 }
@@ -234,7 +240,7 @@ impl Zeroable for f64 {
 #[allow(non_camel_case_types)]
 pub type cf32 = Complex<f32>;
 
-impl BLASAbsoluteValue for cf32 {
+impl AbsoluteValue for cf32 {
     type Output = f32;
     fn blas_abs(self) -> Self::Output { self.real().abs() + self.imag().abs() }
 }
@@ -284,7 +290,7 @@ impl From<cf32> for cf64 {
     fn from(value: cf32) -> Self { Self::new(value.real() as f64, value.imag() as f64) }
 }
 
-impl BLASAbsoluteValue for cf64 {
+impl AbsoluteValue for cf64 {
     type Output = f64;
     fn blas_abs(self) -> Self::Output { self.real().abs() + self.imag().abs() }
 }

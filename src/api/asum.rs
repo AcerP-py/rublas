@@ -1,6 +1,6 @@
 use crate::{
     kernel::k_asum,
-    utils::traits::{BLASAbsoluteValue, Zeroable},
+    utils::traits::{AbsoluteValue, Zeroable},
 };
 use std::ops::AddAssign;
 
@@ -20,7 +20,7 @@ mod rublas_ffi;
 /// the sum of absolute values of vector elements
 pub fn asum<T, A>(n: usize, x: &[T], inc_x: usize) -> A
 where
-    T: BLASAbsoluteValue<Output = A> + Copy,
+    T: AbsoluteValue<Output = A> + Copy,
     A: AddAssign + Zeroable,
 {
     if n == 0 {
