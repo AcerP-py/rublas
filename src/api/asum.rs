@@ -23,7 +23,7 @@ where
     T: AbsoluteValue<Output = A> + Copy,
     A: AddAssign + Zeroable,
 {
-    if n <= 0 {
+    if n == 0 {
         return A::zero();
     }
 

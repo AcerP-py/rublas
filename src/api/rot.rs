@@ -30,7 +30,7 @@ where
     A: Copy + Mul<T, Output = T>,
     B: Copy + Mul<T, Output = T> + Neg<Output = B>,
 {
-    if n <= 0 {
+    if n == 0 {
         return ();
     }
 

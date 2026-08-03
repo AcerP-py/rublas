@@ -28,7 +28,7 @@ pub fn rotm<T>(
 where
     T: Add<Output = T> + Copy + Mul<Output = T>,
 {
-    if n <= 0 || flag == RotmFlag::Identity {
+    if n == 0 || flag == RotmFlag::Identity {
         return ();
     }
 

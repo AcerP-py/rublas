@@ -9,5 +9,5 @@
 /// * `alignment` - desired alignment in bits
 pub fn is_aligned<T>(v: &[T], alignment: usize) -> bool {
     let ptr = v.as_ptr() as usize;
-    ptr % alignment == 0
+    ptr.is_multiple_of(alignment)
 }

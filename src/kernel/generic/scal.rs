@@ -2,11 +2,11 @@ use std::ops::Mul;
 
 // ***************************************************************************
 // ***************************************************************************
-// SCAL trait and generic implementation
+// Scal trait and generic implementations
 // ***************************************************************************
 // ***************************************************************************
 
-pub trait SCAL
+pub trait Scal
 where
     Self: Sized,
 {
@@ -33,7 +33,7 @@ where
     fn mk_scal_8sel(n: usize, alpha: Self, x: &mut [Self]) -> ();
 }
 
-impl<T> SCAL for T
+impl<T> Scal for T
 where
     Self: Copy + Mul<Output = Self>,
 {

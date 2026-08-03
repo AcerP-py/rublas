@@ -2,11 +2,11 @@ use std::ops::{AddAssign, Mul};
 
 // ***************************************************************************
 // ***************************************************************************
-// AXPY trait and generic implementation
+// Axpy trait and generic implementations
 // ***************************************************************************
 // ***************************************************************************
 
-pub trait AXPY
+pub trait Axpy
 where
     Self: Sized,
 {
@@ -43,7 +43,7 @@ where
     fn mk_axpy_8sel(n: usize, alpha: Self, x: &[Self], y: &mut [Self]) -> ();
 }
 
-impl<T> AXPY for T
+impl<T> Axpy for T
 where
     Self: AddAssign + Copy + Mul<Output = Self>,
 {

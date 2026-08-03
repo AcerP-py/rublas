@@ -19,7 +19,7 @@ pub fn axpy<T>(n: usize, alpha: T, x: &[T], inc_x: usize, y: &mut [T], inc_y: us
 where
     T: AddAssign + Copy + Mul<Output = T>,
 {
-    if n <= 0 {
+    if n == 0 {
         return ();
     }
 

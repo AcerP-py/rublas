@@ -36,7 +36,7 @@ pub mod swap;
 /// the sum of absolute values of vector elements
 pub fn ak_asum<T, A>(n: usize, x: &[T], inc_x: usize) -> A
 where
-    T: asum::ASUM<A>,
+    T: asum::Asum<A>,
 {
     if inc_x == 1 {
         T::mk_asum_sel(n, x)
@@ -61,7 +61,7 @@ where
 /// * `inc_y` - increment between elements of `y`
 pub fn ak_axpy<T>(n: usize, alpha: T, x: &[T], inc_x: usize, y: &mut [T], inc_y: usize) -> ()
 where
-    T: AddAssign + Copy + Mul<Output = T> + axpy::AXPY,
+    T: AddAssign + Copy + Mul<Output = T> + axpy::Axpy,
 {
     let c: usize;
 
@@ -93,7 +93,7 @@ where
 /// * `inc_y` - increment between elements of `y`
 pub fn ak_copy<T>(n: usize, x: &[T], inc_x: usize, y: &mut [T], inc_y: usize) -> ()
 where
-    T: Copy + copy::COPY,
+    T: Copy + copy::Copy,
 {
     let c: usize;
 
@@ -129,7 +129,7 @@ where
 /// the dot product of vectors 'x' and 'y'
 pub fn ak_dot<T, A>(n: usize, x: &[T], inc_x: usize, y: &[T], inc_y: usize, conjugate: bool) -> A
 where
-    T: Add<Output = T> + Conjugatable + Copy + Mul<Output = T> + dot::DOT<A>,
+    T: Add<Output = T> + Conjugatable + Copy + Mul<Output = T> + dot::Dot<A>,
     A: AddAssign + From<T> + Zeroable,
 {
     let c: usize;
@@ -178,7 +178,7 @@ where
 /// the index of the first element with the largest absolute value
 pub fn ak_iamax<T>(n: usize, x: &[T], inc_x: usize) -> usize
 where
-    T: iamax::IAMAX,
+    T: iamax::Iamax,
 {
     if inc_x == 1 {
         T::mk_iamax_sel(n, x)
@@ -212,7 +212,7 @@ pub fn ak_rot<T, A, B>(
     s: B,
 ) -> ()
 where
-    T: Add<Output = T> + Copy + rot::ROT<A, B>,
+    T: Add<Output = T> + Copy + rot::Rot<A, B>,
     A: Copy + Mul<T, Output = T>,
     B: Copy + Mul<T, Output = T> + Neg<Output = B>,
 {
@@ -259,7 +259,7 @@ pub fn ak_rotm<T>(
     params: &[T],
 ) -> ()
 where
-    T: Add<Output = T> + Copy + Mul<Output = T> + rotm::ROTM,
+    T: Add<Output = T> + Copy + Mul<Output = T> + rotm::Rotm,
 {
     let c: usize;
 
@@ -313,7 +313,7 @@ where
 /// * `inc_x` - increment between elements of `x`
 pub fn ak_scal<T>(n: usize, alpha: T, x: &mut [T], inc_x: usize) -> ()
 where
-    T: Copy + Mul<Output = T> + scal::SCAL,
+    T: Copy + Mul<Output = T> + scal::Scal,
 {
     let c: usize;
 
@@ -345,7 +345,7 @@ where
 /// * `inc_y` - increment between elements of `y`
 pub fn ak_swap<T>(n: usize, x: &mut [T], inc_x: usize, y: &mut [T], inc_y: usize) -> ()
 where
-    T: Copy + swap::SWAP,
+    T: Copy + swap::Swap,
 {
     let c: usize;
     let mut shelf: T;
@@ -427,16 +427,16 @@ mod tests {
     #[test]
     fn ak_dot_basic() {
         let x: Vec<i32> = vec![1; 9];
-        let mut y: Vec<i32> = vec![2; 9];
+        let y: Vec<i32> = vec![2; 9];
         let mut inc: usize;
         let mut res: i32;
 
         inc = 1;
-        res = ak_dot(9, &x, inc, &mut y, inc, false);
+        res = ak_dot(9, &x, inc, &y, inc, false);
         assert_eq!(res, 18);
 
         inc = 2;
-        res = ak_dot(5, &x, inc, &mut y, inc, false);
+        res = ak_dot(5, &x, inc, &y, inc, false);
         assert_eq!(res, 10);
     }
 

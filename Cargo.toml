@@ -14,9 +14,13 @@ name = "rublas_info"
 path = "src/info.rs"
 
 [features]
-default = ["c_cpp", "cblas"]
+default = []
 c_cpp = []
 cblas = []
 
 [dependencies]
 cfg-if = "1.0.4"
+
+[lints.clippy]
+unused_unit = "allow"
+unnecessary_cast = "allow"

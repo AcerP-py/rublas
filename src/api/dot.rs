@@ -26,7 +26,7 @@ where
     T: Add<Output = T> + Conjugatable + Copy + Mul<Output = T>,
     A: AddAssign + From<T> + Zeroable,
 {
-    if n <= 0 {
+    if n == 0 {
         return A::zero();
     }
 

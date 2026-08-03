@@ -3,11 +3,11 @@ use std::ops::AddAssign;
 
 // ***************************************************************************
 // ***************************************************************************
-// ASUM trait and generic implementation
+// Asum trait and generic implementations
 // ***************************************************************************
 // ***************************************************************************
 
-pub trait ASUM<A>
+pub trait Asum<A>
 where
     Self: Sized,
 {
@@ -37,7 +37,7 @@ where
     fn mk_asum_sel(n: usize, x: &[Self]) -> A;
 }
 
-impl<T, A> ASUM<A> for T
+impl<T, A> Asum<A> for T
 where
     T: AbsoluteValue<Output = A> + Copy,
     A: AddAssign + Zeroable,
@@ -55,6 +55,7 @@ where
     default fn mk_asum_sel(n: usize, x: &[Self]) -> A {
         let mut result: A = A::zero();
 
+        #[allow(clippy::needless_range_loop)]
         for i in 0..n {
             result += x[i].blas_abs();
         }
@@ -91,9 +92,8 @@ mod test {
     #[test]
     fn mk_asum_sel_basic() {
         let x: Vec<i32> = vec![-1, 2, -3, 4, -5, 6, -7, 8];
-        let result: i32;
 
-        result = i32::mk_asum_sel(8, &x);
+        let result: i32 = i32::mk_asum_sel(8, &x);
         assert_eq!(result, 36);
     }
 }

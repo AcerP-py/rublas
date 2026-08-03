@@ -3,11 +3,11 @@ use std::ops::{Add, Mul};
 
 // ***************************************************************************
 // ***************************************************************************
-// ROTM trait and generic implementation
+// Rotm trait and generic implementation
 // ***************************************************************************
 // ***************************************************************************
 
-pub trait ROTM
+pub trait Rotm
 where
     Self: Sized,
 {
@@ -46,7 +46,7 @@ where
     fn mk_rotm_8sel(n: usize, x: &mut [Self], y: &mut [Self], flag: RotmFlag, params: &[Self]);
 }
 
-impl<T> ROTM for T
+impl<T> Rotm for T
 where
     T: Add<Output = T> + Copy + Mul<Output = T>,
 {

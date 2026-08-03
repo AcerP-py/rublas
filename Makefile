@@ -38,7 +38,7 @@ test:
 	@cargo test
 # C_CPP API tests
 	@echo "\033[1;32mC_CPP API tests\033[0m\n"
-	@cargo build --lib > /dev/null
+	@cargo build --lib --features c_cpp,cblas > /dev/null
 	@echo ""
 	@$(MAKE) --no-print-directory -C tests/interfaces/c_cpp run PROJ_DIR="$(CURDIR)"
 

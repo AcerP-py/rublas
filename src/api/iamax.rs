@@ -21,7 +21,7 @@ pub fn iamax<T>(n: usize, x: &[T], inc_x: usize) -> usize
 where
     T: AbsoluteValue + Copy,
 {
-    if n <= 0 {
+    if n == 0 {
         return usize::zero();
     }
 

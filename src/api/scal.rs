@@ -17,7 +17,7 @@ pub fn scal<T>(n: usize, alpha: T, x: &mut [T], inc_x: usize) -> ()
 where
     T: Copy + Mul<Output = T>,
 {
-    if n <= 0 {
+    if n == 0 {
         return ();
     }
 
