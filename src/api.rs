@@ -10,6 +10,7 @@ mod copy;
 mod dot;
 mod iamax;
 mod rot;
+mod rotm;
 mod scal;
 mod swap;
 
@@ -23,5 +24,6 @@ pub use copy::*;
 pub use dot::*;
 pub use iamax::*;
 pub use rot::*;
+pub use rotm::*;
 pub use scal::*;
 pub use swap::*;

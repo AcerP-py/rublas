@@ -1,8 +1,8 @@
-use crate::utils::traits::BLASAbsoluteValue;
+use crate::utils::traits::AbsoluteValue;
 
 // ***************************************************************************
 // ***************************************************************************
-// IAMAX trait and generic implementations
+// IAMAX trait and generic implementation
 // ***************************************************************************
 // ***************************************************************************
 
@@ -38,7 +38,7 @@ where
 
 impl<T> IAMAX for T
 where
-    T: BLASAbsoluteValue + Copy,
+    T: AbsoluteValue + Copy,
 {
     default fn mk_iamax_nsel(n: usize, x: &[Self], inc_x: usize) -> usize {
         let mut max: T::Output = x[0].blas_abs();

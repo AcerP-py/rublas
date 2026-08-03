@@ -1,5 +1,6 @@
 #ifndef CBLAS_H
 #define CBLAS_H
+#include <stddef.h>
 #include <stdint.h>
 
 #ifdef __cplusplus
@@ -77,6 +78,12 @@ void cblas_csrot(const CBLAS_INT N, void *X, const CBLAS_INT incX, void *Y,
                  const CBLAS_INT incY, const float c, const float s);
 void cblas_zdrot(const CBLAS_INT N, void *X, const CBLAS_INT incX, void *Y,
                  const CBLAS_INT incY, const double c, const double s);
+
+// rotm
+void cblas_srotm(const CBLAS_INT N, float *X, const CBLAS_INT incX, float *Y,
+                 const CBLAS_INT incY, const float *param);
+void cblas_drotm(const CBLAS_INT N, double *X, const CBLAS_INT incX, double *Y,
+                 const CBLAS_INT incY, const double *param);
 
 // scal
 void cblas_sscal(const CBLAS_INT N, const float alpha, float *X,

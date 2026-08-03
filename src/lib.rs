@@ -6,4 +6,7 @@ mod kernel;
 mod utils;
 
 pub use api::*;
-pub use utils::types::{I32, I64, cf32, cf64};
+pub use utils::{
+    enums::RotmFlag,
+    types::{I32, I64, cf32, cf64},
+};

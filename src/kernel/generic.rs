@@ -1,4 +1,7 @@
-use crate::utils::traits::{Conjugatable, Zeroable};
+use crate::utils::{
+    enums::RotmFlag,
+    traits::{Conjugatable, Zeroable},
+};
 use std::ops::{Add, AddAssign, Mul, Neg};
 
 pub mod asum;
@@ -7,6 +10,7 @@ pub mod copy;
 pub mod dot;
 pub mod iamax;
 pub mod rot;
+pub mod rotm;
 pub mod scal;
 pub mod swap;
 
@@ -231,6 +235,71 @@ where
 }
 
 // ===========================================================================
+// rotm
+// ===========================================================================
+
+/// ak (architecture-kernel) _
+/// rotm (apply a modified Givens rotation)
+///
+/// # Arguments
+/// * `n` - length of vectors `x` and `y`
+/// * `x` - a vector
+/// * `inc_x` - increment between elements of `x`
+/// * `y` - a vector
+/// * `inc_y` - increment between elements of `y`
+/// * `flag` - type of modified rotation to apply
+/// * `params` - 4 element (2x2) transformation matrix
+pub fn ak_rotm<T>(
+    n: usize,
+    x: &mut [T],
+    inc_x: usize,
+    y: &mut [T],
+    inc_y: usize,
+    flag: RotmFlag,
+    params: &[T],
+) -> ()
+where
+    T: Add<Output = T> + Copy + Mul<Output = T> + rotm::ROTM,
+{
+    let c: usize;
+
+    if inc_x == 1 && inc_y == 1 {
+        c = n & !7;
+        T::mk_rotm_8sel(c, x, y, flag, params);
+    } else {
+        c = n & !1;
+        T::mk_rotm_2nsel(c, x, inc_x, y, inc_y, flag, params);
+    }
+
+    for i in c..n {
+        let x_i: T = x[i * inc_x];
+        let y_i: T = y[i * inc_y];
+        let p11: T = params[0];
+        let p21: T = params[1];
+        let p12: T = params[2];
+        let p22: T = params[3];
+
+        match flag {
+            RotmFlag::General => {
+                x[i * inc_x] = p11 * x_i + p12 * y_i;
+                y[i * inc_y] = p21 * x_i + p22 * y_i;
+            }
+            RotmFlag::Diagonal => {
+                x[i * inc_x] = p11 * x_i;
+                y[i * inc_y] = p22 * y_i;
+            }
+            RotmFlag::Shear => {
+                x[i * inc_x] = x_i + p12 * y_i;
+                y[i * inc_y] = p21 * x_i + y_i;
+            }
+            RotmFlag::Identity => {
+                // x and y remain unchanged
+            }
+        }
+    }
+}
+
+// ===========================================================================
 // scal
 // ===========================================================================
 
@@ -405,6 +474,28 @@ mod tests {
         ak_rot(5, &mut x, inc, &mut y, inc, 0, 1);
         assert_eq!(x, vec![10, 2, 12, 4, 14, 6, 16, 8, 18]);
         assert_eq!(y, vec![-1, 11, -3, 13, -5, 15, -7, 17, -9]);
+    }
+
+    #[test]
+    fn ak_rotm_basic() {
+        let mut x: Vec<i32>;
+        let mut y: Vec<i32>;
+        let mut inc: usize;
+        let param: Vec<i32> = vec![1, 1, 1, 1];
+
+        x = vec![1, 2, 3, 4, 5, 6, 7, 8, 9];
+        y = vec![10, 11, 12, 13, 14, 15, 16, 17, 18];
+        inc = 1;
+        ak_rotm(9, &mut x, inc, &mut y, inc, RotmFlag::General, &param);
+        assert_eq!(x, vec![11, 13, 15, 17, 19, 21, 23, 25, 27]);
+        assert_eq!(y, vec![11, 13, 15, 17, 19, 21, 23, 25, 27]);
+
+        x = vec![1, 2, 3, 4, 5, 6, 7, 8, 9];
+        y = vec![10, 11, 12, 13, 14, 15, 16, 17, 18];
+        inc = 2;
+        ak_rotm(5, &mut x, inc, &mut y, inc, RotmFlag::General, &param);
+        assert_eq!(x, vec![11, 2, 15, 4, 19, 6, 23, 8, 27]);
+        assert_eq!(y, vec![11, 11, 15, 13, 19, 15, 23, 17, 27]);
     }
 
     #[test]

@@ -5,6 +5,7 @@
 // ***************************************************************************
 
 pub mod complex;
+pub mod enums;
 pub mod mem;
 pub mod traits;
 pub mod types;

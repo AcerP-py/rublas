@@ -1,9 +1,9 @@
-use crate::utils::traits::{BLASAbsoluteValue, Zeroable};
+use crate::utils::traits::{AbsoluteValue, Zeroable};
 use std::ops::AddAssign;
 
 // ***************************************************************************
 // ***************************************************************************
-// ASUM trait and generic implementations
+// ASUM trait and generic implementation
 // ***************************************************************************
 // ***************************************************************************
 
@@ -39,7 +39,7 @@ where
 
 impl<T, A> ASUM<A> for T
 where
-    T: BLASAbsoluteValue<Output = A> + Copy,
+    T: AbsoluteValue<Output = A> + Copy,
     A: AddAssign + Zeroable,
 {
     default fn mk_asum_nsel(n: usize, x: &[Self], inc_x: usize) -> A {
