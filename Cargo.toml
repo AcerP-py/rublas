@@ -1,9 +1,14 @@
 [package]
+name = "rublas"
+version = "0.1.0-alpha.1"
+edition = "2024"
+
 authors = ["Asa Rentschler <asa.rentschler@proton.me>"]
 description = "A pure Rust implementation of BLAS."
-name = "rublas"
-version = "0.1.0-dev"
-edition = "2024"
+readme = "README.md"
+license = "MIT"
+repository = "https://github.com/AcerP-py/rublas"
+keywords = ["blas", "hpc"]
 
 [lib]
 name = "rublas"
@@ -20,6 +25,9 @@ cblas = []
 
 [dependencies]
 cfg-if = "1.0.4"
+
+[lints.cargo]
+non_kebab_case_bins = "allow"
 
 [lints.clippy]
 unused_unit = "allow"
