@@ -5,7 +5,6 @@ edition = "2024"
 
 authors = ["Asa Rentschler <asa.rentschler@proton.me>"]
 description = "A pure Rust implementation of BLAS."
-readme = "README.md"
 license = "MIT"
 repository = "https://github.com/AcerP-py/rublas"
 keywords = ["blas", "hpc"]
